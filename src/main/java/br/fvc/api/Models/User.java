@@ -1,9 +1,5 @@
 package br.fvc.api.Models;
 
-import java.util.List;
-
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -25,30 +20,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "Varchar(80)")
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false , columnDefinition = "Varchar(80)")
     private String senha;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, columnDefinition = "Varchar(14)")
     private String cpf;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, columnDefinition = "Varchar(80)")
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "Varchar(20)")
     private String role;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, columnDefinition = "Varchar(14)")
     private String telefone;
-
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", nullable = false)
-    private br.fvc.api.Models.Address endereco;
-
-    @OneToMany(mappedBy = "usuario")
-    private List<Payment> payment;
-
+    private Address address;
 }

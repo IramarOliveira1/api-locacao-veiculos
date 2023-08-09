@@ -1,17 +1,14 @@
 package br.fvc.api.Models;
 
-
 import java.math.BigDecimal;
 import java.sql.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -20,12 +17,12 @@ import lombok.Data;
 @Entity
 @Table(name = "pagamento")
 public class Payment {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private BigDecimal valor;
+    @Column(nullable = false, columnDefinition="Decimal(10,2)")
+    private BigDecimal preco;
 
     @Column(nullable = false)
     private Date data_pagamento;
@@ -37,14 +34,9 @@ public class Payment {
     private String status;
 
     @Column(nullable = false)
-    private String url_pdf;    
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
-    private User usuario;
+    private String url_pdf;
 
     @OneToOne
     @JoinColumn(name = "id_reserva", nullable = false)
     private Reserve reserve;
-
 }

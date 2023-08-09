@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -19,19 +19,16 @@ public class Agency {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "Varchar(80)")
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, columnDefinition = "Varchar(15)")
     private String telefone;
 
     @Column(nullable = false)
     private int estoque;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_endereco", nullable = false)
     private Address endereco;
-
-    @OneToOne(mappedBy = "agencia")
-    private Vehicle vehicle;
 }
