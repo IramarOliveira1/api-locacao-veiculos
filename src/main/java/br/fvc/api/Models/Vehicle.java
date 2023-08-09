@@ -1,5 +1,7 @@
 package br.fvc.api.Models;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,8 +39,8 @@ public class Vehicle {
     @Column(nullable = false)
     private boolean disponibilidade;
 
-    @Column(nullable = false)
-    private double valor_diaria;
+    @Column(nullable = false, columnDefinition="Decimal(10,2)")
+    private BigDecimal valor_diaria;
 
     @Column(nullable = false)
     private String url_imagem;
