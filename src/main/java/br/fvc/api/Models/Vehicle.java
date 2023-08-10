@@ -25,9 +25,6 @@ public class Vehicle {
     private String marca;
 
     @Column(nullable = false)
-    private String modelo;
-
-    @Column(nullable = false)
     private int ano;
 
     @Column(nullable = false, unique = true)
@@ -52,4 +49,8 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false) 
     private Category categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "id_modelo", nullable = false)
+    private Model model;
 }
