@@ -1,13 +1,14 @@
 package br.fvc.api.Domain.User;
 
-public class UserDTO {
+import br.fvc.api.Domain.Address.AddressDTO;
+import br.fvc.api.Models.Address;
 
+public class UserDTO {
     public String name;
     public String email;
     public String cpf;
-    public String role;
+    public UserRole role;
     public String password;
     public String phone;
-    public int id_endereco;
-    
+    public AddressDTO address;
 }

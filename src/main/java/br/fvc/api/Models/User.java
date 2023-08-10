@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import br.fvc.api.Domain.User.UserDTO;
 import br.fvc.api.Domain.User.UserRole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -50,14 +51,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "id_endereco", nullable = false)
     private Address address;
 
-    private String login;
-
-    // private UserDTO userDTO;
-
-    // public User(UserDTO userDTO) {
-    // this.userDTO = userDTO;
-    // }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) {
@@ -69,7 +62,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override

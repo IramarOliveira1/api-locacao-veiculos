@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.User.UserDTO;
+import br.fvc.api.Models.Address;
 import br.fvc.api.Models.User;
 import br.fvc.api.Repositories.UserRepository;
 
@@ -23,22 +25,29 @@ public class UserService implements UserDetailsService {
     }
 
     public String store(UserDTO data) {
-        if (this.userRepository.findByLogin(data.email) != null) {
-            return "já existe email";
-        }
+        // if (this.userRepository.findByEmail(data.email) != null) {
+        //     return "j� existe email";
+        // }
 
+        System.out.println(data);
+        // userRepository.save(data);
         // String encryptedPassword = new BCryptPasswordEncoder().encode(data.password);
 
-        // User user = new User(data);
+        // User user = new User(data, encryptedPassword);
 
-        // userRepository.save(user);
+        // System.out.println(user.getId_endereco().getId());
+
+
+        // user.setAddress(data.id_address);
+
+        // userRepository.save(data.user);
 
         return "não existe email";
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByLogin(username);
+        return userRepository.findByEmail(username);
     }
 
 }
