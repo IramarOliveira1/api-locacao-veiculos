@@ -18,4 +18,8 @@ public class PaymentTypeService {
     public List<PaymentType> findAll() {
         return paymentTypeRepository.findAll();
     }
+
+    public void deletePaymentTypeById(Long id) {
+        paymentTypeRepository.deleteById(id);
+    }
 }
