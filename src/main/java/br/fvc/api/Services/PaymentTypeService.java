@@ -35,4 +35,17 @@ public class PaymentTypeService {
         newPaymentType.setTipo(tipo);
         return paymentTypeRepository.save(newPaymentType);
     }
+
+    public boolean updatePaymentType(Long id, PaymentType updatedPaymentType) {
+        Optional<PaymentType> existingType = paymentTypeRepository.findById(id);
+
+        if (existingType.isPresent()) {
+            PaymentType typeToUpdate = existingType.get();
+            typeToUpdate.setTipo(updatedPaymentType.getTipo());
+            paymentTypeRepository.save(typeToUpdate);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
