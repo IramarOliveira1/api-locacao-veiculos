@@ -1,6 +1,7 @@
 package br.fvc.api.Services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,17 @@ public class PaymentTypeService {
 
     public void deletePaymentTypeById(Long id) {
         paymentTypeRepository.deleteById(id);
+    }
+
+    public PaymentType createPaymentType(String tipo) {
+        Optional<PaymentType> existingType = paymentTypeRepository.findByTipo(tipo);
+
+        if (existingType.isPresent()) {
+            return null;
+        }
+
+        PaymentType newPaymentType = new PaymentType();
+        newPaymentType.setTipo(tipo);
+        return paymentTypeRepository.save(newPaymentType);
     }
 }
