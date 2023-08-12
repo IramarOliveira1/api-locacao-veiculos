@@ -48,4 +48,8 @@ public class PaymentTypeService {
             return false;
         }
     }
+
+    public PaymentType getPaymentTypeById(Long id) {
+        return paymentTypeRepository.findById(id).orElse(null);
+    }
 }

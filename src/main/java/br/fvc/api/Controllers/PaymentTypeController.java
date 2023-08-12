@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.fvc.api.Models.PaymentType;
@@ -58,5 +59,17 @@ public class PaymentTypeController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getPaymentTypeById(@PathVariable Long id) {
+        PaymentType paymentType = _paymentTypeService.getPaymentTypeById(id);
+
+        if (paymentType != null) {
+            return ResponseEntity.ok(paymentType);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de pagamento não encontrado");
+        }
+    }
+
 
 }
