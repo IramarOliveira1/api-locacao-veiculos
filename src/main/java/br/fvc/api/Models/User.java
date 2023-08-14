@@ -7,19 +7,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.fvc.api.Domain.User.UserDTO;
+import br.fvc.api.Domain.User.UserRequestDTO;
 import br.fvc.api.Domain.User.UserRole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Data
 @Entity
 @Table(name = "usuario")
@@ -27,7 +36,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, columnDefinition = "Varchar(80)")
     private String nome;
@@ -48,8 +57,17 @@ public class User implements UserDetails {
     private String telefone;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_endereco", nullable = false)
+    @JoinColumn(name = "id_endereco", nullable = false, referencedColumnName = "id")
     private Address address;
+
+    public User(UserRequestDTO data, String password) {
+        this.nome = data.name;
+        this.cpf = data.cpf;
+        this.email = data.email;
+        this.senha = password;
+        this.role = data.role;
+        this.telefone = data.phone;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -62,7 +80,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return "email";
     }
 
     @Override

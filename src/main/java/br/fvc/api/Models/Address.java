@@ -8,15 +8,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Data
 @Entity
 @Table(name = "endereco")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, columnDefinition = "Varchar(9)")
     private String cep;
@@ -41,4 +49,15 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     private User user;
+
+    public Address(AddressDTO data) {
+        this.cep = data.cep;
+        this.bairro = data.bairro;
+        this.cidade = data.cidade;
+        this.complemento = data.complemento;
+        this.logradouro = data.logradouro;
+        this.numero = data.numero;
+        this.uf = data.uf;
+    }
+
 }

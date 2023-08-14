@@ -3,51 +3,60 @@ package br.fvc.api.Services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Domain.User.UserDTO;
+import br.fvc.api.Domain.Generic.GenericResponseDTO;
+import br.fvc.api.Domain.User.UserRequestDTO;
+import br.fvc.api.Domain.User.UserResponseDTO;
 import br.fvc.api.Models.Address;
 import br.fvc.api.Models.User;
+import br.fvc.api.Repositories.AddressRepository;
 import br.fvc.api.Repositories.UserRepository;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    @Autowired
+    private AddressRepository addressRepository;
+
+    public ResponseEntity<Object> findAll() {
+        return ResponseEntity.status(200).body("users");
     }
 
-    public String store(UserDTO data) {
-        // if (this.userRepository.findByEmail(data.email) != null) {
-        //     return "j· existe email";
-        // }
+    public ResponseEntity<Object> store(UserRequestDTO data) {
+        try {
 
-        System.out.println(data);
-        // userRepository.save(data);
-        // String encryptedPassword = new BCryptPasswordEncoder().encode(data.password);
+            if (userRepository.existsByEmail(data.email)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Email j· existe!"));
+            }
+            if (userRepository.existsByCpf(data.cpf)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "CPF j· existe!"));
+            }
+            if (userRepository.existsByTelefone(data.phone)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Telefone j· existe!"));
+            }
 
-        // User user = new User(data, encryptedPassword);
+            Address address = new Address(data.address);
 
-        // System.out.println(user.getId_endereco().getId());
+            addressRepository.save(address);
 
+            String encryptedPassword = new BCryptPasswordEncoder().encode(data.password);
 
-        // user.setAddress(data.id_address);
+            User user = new User(data, encryptedPassword);
 
-        // userRepository.save(data.user);
+            user.setAddress(address);
 
-        return "n√£o existe email";
-    }
+            userRepository.save(user);
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username);
+            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Usu·rio cadastrado com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
     }
 
 }

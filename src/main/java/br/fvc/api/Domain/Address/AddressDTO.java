@@ -6,6 +6,6 @@ public class AddressDTO {
     public String cidade;
     public String complemento;
     public String logradouro;
-    public int numero;
     public String uf;
+    public int numero;
 }
