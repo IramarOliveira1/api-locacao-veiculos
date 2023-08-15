@@ -18,4 +18,12 @@ public class PaymentService {
         return paymentRepository.findAll();
     }
 
+    public void deletePaymentById(Long id) {
+        paymentRepository.deleteById(id);
+    }
+
+    public Payment getPaymentById(Long id) {
+        return paymentRepository.findById(id).orElse(null);
+    }
+
 }
