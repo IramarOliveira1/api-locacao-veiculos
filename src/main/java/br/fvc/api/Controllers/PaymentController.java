@@ -20,7 +20,7 @@ public class PaymentController {
     PaymentService paymentService;
 
     @GetMapping
-    public List<Payment> getAllPaymentTypes() {
+    public List<Payment> getAllPayment() {
         return paymentService.findAll();
     }
 }
