@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.fvc.api.Models.Payment;
-import br.fvc.api.Models.PaymentType;
 import br.fvc.api.Services.PaymentService;
 
 @CrossOrigin
@@ -32,7 +31,7 @@ public class PaymentController {
        @DeleteMapping("/delete/{id}")
      public ResponseEntity<String> deletePaymentType(@PathVariable Long id) {
         paymentService.deletePaymentById(id);
-        return ResponseEntity.ok("Tipo de pagamento deletado com sucesso!");
+        return ResponseEntity.ok("Pagamento deletado com sucesso!");
     }
 
     
@@ -43,7 +42,7 @@ public class PaymentController {
         if (payment != null) {
             return ResponseEntity.ok(payment);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de pagamento não encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pagamento não encontrado");
         }
     }
 }
