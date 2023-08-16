@@ -21,7 +21,7 @@ import lombok.Data;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, columnDefinition="Decimal(10,2)")
     private BigDecimal preco;
@@ -42,4 +42,8 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "id_tipo_pagamento", nullable = false)
     PaymentType paymentType;
+
+    public Payment orElseThrow(Object object) {
+        return null;
+    }
 }
