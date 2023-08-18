@@ -25,20 +25,21 @@ public class UserService {
     private AddressRepository addressRepository;
 
     public ResponseEntity<Object> findAll() {
-        return ResponseEntity.status(200).body("users");
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.status(200).body(users);
     }
 
     public ResponseEntity<Object> store(UserRequestDTO data) {
         try {
 
             if (userRepository.existsByEmail(data.email)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Email j· existe!"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Email j√° existe!"));
             }
             if (userRepository.existsByCpf(data.cpf)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "CPF j· existe!"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "CPF j√° existe!"));
             }
             if (userRepository.existsByTelefone(data.phone)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Telefone j· existe!"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Telefone j√° existe!"));
             }
 
             Address address = new Address(data.address);
@@ -53,7 +54,7 @@ public class UserService {
 
             userRepository.save(user);
 
-            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Usu·rio cadastrado com sucesso!"));
+            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Usu√°rio cadastrado com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }

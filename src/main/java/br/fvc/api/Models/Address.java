@@ -47,8 +47,8 @@ public class Address {
     @Column(nullable = false)
     private int numero;
 
-    @OneToOne(mappedBy = "address")
-    private User user;
+    // @OneToOne(mappedBy = "address")
+    // private User user;
 
     public Address(AddressDTO data) {
         this.cep = data.cep;

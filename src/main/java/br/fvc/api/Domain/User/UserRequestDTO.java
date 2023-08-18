@@ -1,7 +1,6 @@
 package br.fvc.api.Domain.User;
 
 import br.fvc.api.Domain.Address.AddressDTO;
-import br.fvc.api.Models.User;
 
 public class UserRequestDTO {
     public String name;
