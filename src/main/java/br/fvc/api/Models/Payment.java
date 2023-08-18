@@ -3,8 +3,6 @@ package br.fvc.api.Models;
 import java.math.BigDecimal;
 import java.sql.Date;
 
-import org.springframework.jmx.export.annotation.ManagedAttribute;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,7 +20,7 @@ import lombok.Data;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, columnDefinition="Decimal(10,2)")
     private BigDecimal preco;
