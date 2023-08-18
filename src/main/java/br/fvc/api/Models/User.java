@@ -8,12 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import br.fvc.api.Domain.User.UserRequestDTO;
-import br.fvc.api.Domain.User.UserRole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Data
-@Entity
+@Entity(name = "usuario")
 @Table(name = "usuario")
 public class User implements UserDetails {
 
@@ -52,7 +49,7 @@ public class User implements UserDetails {
     private String email;
 
     @Column(nullable = false, columnDefinition = "Varchar(20)")
-    private UserRole role;
+    private String role;
 
     @Column(nullable = false, unique = true, columnDefinition = "Varchar(14)")
     private String telefone;
@@ -64,15 +61,15 @@ public class User implements UserDetails {
     public User(UserRequestDTO data, String password) {
         this.nome = data.name;
         this.cpf = data.cpf;
-        this.email = data.email;
+        this.email = data.email.toLowerCase();
         this.senha = password;
-        this.role = data.role;
+        this.role = data.role.equals("ADMIN") ? "ADMIN" : "USER";
         this.telefone = data.phone;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN) {
+        if (this.role.equals("ADMIN")) {
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
         } else {
             return List.of(new SimpleGrantedAuthority("ROLE_USER"));

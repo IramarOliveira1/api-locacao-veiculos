@@ -1,11 +1,11 @@
 package br.fvc.api.Domain.Address;
 
 public class AddressDTO {
-    public String bairro;
-    public String cep;
-    public String cidade;
-    public String complemento;
-    public String logradouro;
+    public String neighborhood;
+    public String zipcode;
+    public String city;
+    public String complement;
+    public String address;
     public String uf;
-    public int numero;
+    public int number;
 }

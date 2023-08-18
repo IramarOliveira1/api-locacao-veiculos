@@ -6,7 +6,7 @@ public class UserRequestDTO {
     public String name;
     public String email;
     public String cpf;
-    public UserRole role;
+    public String role = "USER";
     public String password;
     public String phone;
     public AddressDTO address;

@@ -1,4 +1,4 @@
-package br.fvc.api.Config;
+package br.fvc.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,9 +28,9 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user/all").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/address").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/user/filter").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

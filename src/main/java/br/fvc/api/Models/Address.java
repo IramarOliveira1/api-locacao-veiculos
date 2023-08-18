@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,16 +46,13 @@ public class Address {
     @Column(nullable = false)
     private int numero;
 
-    // @OneToOne(mappedBy = "address")
-    // private User user;
-
     public Address(AddressDTO data) {
-        this.cep = data.cep;
-        this.bairro = data.bairro;
-        this.cidade = data.cidade;
-        this.complemento = data.complemento;
-        this.logradouro = data.logradouro;
-        this.numero = data.numero;
+        this.cep = data.zipcode;
+        this.bairro = data.neighborhood;
+        this.cidade = data.city;
+        this.complemento = data.complement;
+        this.logradouro = data.address;
+        this.numero = data.number;
         this.uf = data.uf;
     }
 

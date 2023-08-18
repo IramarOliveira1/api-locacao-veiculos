@@ -1,26 +1,25 @@
 package br.fvc.api.Domain.User;
 
-import java.util.List;
-
-import br.fvc.api.Domain.Address.AddressDTO;
 import br.fvc.api.Models.Address;
 import br.fvc.api.Models.User;
 
 public class UserResponseDTO {
 
+    public Long id;
     public String name;
     public String email;
     public String cpf;
-    public UserRole role;
-    public String password;
+    public String role;
     public String phone;
-    public AddressDTO address;
+    public Address address;
 
     public UserResponseDTO(User user) {
+        this.id = user.getId();
         this.name = user.getNome();
         this.email = user.getEmail();
-        // this.name = user.getNome();
-        // this.name = user.getNome();
-        // this.name = user.getNome();
+        this.cpf = user.getCpf();
+        this.role = user.getRole();
+        this.phone = user.getTelefone();
+        this.address = user.getAddress();
     }
 }

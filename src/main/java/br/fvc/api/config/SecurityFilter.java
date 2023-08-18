@@ -1,4 +1,4 @@
-package br.fvc.api.Config;
+package br.fvc.api.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
