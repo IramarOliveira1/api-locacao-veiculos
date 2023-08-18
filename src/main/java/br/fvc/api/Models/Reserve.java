@@ -19,7 +19,7 @@ import lombok.Data;
 public class Reserve {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false)
     private Date data_reserva;
