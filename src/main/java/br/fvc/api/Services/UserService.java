@@ -71,13 +71,17 @@ public class UserService {
     }
 
     public ResponseEntity<Object> login(LoginRequestDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email, data.senha);
+        try {
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email, data.senha);
 
-        var auth = this.authenticationManager.authenticate(usernamePassword);
+            var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        var token = tokenService.generateToken((User) auth.getPrincipal());
+            var token = tokenService.generateToken((User) auth.getPrincipal());
 
-        return ResponseEntity.status(200).body(new LoginResponseDTO((User) auth.getPrincipal(), token));
+            return ResponseEntity.status(200).body(new LoginResponseDTO((User) auth.getPrincipal(), token));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(new GenericResponseDTO(true, e.getMessage()));
+        }
     }
 
     public ResponseEntity<Object> index(Long id) {
@@ -100,6 +104,16 @@ public class UserService {
         try {
             User user = userRepository.findById(id).get();
 
+            if (!data.cpf.equals(user.getCpf()) && userRepository.existsByCpf(data.cpf)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "CPF já existe!"));
+            }
+            if (!data.email.equals(user.getEmail()) && userRepository.existsByEmail(data.email)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Email já existe!"));
+            }
+            if (!data.phone.equals(user.getTelefone()) && userRepository.existsByTelefone(data.phone)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Telefone já existe!"));
+            }
+
             String encryptedPassword = new BCryptPasswordEncoder().encode(data.password);
 
             user.setNome(data.name);
@@ -116,7 +130,7 @@ public class UserService {
             user.getAddress().setUf(data.address.uf);
 
             userRepository.save(user);
-            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Usuário atualizado com sucesso!"));
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Usu�rio atualizado com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
@@ -126,7 +140,7 @@ public class UserService {
         try {
             userRepository.deleteById(id);
 
-            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Usuário excluido com sucesso!"));
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Usuário excluido com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
