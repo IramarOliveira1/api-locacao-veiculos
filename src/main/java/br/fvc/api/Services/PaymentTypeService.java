@@ -1,18 +1,18 @@
 package br.fvc.api.Services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-
+import br.fvc.api.Domain.Generic.GenericResponseDTO;
 import br.fvc.api.Models.PaymentType;
 import br.fvc.api.Repositories.PaymentTypeRepository;
 
 @Service
 public class PaymentTypeService {
-    
+
     @Autowired
     private PaymentTypeRepository paymentTypeRepository;
 
@@ -20,36 +20,56 @@ public class PaymentTypeService {
         return paymentTypeRepository.findAll();
     }
 
-    public void deletePaymentTypeById(Long id) {
-        paymentTypeRepository.deleteById(id);
-    }
+    public ResponseEntity<Object> createPaymentType(String tipo) {
+        try {
 
-    public PaymentType createPaymentType(String tipo) {
-        Optional<PaymentType> existingType = paymentTypeRepository.findByTipo(tipo);
+            if (paymentTypeRepository.existsByTipo(tipo)) {
+                return ResponseEntity.status(400)
+                        .body(new GenericResponseDTO(true, "Tipo de pagamento já existe!"));
+            }
 
-        if (existingType.isPresent()) {
-            return null;
-        }
+            PaymentType newPaymentType = new PaymentType();
 
-        PaymentType newPaymentType = new PaymentType();
-        newPaymentType.setTipo(tipo);
-        return paymentTypeRepository.save(newPaymentType);
-    }
+            newPaymentType.setTipo(tipo);
 
-    public boolean updatePaymentType(Long id, PaymentType updatedPaymentType) {
-        Optional<PaymentType> existingType = paymentTypeRepository.findById(id);
+            paymentTypeRepository.save(newPaymentType);
 
-        if (existingType.isPresent()) {
-            PaymentType typeToUpdate = existingType.get();
-            typeToUpdate.setTipo(updatedPaymentType.getTipo());
-            paymentTypeRepository.save(typeToUpdate);
-            return true;
-        } else {
-            return false;
+            return ResponseEntity.status(201)
+                    .body(new GenericResponseDTO(false, "Tipo de pagamento criado com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                    .body(new GenericResponseDTO(true, e.getMessage()));
         }
     }
 
     public PaymentType getPaymentTypeById(Long id) {
         return paymentTypeRepository.findById(id).orElse(null);
+    }
+
+    public ResponseEntity<Object> updatePaymentType(Long id, PaymentType data) {
+        try {
+            PaymentType paymentType = paymentTypeRepository.findById(id).get();
+
+            if (!data.getTipo().equals(paymentType.getTipo()) && paymentTypeRepository.existsByTipo(data.getTipo())) {
+                return ResponseEntity.status(400)
+                        .body(new GenericResponseDTO(true, "Tipo de pagamento já existe!"));
+            }
+
+            paymentType.setTipo(data.getTipo());
+
+            paymentTypeRepository.save(paymentType);
+
+            return ResponseEntity.status(200)
+                    .body(new GenericResponseDTO(false, "Tipo de pagamento atualizado com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400)
+                    .body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> deletePaymentTypeById(Long id) {
+        paymentTypeRepository.deleteById(id);
+        return ResponseEntity.status(200)
+                .body(new GenericResponseDTO(false, "Tipo de pagamento deletado com sucesso!"));
     }
 }

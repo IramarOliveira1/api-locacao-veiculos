@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<Object> filter(@RequestBody() UserRequestDTO data) {
+    public ResponseEntity<Object> filter(@RequestBody UserRequestDTO data) {
         return userService.filter(data);
     }
 

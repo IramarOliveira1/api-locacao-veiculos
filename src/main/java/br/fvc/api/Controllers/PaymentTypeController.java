@@ -20,47 +20,24 @@ import br.fvc.api.Services.PaymentTypeService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/paymentTypes")
-public class PaymentTypeController {    
+@RequestMapping("/payment-types")
+public class PaymentTypeController {
 
     @Autowired
     private PaymentTypeService _paymentTypeService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<PaymentType> getAllPaymentTypes() {
         return _paymentTypeService.findAll();
     }
 
-    @DeleteMapping("/delete/{id}")
-     public ResponseEntity<String> deletePaymentType(@PathVariable Long id) {
-        _paymentTypeService.deletePaymentTypeById(id);
-        return ResponseEntity.ok("Tipo de pagamento deletado com sucesso!");
-    }
-
-    @PostMapping
-    public ResponseEntity<String> createPaymentType(@RequestBody PaymentType paymentType) {
-        PaymentType newPaymentType = _paymentTypeService.createPaymentType(paymentType.getTipo());
-
-        if (newPaymentType == null) {
-            return ResponseEntity.badRequest().body("Tipo de pagamento já existente");
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Tipo de pagamento criado com sucesso");
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updatePaymentType(@PathVariable Long id, @RequestBody PaymentType updatedPaymentType) {
-        boolean updated = _paymentTypeService.updatePaymentType(id, updatedPaymentType);
-
-        if (updated) {
-            return ResponseEntity.ok("Tipo de pagamento atualizado com sucesso");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @PostMapping("/register")
+    public ResponseEntity<Object> createPaymentType(@RequestBody PaymentType paymentType) {
+        return _paymentTypeService.createPaymentType(paymentType.getTipo());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPaymentTypeById(@PathVariable Long id) {
+    public ResponseEntity<Object> getPaymentTypeById(@PathVariable Long id) {
         PaymentType paymentType = _paymentTypeService.getPaymentTypeById(id);
 
         if (paymentType != null) {
@@ -70,5 +47,14 @@ public class PaymentTypeController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updatePaymentType(@PathVariable Long id,
+            @RequestBody PaymentType updatedPaymentType) {
+        return _paymentTypeService.updatePaymentType(id, updatedPaymentType);
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletePaymentType(@PathVariable Long id) {
+        return _paymentTypeService.deletePaymentTypeById(id);
+    }
 }
