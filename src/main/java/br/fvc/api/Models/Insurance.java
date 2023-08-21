@@ -16,7 +16,7 @@ import lombok.Data;
 public class Insurance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, columnDefinition = "Varchar(50)")
     private String tipo_cobertura;
