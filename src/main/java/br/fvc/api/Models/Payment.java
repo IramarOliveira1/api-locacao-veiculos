@@ -41,4 +41,8 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "id_tipo_pagamento", nullable = false)
     PaymentType paymentType;
+
+    public Payment orElseThrow(Object object) {
+        return null;
+    }
 }
