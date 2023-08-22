@@ -19,5 +19,4 @@ public class Model {
 
     @Column(nullable = false)
     private String nome;
-
 }
