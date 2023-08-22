@@ -3,7 +3,6 @@ package br.fvc.api.Controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,15 +35,9 @@ public class PaymentTypeController {
         return _paymentTypeService.createPaymentType(paymentType.getTipo());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getPaymentTypeById(@PathVariable Long id) {
-        PaymentType paymentType = _paymentTypeService.getPaymentTypeById(id);
-
-        if (paymentType != null) {
-            return ResponseEntity.ok(paymentType);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de pagamento não encontrado");
-        }
+    @PostMapping("/filter")
+    public ResponseEntity<Object> getPaymentTypeById(@RequestBody PaymentType request) {
+        return _paymentTypeService.getPaymentTypeById(request);
     }
 
     @PutMapping("/{id}")

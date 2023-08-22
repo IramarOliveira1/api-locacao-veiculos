@@ -25,12 +25,12 @@ public class PaymentTypeService {
 
             if (paymentTypeRepository.existsByTipo(tipo)) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Tipo de pagamento já existe!"));
+                        .body(new GenericResponseDTO(true, "Tipo de pagamento jï¿½ existe!"));
             }
 
             PaymentType newPaymentType = new PaymentType();
 
-            newPaymentType.setTipo(tipo);
+            newPaymentType.setTipo(tipo.toUpperCase());
 
             paymentTypeRepository.save(newPaymentType);
 
@@ -42,8 +42,14 @@ public class PaymentTypeService {
         }
     }
 
-    public PaymentType getPaymentTypeById(Long id) {
-        return paymentTypeRepository.findById(id).orElse(null);
+    public ResponseEntity<Object> getPaymentTypeById(PaymentType request) {
+        List<PaymentType> paymentType = paymentTypeRepository.findTypePayment(request.getTipo());
+
+        if (paymentType.isEmpty()) {
+            return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Tipo de pagamento nÃ£o encontrado!"));
+        }
+
+        return ResponseEntity.status(200).body(paymentType);
     }
 
     public ResponseEntity<Object> updatePaymentType(Long id, PaymentType data) {
@@ -52,10 +58,10 @@ public class PaymentTypeService {
 
             if (!data.getTipo().equals(paymentType.getTipo()) && paymentTypeRepository.existsByTipo(data.getTipo())) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Tipo de pagamento já existe!"));
+                        .body(new GenericResponseDTO(true, "Tipo de pagamento jï¿½ existe!"));
             }
 
-            paymentType.setTipo(data.getTipo());
+            paymentType.setTipo(data.getTipo().toUpperCase());
 
             paymentTypeRepository.save(paymentType);
 

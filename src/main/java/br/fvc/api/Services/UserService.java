@@ -127,10 +127,10 @@ public class UserService {
             user.getAddress().setComplemento(data.address.complement);
             user.getAddress().setLogradouro(data.address.address);
             user.getAddress().setNumero(data.address.number);
-            user.getAddress().setUf(data.address.uf);
+            user.getAddress().setUf(data.address.uf.toUpperCase());
 
             userRepository.save(user);
-            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Usuário atualizado com sucesso!"));
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Usuï¿½rio atualizado com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }

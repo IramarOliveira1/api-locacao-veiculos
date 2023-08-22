@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Data
-@Entity
-@Table(name = "tipoPagamento")
+@Entity(name = "tipo_pagamento")
+@Table(name = "tipo_pagamento")
 public class PaymentType {
 
     @Id

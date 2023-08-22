@@ -53,7 +53,7 @@ public class Address {
         this.complemento = data.complement;
         this.logradouro = data.address;
         this.numero = data.number;
-        this.uf = data.uf;
+        this.uf = data.uf.toUpperCase();
     }
 
 }
