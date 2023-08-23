@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -25,8 +26,9 @@ public class Agency {
     @Column(nullable = false, unique = true, columnDefinition = "Varchar(15)")
     private String telefone;
 
-    @Column(nullable = false)
-    private int estoque;
+    @OneToOne
+    @JoinColumn(name = "id_estoque" , nullable = false)
+    private Stock estoque;
 
     @ManyToOne
     @JoinColumn(name = "id_endereco", nullable = false)
