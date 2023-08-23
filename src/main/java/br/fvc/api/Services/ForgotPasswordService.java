@@ -6,23 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
+import br.fvc.api.Models.ForgotPassword;
 import br.fvc.api.Models.User;
+import br.fvc.api.Repositories.ForgotPasswordRepository;
 import br.fvc.api.Repositories.UserRepository;
 
 @Service
-public class ForgotPassword {
+public class ForgotPasswordService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private ForgotPasswordRepository forgotPasswordRepository;
 
     public ResponseEntity<Object> sendMail(UserRequestDTO data) {
         try {
@@ -34,15 +38,18 @@ public class ForgotPassword {
                         .body(new GenericResponseDTO(false, "Email não encontrado!"));
             }
 
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(4);
+            Long code = new Date().getTime();
 
-            String code = encoder.encode(user.getEmail());
+            ForgotPassword forgotPassword = new ForgotPassword();
 
+            forgotPassword.setCode(code);
+            forgotPassword.setUser(user);
+
+            forgotPasswordRepository.save(forgotPassword);
+
+            // forgotPasswordRepository.save(forgotPassword);
 
             // Boolean teste = encoder.matches(data.email, );
-
-            System.out.println(code);
-            // Long date = new Date().getTime();
 
             // String text = "Para redefinir sua senha, clique no link
             // http://localhost:8080/user/login e use o código ("

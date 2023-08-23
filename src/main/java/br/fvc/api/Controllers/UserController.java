@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.fvc.api.Domain.User.LoginRequestDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
-import br.fvc.api.Services.ForgotPassword;
+import br.fvc.api.Services.ForgotPasswordService;
 import br.fvc.api.Services.UserService;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -26,7 +26,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private ForgotPassword forgotPassword;
+    private ForgotPasswordService forgotPassword;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequestDTO data) {

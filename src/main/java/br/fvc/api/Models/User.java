@@ -58,6 +58,9 @@ public class User implements UserDetails {
     @JoinColumn(name = "id_endereco", nullable = false, referencedColumnName = "id")
     private Address address;
 
+    // @OneToOne(mappedBy = "user")
+    // private ForgotPassword user;
+
     public User(UserRequestDTO data, String password) {
         this.nome = data.name;
         this.cpf = data.cpf;
