@@ -32,7 +32,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/model/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/model/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/user/filter").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/user/filter").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
