@@ -42,11 +42,37 @@ public class ModelService {
         }
     }
 
+    public ResponseEntity<Object> filter(Model model) {
+        List<Model> models = this.modelRepository.findByNome(model.getNome()).stream()
+                .toList();
+
+        if (models.isEmpty()) {
+            return ResponseEntity.status(404)
+                    .body(new GenericResponseDTO(true, "Nenhum modelo encontrado!"));
+        }
+
+        return ResponseEntity.status(200).body(models);
+    }
+
+    public ResponseEntity<Object> update(Long id, Model model) {
+        Model modelUpdate = modelRepository.findById(id).get();
+
+        if (model.getNome().equals(modelUpdate.getNome())) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Modelo já existe!"));
+        }
+
+        modelUpdate.setNome(model.getNome());
+
+        modelRepository.save(modelUpdate);
+
+        return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Modelo atualizado com sucesso!"));
+    }
+
     public ResponseEntity<Object> delete(Long id) {
         try {
             modelRepository.deleteById(id);
             return ResponseEntity.status(200)
-                    .body(new GenericResponseDTO(false, "Modelo de carro excluido com sucesso!"));
+                    .body(new GenericResponseDTO(false, "Modelo excluido com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }

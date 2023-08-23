@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -30,10 +29,8 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/vehicle/all").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/model/all").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/model/register").permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/model/{id}", HttpMethod.DELETE.name())).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/model/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/model/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/user/filter").hasRole("ADMIN")
                         .anyRequest().authenticated())
