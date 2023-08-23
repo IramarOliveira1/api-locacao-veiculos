@@ -13,7 +13,8 @@ import br.fvc.api.Models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     UserDetails findByEmail(String email);
 
-    User findByCpf(String cpf);
+    @Query("SELECT u FROM usuario u WHERE u.email = :email")
+    User findSendMail(String email);
 
     Boolean existsByEmail(String email);
 
