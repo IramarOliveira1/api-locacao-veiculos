@@ -8,4 +8,5 @@ import br.fvc.api.Models.ForgotPassword;
 @Repository
 public interface ForgotPasswordRepository extends JpaRepository<ForgotPassword, Long> {
 
+    ForgotPassword findByCode(Long code);
 }

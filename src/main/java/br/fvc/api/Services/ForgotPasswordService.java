@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
+import br.fvc.api.Domain.User.ForgotRequestDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
 import br.fvc.api.Models.ForgotPassword;
 import br.fvc.api.Models.User;
@@ -35,7 +35,7 @@ public class ForgotPasswordService {
 
             if (user == null) {
                 return ResponseEntity.status(404)
-                        .body(new GenericResponseDTO(false, "Email não encontrado!"));
+                        .body(new GenericResponseDTO(true, "Email não encontrado!"));
             }
 
             Long code = new Date().getTime();
@@ -47,26 +47,17 @@ public class ForgotPasswordService {
 
             forgotPasswordRepository.save(forgotPassword);
 
-            // forgotPasswordRepository.save(forgotPassword);
+            String text = "Utilize o código para redefinir sua senha " + code
+                    + " clique no link a seguir: http://localhost:8080/user/login";
 
-            // Boolean teste = encoder.matches(data.email, );
+            SimpleMailMessage message = new SimpleMailMessage();
 
-            // String text = "Para redefinir sua senha, clique no link
-            // http://localhost:8080/user/login e use o código ("
-            // + encoder.encode(user.) + ")";
+            message.setFrom("alugue_aqui@suporte.com");
+            message.setTo(data.email);
+            message.setSubject("recuperar senha");
+            message.setText(text);
 
-            // if (user == null) {
-            // return ResponseEntity.status(404)
-            // .body(new GenericResponseDTO(false, "Email não encontrado!"));
-            // }
-            // SimpleMailMessage message = new SimpleMailMessage();
-
-            // message.setFrom("alugue_aqui@suporte.com");
-            // message.setTo(data.email);
-            // message.setSubject("recuperar senha");
-            // message.setText(text);
-
-            // javaMailSender.send(message);
+            javaMailSender.send(message);
 
             return ResponseEntity.status(200)
                     .body(new GenericResponseDTO(false, "Email enviado com sucesso!"));
@@ -74,6 +65,28 @@ public class ForgotPasswordService {
             return ResponseEntity.status(400)
                     .body(new GenericResponseDTO(true, e.getMessage()));
         }
+
+    }
+
+    public ResponseEntity<Object> verifyToken(ForgotRequestDTO data) {
+
+        ForgotPassword forgotPassword = forgotPasswordRepository.findByCode(data.code);
+
+        if (forgotPassword == null) {
+            return ResponseEntity.status(400)
+                    .body(new GenericResponseDTO(true, "Código inválido!"));
+        }
+
+        this.changePassword(forgotPassword.getUser(), data.password);
+
+        return ResponseEntity.status(200)
+                .body(new GenericResponseDTO(false, "Email enviado com sucesso!"));
+    }
+
+    public void changePassword(User user, String password) {
+        user.setSenha(password);
+
+        userRepository.save(user);
 
     }
 
