@@ -21,7 +21,7 @@ public class SendMailService {
 
             message.setFrom("alugue_aqui@suporte.com");
             message.setTo(to);
-            message.setSubject("Recuperar senha");
+            message.setSubject(subject);
             message.setText(text);
 
             javaMailSender.send(message);
