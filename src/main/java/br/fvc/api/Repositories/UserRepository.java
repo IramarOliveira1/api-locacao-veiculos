@@ -5,15 +5,14 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Repository;
 
 import br.fvc.api.Models.User;
 
-@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     UserDetails findByEmail(String email);
 
-    User findByCpf(String cpf);
+    @Query("SELECT u FROM usuario u WHERE u.email = :email")
+    User findSendMail(String email);
 
     Boolean existsByEmail(String email);
 
