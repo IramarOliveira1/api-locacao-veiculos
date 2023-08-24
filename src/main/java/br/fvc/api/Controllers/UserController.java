@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.fvc.api.Domain.User.LoginRequestDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
+import br.fvc.api.Services.ForgotPasswordService;
 import br.fvc.api.Services.UserService;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -23,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ForgotPasswordService forgotPassword;
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody LoginRequestDTO data) {
@@ -57,5 +61,15 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id) {
         return userService.delete(id);
+    }
+
+    @PostMapping("/send-mail")
+    public ResponseEntity<Object> sendMail(@RequestBody UserRequestDTO data) {
+        return forgotPassword.forgotPassword(data);
+    }
+
+    @PostMapping("/verify-code")
+    public ResponseEntity<Object> verifyCode(@RequestBody UserRequestDTO data) {
+        return forgotPassword.verifyCode(data);
     }
 }
