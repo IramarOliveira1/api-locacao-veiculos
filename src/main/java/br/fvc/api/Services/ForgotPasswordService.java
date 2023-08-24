@@ -1,15 +1,14 @@
 package br.fvc.api.Services;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.User.ForgotRequestDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
 import br.fvc.api.Models.ForgotPassword;
 import br.fvc.api.Models.User;
@@ -23,12 +22,12 @@ public class ForgotPasswordService {
     private UserRepository userRepository;
 
     @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
     private ForgotPasswordRepository forgotPasswordRepository;
 
-    public ResponseEntity<Object> sendMail(UserRequestDTO data) {
+    @Autowired
+    private SendMailService sendMailService;
+
+    public ResponseEntity<Object> forgotPassword(UserRequestDTO data) {
         try {
 
             User user = userRepository.findSendMail(data.email);
@@ -39,55 +38,71 @@ public class ForgotPasswordService {
             }
 
             Long code = new Date().getTime();
+            LocalDateTime date = LocalDateTime.now().plusDays(1);
+
+            this.deleteLastCode(user);
+
+            String text = "Utilize o c贸digo para redefinir sua senha " + code
+                    + ". C骴igo tem validade de 24 horas, clique no link a seguir: http://localhost:8080/user/login";
+
+            var responseSendMail = sendMailService.sendMail(data.email, "Resete de senha", text);
 
             ForgotPassword forgotPassword = new ForgotPassword();
 
+            forgotPassword.setCreated_at(date);
             forgotPassword.setCode(code);
             forgotPassword.setUser(user);
 
             forgotPasswordRepository.save(forgotPassword);
 
-            String text = "Utilize o c贸digo para redefinir sua senha " + code
-                    + " clique no link a seguir: http://localhost:8080/user/login";
-
-            SimpleMailMessage message = new SimpleMailMessage();
-
-            message.setFrom("alugue_aqui@suporte.com");
-            message.setTo(data.email);
-            message.setSubject("recuperar senha");
-            message.setText(text);
-
-            javaMailSender.send(message);
-
-            return ResponseEntity.status(200)
-                    .body(new GenericResponseDTO(false, "Email enviado com sucesso!"));
+            return ResponseEntity.status(responseSendMail.getStatusCode())
+                    .body(new GenericResponseDTO(false, responseSendMail.getBody().toString()));
         } catch (Exception e) {
             return ResponseEntity.status(400)
                     .body(new GenericResponseDTO(true, e.getMessage()));
         }
-
     }
 
-    public ResponseEntity<Object> verifyToken(ForgotRequestDTO data) {
+    public ResponseEntity<Object> verifyCode(UserRequestDTO data) {
+        try {
+            ForgotPassword forgotPassword = forgotPasswordRepository.findByCode(data.code);
 
-        ForgotPassword forgotPassword = forgotPasswordRepository.findByCode(data.code);
+            if (forgotPassword == null) {
+                return ResponseEntity.status(400)
+                        .body(new GenericResponseDTO(true, "C贸digo inv谩lido!"));
+            }
 
-        if (forgotPassword == null) {
+            if (LocalDateTime.now().isAfter(forgotPassword.getCreated_at())) {
+                return ResponseEntity.status(400)
+                        .body(new GenericResponseDTO(false,
+                                "C骴igo expirado, solicite um novo c骴igo clicando aqui: http://localhost:8080/user/login  "));
+            }
+
+            this.changePassword(forgotPassword.getUser(), data.password);
+
+            return ResponseEntity.status(200)
+                    .body(new GenericResponseDTO(false, "Senha trocada com sucesso!"));
+        } catch (Exception e) {
             return ResponseEntity.status(400)
-                    .body(new GenericResponseDTO(true, "C贸digo inv谩lido!"));
+                    .body(new GenericResponseDTO(true, e.getMessage()));
         }
-
-        this.changePassword(forgotPassword.getUser(), data.password);
-
-        return ResponseEntity.status(200)
-                .body(new GenericResponseDTO(false, "Email enviado com sucesso!"));
     }
 
     public void changePassword(User user, String password) {
-        user.setSenha(password);
+        String encryptedPassword = new BCryptPasswordEncoder().encode(password);
+
+        user.setSenha(encryptedPassword);
 
         userRepository.save(user);
 
+        this.deleteLastCode(user);
     }
 
+    public void deleteLastCode(User user) {
+        ForgotPassword id_user = forgotPasswordRepository.findByUser(user);
+
+        if (id_user != null) {
+            forgotPasswordRepository.delete(id_user);
+        }
+    }
 }

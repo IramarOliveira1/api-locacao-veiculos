@@ -10,4 +10,5 @@ public class UserRequestDTO {
     public String password;
     public String phone;
     public AddressDTO address;
+    public Long code;
 }

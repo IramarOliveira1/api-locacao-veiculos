@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.fvc.api.Domain.User.ForgotRequestDTO;
 import br.fvc.api.Domain.User.LoginRequestDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
-import br.fvc.api.Models.ForgotPassword;
 import br.fvc.api.Services.ForgotPasswordService;
 import br.fvc.api.Services.UserService;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -67,11 +65,11 @@ public class UserController {
 
     @PostMapping("/send-mail")
     public ResponseEntity<Object> sendMail(@RequestBody UserRequestDTO data) {
-        return forgotPassword.sendMail(data);
+        return forgotPassword.forgotPassword(data);
     }
 
     @PostMapping("/verify-code")
-    public ResponseEntity<Object> verifyCode(@RequestBody ForgotRequestDTO data) {
-        return forgotPassword.verifyToken(data);
+    public ResponseEntity<Object> verifyCode(@RequestBody UserRequestDTO data) {
+        return forgotPassword.verifyCode(data);
     }
 }

@@ -1,8 +1,10 @@
 package br.fvc.api.Models;
 
-import jakarta.persistence.CascadeType;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,12 +27,10 @@ public class ForgotPassword {
     @Column(nullable = false, unique = true)
     private Long code;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    private User user;
+    @Column(nullable = false, columnDefinition = "DateTime(0)")
+    private LocalDateTime created_at;
 
-    // public ForgotPassword(Long code, User user) {
-    //     this.code = code;
-    //     this.user = user;
-    // }
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id", nullable = false)
+    private User user;
 }

@@ -1,12 +1,13 @@
 package br.fvc.api.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import br.fvc.api.Models.ForgotPassword;
+import br.fvc.api.Models.User;
 
-@Repository
 public interface ForgotPasswordRepository extends JpaRepository<ForgotPassword, Long> {
 
     ForgotPassword findByCode(Long code);
+
+    ForgotPassword findByUser(User user);
 }
