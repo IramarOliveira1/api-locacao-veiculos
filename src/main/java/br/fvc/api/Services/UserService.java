@@ -42,11 +42,11 @@ public class UserService {
     public ResponseEntity<Object> store(UserRequestDTO data) {
         try {
 
-            if (userRepository.existsByEmail(data.email)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Email já existe!"));
-            }
             if (userRepository.existsByCpf(data.cpf)) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "CPF já existe!"));
+            }
+            if (userRepository.existsByEmail(data.email)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Email já existe!"));
             }
             if (userRepository.existsByTelefone(data.phone)) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Telefone já existe!"));
