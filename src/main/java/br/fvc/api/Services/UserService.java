@@ -72,7 +72,9 @@ public class UserService {
 
     public ResponseEntity<Object> login(LoginRequestDTO data) {
         try {
-            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email, data.senha);
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email, data.password);
+
+            System.out.println(usernamePassword);
 
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
