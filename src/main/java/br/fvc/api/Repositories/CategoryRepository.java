@@ -5,5 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.fvc.api.Models.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+    boolean existsByNome(String nome);
     
 }
