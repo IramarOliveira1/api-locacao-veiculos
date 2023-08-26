@@ -45,10 +45,22 @@ public class CategoryService {
         try {
             categoryRepository.deleteById(id);
             return ResponseEntity.status(200)
-            .body(new GenericResponseDTO(false, "Categoria excluida com sucesso!"));
+                    .body(new GenericResponseDTO(false, "Categoria excluida com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
+    }
+
+    public ResponseEntity<Object> filter(Category category) {
+        List<Category> categories = this.categoryRepository.findByNome(category.getNome()).stream()
+                .toList();
+
+        if (categories.isEmpty()) {
+            return ResponseEntity.status(404)
+            .body(new GenericResponseDTO(true, "Nehuma categoria encontrada!"));
+        }
+
+        return ResponseEntity.status(200).body(categories);
     }
 
 }

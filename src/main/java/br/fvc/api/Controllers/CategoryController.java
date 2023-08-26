@@ -34,6 +34,11 @@ public class CategoryController {
         return categoryService.store(category);
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<Object> filter(@RequestBody Category category){
+        return categoryService.filter(category);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id){
         return categoryService.delete(id);
