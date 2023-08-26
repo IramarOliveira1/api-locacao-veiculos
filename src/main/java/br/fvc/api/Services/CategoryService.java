@@ -34,8 +34,18 @@ public class CategoryService {
             categoryRepository.save(newCategory);
 
             return ResponseEntity.status(201)
-            .body(new GenericResponseDTO(false, "Categoria criada com sucesso"));
+                    .body(new GenericResponseDTO(false, "Categoria criada com sucesso"));
 
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> delete(Long id) {
+        try {
+            categoryRepository.deleteById(id);
+            return ResponseEntity.status(200)
+            .body(new GenericResponseDTO(false, "Categoria excluida com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
