@@ -38,6 +38,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/verify-code").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/send-mail").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/category/all").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/model/all").hasRole("ADMIN")
