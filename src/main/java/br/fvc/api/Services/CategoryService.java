@@ -24,7 +24,7 @@ public class CategoryService {
         try {
             if (categoryRepository.existsByNome(category.getNome())) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Categoria já existe"));
+                        .body(new GenericResponseDTO(true, "Categoria já existe!"));
             }
 
             Category newCategory = new Category();
@@ -34,18 +34,8 @@ public class CategoryService {
             categoryRepository.save(newCategory);
 
             return ResponseEntity.status(201)
-                    .body(new GenericResponseDTO(false, "Categoria criada com sucesso"));
+                    .body(new GenericResponseDTO(false, "Categoria criada com sucesso!"));
 
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
-        }
-    }
-
-    public ResponseEntity<Object> delete(Long id) {
-        try {
-            categoryRepository.deleteById(id);
-            return ResponseEntity.status(200)
-                    .body(new GenericResponseDTO(false, "Categoria excluida com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
@@ -57,10 +47,37 @@ public class CategoryService {
 
         if (categories.isEmpty()) {
             return ResponseEntity.status(404)
-            .body(new GenericResponseDTO(true, "Nehuma categoria encontrada!"));
+                    .body(new GenericResponseDTO(true, "Nehuma categoria encontrada!"));
         }
 
         return ResponseEntity.status(200).body(categories);
+    }
+
+    public ResponseEntity<Object> update(Long id, Category category) {
+        Category categoryUpdate = categoryRepository.findById(id).get();
+
+        if (category.getNome().equals(categoryUpdate.getNome())) {
+            return ResponseEntity.status(400)
+                    .body(new GenericResponseDTO(true, "Categoria já existe!"));
+        }
+
+        categoryUpdate.setNome(category.getNome());
+
+        categoryRepository.save(categoryUpdate);
+
+        return ResponseEntity.status(200)
+                .body(new GenericResponseDTO(false, "Categoria atualizada com sucesso!"));
+
+    }
+
+    public ResponseEntity<Object> delete(Long id) {
+        try {
+            categoryRepository.deleteById(id);
+            return ResponseEntity.status(200)
+                    .body(new GenericResponseDTO(false, "Categoria excluida com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
     }
 
 }
