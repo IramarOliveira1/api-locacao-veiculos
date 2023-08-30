@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.fvc.api.Domain.User.LoginRequestDTO;
@@ -32,8 +33,8 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Object> all() {
-        return userService.all();
+    public ResponseEntity<Object> all(@RequestParam String role ) {
+        return userService.all(role);
     }
 
     @PostMapping("/register")
