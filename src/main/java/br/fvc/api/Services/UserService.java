@@ -34,8 +34,8 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    public ResponseEntity<Object> all() {
-        List<UserResponseDTO> users = this.userRepository.findAll().stream().map(UserResponseDTO::new).toList();
+    public ResponseEntity<Object> all(String role) {
+        List<UserResponseDTO> users = this.userRepository.findByRoleOrderByIdDesc(role).stream().map(UserResponseDTO::new).toList();
         return ResponseEntity.status(200).body(users);
     }
 
