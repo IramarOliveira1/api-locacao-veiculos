@@ -39,5 +39,9 @@ public class Reserve {
 
     @ManyToOne
     @JoinColumn(name = "id_veiculo", nullable = false) 
-    private Vehicle veiculo;
+    private Vehicle veiculo;    
+
+    @ManyToOne
+    @JoinColumn(name = "id_seguro", nullable = false)
+    private Insurance insurance;
 }
