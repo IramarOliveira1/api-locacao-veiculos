@@ -43,7 +43,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.GET, "/payment-types/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/payment-types/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/payment-types/filter").hasRole("ADMIN")                        
-                        .requestMatchers(HttpMethod.GET, "/agency/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/agency/all").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())
