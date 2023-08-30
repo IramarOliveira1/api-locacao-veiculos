@@ -9,8 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.User.LoginRequestDTO;
 import br.fvc.api.Domain.User.LoginResponseDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
 import br.fvc.api.Domain.User.UserResponseDTO;
@@ -70,7 +70,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> login(LoginRequestDTO data) {
+    public ResponseEntity<Object> login(UserRequestDTO data) {
         try {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.email, data.password);
 
@@ -91,8 +91,8 @@ public class UserService {
         return ResponseEntity.status(200).body(user);
     }
 
-    public ResponseEntity<Object> filter(UserRequestDTO data) {
-        List<UserResponseDTO> user = this.userRepository.findNameOrCpf(data.name, data.cpf).stream()
+    public ResponseEntity<Object> filter(GenericRequestDTO data) {
+        List<UserResponseDTO> user = this.userRepository.findNameOrCpf(data.nameOrCpf).stream()
                 .map(UserResponseDTO::new).toList();
 
         if (user.isEmpty()) {

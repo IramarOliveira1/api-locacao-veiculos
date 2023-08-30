@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.fvc.api.Domain.User.LoginRequestDTO;
+import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
 import br.fvc.api.Services.ForgotPasswordService;
 import br.fvc.api.Services.UserService;
@@ -28,12 +28,12 @@ public class UserController {
     private ForgotPasswordService forgotPassword;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody LoginRequestDTO data) {
+    public ResponseEntity<Object> login(@RequestBody UserRequestDTO data) {
         return userService.login(data);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<Object> all(@RequestParam String role ) {
+    public ResponseEntity<Object> all(@RequestParam String role) {
         return userService.all(role);
     }
 
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<Object> filter(@RequestBody UserRequestDTO data) {
+    public ResponseEntity<Object> filter(@RequestBody GenericRequestDTO data) {
         return userService.filter(data);
     }
 

@@ -22,6 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Boolean existsByCpf(String cpf);
 
-    @Query("SELECT u FROM usuario u WHERE u.nome LIKE %:name% OR u.cpf LIKE %:cpf% ")
-    List<User> findNameOrCpf(String name, String cpf);
+    @Query("SELECT u FROM usuario u WHERE u.nome LIKE %:nameOrCpf% OR u.cpf LIKE %:nameOrCpf% ")
+    List<User> findNameOrCpf(String nameOrCpf);
 }
