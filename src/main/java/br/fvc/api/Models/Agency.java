@@ -27,7 +27,7 @@ public class Agency {
     private String telefone;
 
     @Column
-    private int quantidade_total;
+    private String quantidade_total;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", nullable = false, referencedColumnName = "id")
