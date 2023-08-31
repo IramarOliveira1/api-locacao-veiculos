@@ -35,7 +35,8 @@ public class UserService {
     private AuthenticationManager authenticationManager;
 
     public ResponseEntity<Object> all(String role) {
-        List<UserResponseDTO> users = this.userRepository.findByRoleOrderByIdDesc(role).stream().map(UserResponseDTO::new).toList();
+        List<UserResponseDTO> users = this.userRepository.findByRoleOrderByIdDesc(role).stream()
+                .map(UserResponseDTO::new).toList();
         return ResponseEntity.status(200).body(users);
     }
 
@@ -73,8 +74,6 @@ public class UserService {
     public ResponseEntity<Object> login(UserRequestDTO data) {
         try {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.email, data.password);
-
-            System.out.println(usernamePassword);
 
             var auth = this.authenticationManager.authenticate(usernamePassword);
 
@@ -116,12 +115,10 @@ public class UserService {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Telefone já existe!"));
             }
 
-            String encryptedPassword = new BCryptPasswordEncoder().encode(data.password);
-
             user.setNome(data.name);
             user.setEmail(data.email.toLowerCase());
             user.setCpf(data.cpf);
-            user.setSenha(encryptedPassword);
+            user.setSenha(data.password == null ? user.getSenha() : new BCryptPasswordEncoder().encode(data.password));
             user.setTelefone(data.phone);
             user.getAddress().setBairro(data.address.neighborhood);
             user.getAddress().setCep(data.address.zipcode);
