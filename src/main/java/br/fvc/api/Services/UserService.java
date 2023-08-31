@@ -91,11 +91,22 @@ public class UserService {
     }
 
     public ResponseEntity<Object> filter(GenericRequestDTO data) {
-        List<UserResponseDTO> user = this.userRepository.findNameOrCpf(data.nameOrCpf).stream()
+        List<UserResponseDTO> user = this.userRepository.findNameOrCpf(data.nameOrCpf, data.role).stream()
                 .map(UserResponseDTO::new).toList();
 
         if (user.isEmpty()) {
             return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Nenhum cliente encontrado!"));
+        }
+
+        return ResponseEntity.status(200).body(user);
+    }
+
+    public ResponseEntity<Object> filterEmployee(GenericRequestDTO data) {
+        List<UserResponseDTO> user = this.userRepository.findNameOrCpf(data.nameOrCpf, data.role).stream()
+                .map(UserResponseDTO::new).toList();
+
+        if (user.isEmpty()) {
+            return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Nenhum Funcionário encontrado!"));
         }
 
         return ResponseEntity.status(200).body(user);
