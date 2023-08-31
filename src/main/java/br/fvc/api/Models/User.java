@@ -11,7 +11,6 @@ import br.fvc.api.Domain.User.UserRequestDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -55,7 +54,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true, columnDefinition = "Varchar(14)")
     private String telefone;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", nullable = false, referencedColumnName = "id")
     private Address address;
 
