@@ -35,7 +35,7 @@ public class UserService {
     private AuthenticationManager authenticationManager;
 
     public ResponseEntity<Object> all(String role) {
-        List<UserResponseDTO> users = this.userRepository.findByRoleOrderByIdDesc(role).stream()
+        List<UserResponseDTO> users = this.userRepository.findAllRoleOrderByIdDesc(role).stream()
                 .map(UserResponseDTO::new).toList();
         return ResponseEntity.status(200).body(users);
     }
