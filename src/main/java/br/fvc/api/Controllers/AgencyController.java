@@ -34,5 +34,11 @@ public class AgencyController {
         return agencyService.store(data);
     }
 
+    @PostMapping("/filter")
+    public ResponseEntity<Object> filter(@RequestBody() AgencyRequestDTO data){
+        return agencyService.filter(data);
+    }
+    
+
     
 }

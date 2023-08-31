@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Data
-@Entity
+@Entity(name = "agencia")
 @Table(name = "agencia")
 public class Agency {
 

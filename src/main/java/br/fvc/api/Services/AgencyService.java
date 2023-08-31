@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.Agency.AgencyRequestDTO;
+import br.fvc.api.Domain.Agency.AgencyResponseDTO;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
 import br.fvc.api.Models.Address;
 import br.fvc.api.Models.Agency;
@@ -50,6 +51,17 @@ public class AgencyService {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
+    }
+
+    public ResponseEntity<Object> filter(AgencyRequestDTO data) {
+        List<AgencyResponseDTO> agency = this.agencyRepository.findByNome(data.nome).stream()
+           .map(AgencyResponseDTO::new).toList();
+
+        if(agency.isEmpty()){
+            return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Agência não encontrada"));
+        }
+
+        return ResponseEntity.status(200).body(agency);
     }
 
 }
