@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.fvc.api.Domain.Agency.AgencyRequestDTO;
 import br.fvc.api.Models.Agency;
 import br.fvc.api.Services.AgencyService;
 
@@ -29,8 +30,8 @@ public class AgencyController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody Agency agency){
-        return agencyService.store(agency);
+    public ResponseEntity<Object> register(@RequestBody AgencyRequestDTO data){
+        return agencyService.store(data);
     }
 
     
