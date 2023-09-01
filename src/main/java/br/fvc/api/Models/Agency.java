@@ -41,7 +41,7 @@ public class Agency {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", nullable = false, referencedColumnName = "id")
-    private Address address;
+    public Address address;
 
     public Agency(AgencyRequestDTO data){
         this.nome = data.nome;
