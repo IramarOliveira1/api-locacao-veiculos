@@ -1,12 +1,21 @@
 package br.fvc.api.Repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Collection;
+import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import br.fvc.api.Domain.Vehicle.VehicleResponseDTO;
 import br.fvc.api.Models.Vehicle;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     boolean existsByPlaca(String placa);
+
+
+    @Query("SELECT v FROM veiculo v WHERE v.modelo LIKE %:modelo%")
+    List<Vehicle> findByModelo(String modelo);
 
 
     

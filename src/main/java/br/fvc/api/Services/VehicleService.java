@@ -52,4 +52,15 @@ public class VehicleService {
         }
     }
 
+    public ResponseEntity<Object> filter(VehicleRequestDTO data) {
+        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModelo(data.modelo).stream()
+            .map(VehicleResponseDTO::new).toList();
+
+            if(vehicle.isEmpty()){
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Veiculo não encontrado!"));
+            }
+
+            return ResponseEntity.status(200).body(vehicle);
+    }
+
 }

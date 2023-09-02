@@ -35,6 +35,11 @@ public class VehicleController {
         return vehicleService.store(data);
     }
 
+    @PostMapping("/filter")
+    public ResponseEntity<Object> filter(@RequestBody() VehicleRequestDTO data){
+        return vehicleService.filter(data);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id){
         return vehicleService.delete(id);
