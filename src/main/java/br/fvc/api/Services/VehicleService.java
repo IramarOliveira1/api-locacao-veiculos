@@ -20,24 +20,34 @@ public class VehicleService {
     private VehicleRepository vehicleRepository;
 
     public ResponseEntity<Object> findAll() {
-        List<VehicleResponseDTO> vehicles =  vehicleRepository.findAll().stream()
-        .map(VehicleResponseDTO::new).toList();
+        List<VehicleResponseDTO> vehicles = vehicleRepository.findAll().stream()
+                .map(VehicleResponseDTO::new).toList();
         return ResponseEntity.status(200).body(vehicles);
     }
 
     public ResponseEntity<Object> store(VehicleRequestDTO data) {
-        try{
-            if(vehicleRepository.existsByPlaca(data.placa)){
+        try {
+            if (vehicleRepository.existsByPlaca(data.placa)) {
                 return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Placa já cadastrada"));
             }
 
             Vehicle vehicle = new Vehicle(data);
-            
+
             vehicleRepository.save(vehicle);
 
             return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Veiculo criado!"));
 
-        }catch(Exception e){
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> delete(Long id) {
+        try {
+            vehicleRepository.deleteById(id);
+
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Veiculo deletado"));
+        } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
     }
