@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
+import br.fvc.api.Domain.Vehicle.GenericRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleResponseDTO;
 import br.fvc.api.Models.Vehicle;
@@ -41,8 +42,8 @@ public class VehicleService {
         }
     }
 
-    public ResponseEntity<Object> filter(VehicleRequestDTO data) {
-        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModelo(data.modelo).stream()
+    public ResponseEntity<Object> filter(GenericRequestDTO data) {
+        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModeloOrMarca(data.modelOrMarca).stream()
                 .map(VehicleResponseDTO::new).toList();
 
         if (vehicle.isEmpty()) {

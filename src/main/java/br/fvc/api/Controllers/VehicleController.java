@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.fvc.api.Domain.Vehicle.GenericRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Services.VehicleService;
 
@@ -35,7 +36,7 @@ public class VehicleController {
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<Object> filter(@RequestBody() VehicleRequestDTO data){
+    public ResponseEntity<Object> filter(@RequestBody  GenericRequestDTO data){
         return vehicleService.filter(data);
     }
 
