@@ -2,6 +2,7 @@ package br.fvc.api.Models;
 
 import java.math.BigDecimal;
 
+import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,4 +51,21 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;
+
+    public Vehicle(VehicleRequestDTO data){
+        this.marca = data.marca;
+        this.ano =  data.ano;
+        this.placa = data.placa;
+        this.capacidade = data.capacidade;
+        this.cor = data.cor;
+        this.categoria = data.categoria;
+        this.modelo = data.modelo;
+        this.valor_diaria = data.valor_diaria;
+        this.url_imagem = data.url_imagem;
+        this.agencia = data.agencia;
+    }
+
+    public Vehicle(){
+
+    }
 }
