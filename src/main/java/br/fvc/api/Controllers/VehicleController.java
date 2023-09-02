@@ -7,13 +7,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
-import br.fvc.api.Models.Vehicle;
-import br.fvc.api.Repositories.VehicleRepository;
 import br.fvc.api.Services.VehicleService;
 
 @CrossOrigin
@@ -39,6 +38,11 @@ public class VehicleController {
     public ResponseEntity<Object> filter(@RequestBody() VehicleRequestDTO data){
         return vehicleService.filter(data);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody VehicleRequestDTO data){
+        return vehicleService.update(id, data);
+    }    
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id){

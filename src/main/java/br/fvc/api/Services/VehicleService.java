@@ -2,7 +2,6 @@ package br.fvc.api.Services;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,6 +41,44 @@ public class VehicleService {
         }
     }
 
+    public ResponseEntity<Object> filter(VehicleRequestDTO data) {
+        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModelo(data.modelo).stream()
+                .map(VehicleResponseDTO::new).toList();
+
+        if (vehicle.isEmpty()) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Veiculo não encontrado!"));
+        }
+
+        return ResponseEntity.status(200).body(vehicle);
+    }
+
+    public ResponseEntity<Object> update(Long id, VehicleRequestDTO data) {
+        try {
+            Vehicle vehicle = vehicleRepository.findById(id).get();
+
+            if (!data.placa.equals(vehicle.getPlaca()) && vehicleRepository.existsByPlaca(data.placa)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa já existe"));
+            }
+
+            vehicle.setAno(data.ano);
+            vehicle.setCapacidade(data.capacidade);
+            vehicle.setCategoria(data.categoria);
+            vehicle.setCor(data.cor);
+            vehicle.setMarca(data.marca);
+            vehicle.setModelo(data.modelo);
+            vehicle.setPlaca(data.placa);
+            vehicle.setValor_diaria(data.valor_diaria);
+            vehicle.setUrl_imagem(data.url_imagem);
+            vehicle.setAgencia(data.agencia);
+
+            vehicleRepository.save(vehicle);
+
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Veiculo atualizado!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }    
+
     public ResponseEntity<Object> delete(Long id) {
         try {
             vehicleRepository.deleteById(id);
@@ -50,17 +87,6 @@ public class VehicleService {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
-    }
-
-    public ResponseEntity<Object> filter(VehicleRequestDTO data) {
-        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModelo(data.modelo).stream()
-            .map(VehicleResponseDTO::new).toList();
-
-            if(vehicle.isEmpty()){
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Veiculo não encontrado!"));
-            }
-
-            return ResponseEntity.status(200).body(vehicle);
     }
 
 }
