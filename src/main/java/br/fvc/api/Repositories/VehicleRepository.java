@@ -6,6 +6,8 @@ import br.fvc.api.Models.Vehicle;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
+    boolean existsByPlaca(String placa);
+
 
     
 }

@@ -2,6 +2,7 @@ package br.fvc.api.Services;
 
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,10 +27,9 @@ public class VehicleService {
 
     public ResponseEntity<Object> store(VehicleRequestDTO data) {
         try{
-            // if(vehicleRepository.existByPlaca(data.placa)){
-            //     return ResponseEntity.status(400)
-            //     .body(new GenericResponseDTO(true, "Placa já cadastrada!"));
-            // }
+            if(vehicleRepository.existsByPlaca(data.placa)){
+                return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Placa já cadastrada"));
+            }
 
             Vehicle vehicle = new Vehicle(data);
             
