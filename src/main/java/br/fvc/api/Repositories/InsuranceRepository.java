@@ -10,6 +10,9 @@ public interface InsuranceRepository extends JpaRepository<Insurance, Long> {
 
     boolean existsByTipo(String tipo);
 
+    @Query("SELECT DISTINCT i FROM seguro i ORDER BY i.id DESC")
+    List<Insurance> findAllInsuranceOrderByIdDesc();
+
     @Query("SELECT u FROM seguro u WHERE u.tipo LIKE %:tipo%")
     List<Insurance> findTipoCobertura(String tipo);
 }

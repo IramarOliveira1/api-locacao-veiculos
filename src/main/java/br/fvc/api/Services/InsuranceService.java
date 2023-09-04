@@ -1,6 +1,9 @@
 package br.fvc.api.Services;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,28 +21,45 @@ public class InsuranceService {
     private InsuranceRepository insuranceRepository;
 
     public List<Insurance> findAll() {
-        return insuranceRepository.findAll();
+        return insuranceRepository.findAllInsuranceOrderByIdDesc();
     }
 
     public ResponseEntity<Object> store(Insurance data) {
         try {
 
             if (insuranceRepository.existsByTipo(data.getTipo())) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro já existe!"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro j� existe!"));
             }
+
+            // String valorFormatado = NumberFormat.getCurrencyInstance().format(12005.11);
+            // System.out.println(valorFormatado);
+
+            String remove_1 = data.getPreco().replace(",", "");
+            String remove_2 = remove_1.replace(".", "");
+
+            StringBuilder stringBuilder = new StringBuilder(remove_2);
+            stringBuilder.insert(remove_2.length() - 2, '.');
 
             Insurance insurance = new Insurance();
 
-            insurance.setPreco(data.getPreco());
+            insurance.setPreco(stringBuilder.toString());
 
             insurance.setTipo(data.getTipo().toUpperCase());
 
             insuranceRepository.save(insurance);
 
             return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Seguro cadastrado com sucesso!"));
-        } catch (Exception e) {
+        } catch (
+
+        Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
+    }
+
+    public ResponseEntity<Object> index(Long id) {
+        Optional<Insurance> insurance = this.insuranceRepository.findById(id);
+
+        return ResponseEntity.status(200).body(insurance);
     }
 
     public ResponseEntity<Object> filter(Insurance data) {
@@ -47,7 +67,7 @@ public class InsuranceService {
 
         if (insurances.isEmpty()) {
             return ResponseEntity.status(404).body(new GenericResponseDTO(true,
-                    "Nenhum cliente encontrado!"));
+                    "Nenhum seguro encontrado!"));
         }
 
         return ResponseEntity.status(200).body(insurances);
@@ -58,7 +78,8 @@ public class InsuranceService {
 
             Insurance insurance = insuranceRepository.findById(id).get();
 
-            if (!data.getTipo().equals(insurance.getTipo()) && insuranceRepository.existsByTipo(data.getTipo())) {
+            if (!data.getTipo().equals(insurance.getTipo().toUpperCase())
+                    && insuranceRepository.existsByTipo(data.getTipo().toUpperCase())) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro já existe!"));
             }
 
@@ -66,7 +87,7 @@ public class InsuranceService {
             insurance.setTipo(data.getTipo().toUpperCase());
 
             insuranceRepository.save(insurance);
-            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Seguro atualizado com sucesso!"));
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Seguro atualizado com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
@@ -76,7 +97,7 @@ public class InsuranceService {
         try {
             insuranceRepository.deleteById(id);
 
-            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Seguro excluido com sucesso!"));
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Seguro excluido com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }

@@ -20,7 +20,7 @@ import br.fvc.api.Services.InsuranceService;
 @CrossOrigin
 @RestController
 
-@RequestMapping("/insurancies")
+@RequestMapping("/insurance")
 public class InsuranceController {
 
     @Autowired
@@ -29,6 +29,11 @@ public class InsuranceController {
     @GetMapping("/all")
     public List<Insurance> all() {
         return insuranceService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
+        return insuranceService.index(id);
     }
 
     @DeleteMapping("/{id}")
