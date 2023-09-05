@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.fvc.api.Domain.Vehicle.GenericRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
@@ -21,33 +23,33 @@ import br.fvc.api.Services.VehicleService;
 
 @RequestMapping("/vehicle")
 public class VehicleController {
-    
+
     @Autowired
     private VehicleService vehicleService;
 
     @GetMapping("/all")
-    public ResponseEntity<Object> all(){
+    public ResponseEntity<Object> all() {
         return vehicleService.findAll();
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody VehicleRequestDTO data){
-        return vehicleService.store(data);
+    public ResponseEntity<Object> register(@RequestPart("vehicle") String data,
+            @RequestPart("image") MultipartFile image) {
+        return vehicleService.store(data, image);
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<Object> filter(@RequestBody  GenericRequestDTO data){
+    public ResponseEntity<Object> filter(@RequestBody GenericRequestDTO data) {
         return vehicleService.filter(data);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody VehicleRequestDTO data){
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody VehicleRequestDTO data) {
         return vehicleService.update(id, data);
-    }    
+    }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         return vehicleService.delete(id);
     }
-    
 }
