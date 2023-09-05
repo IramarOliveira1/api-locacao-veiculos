@@ -1,7 +1,5 @@
 package br.fvc.api.Services;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +18,8 @@ public class InsuranceService {
     @Autowired
     private InsuranceRepository insuranceRepository;
 
-    public List<Insurance> findAll() {
-        return insuranceRepository.findAllInsuranceOrderByIdDesc();
+    public ResponseEntity<Object> findAll() {
+        return ResponseEntity.status(200).body(insuranceRepository.findAllInsuranceOrderByIdDesc());
     }
 
     public ResponseEntity<Object> store(Insurance data) {
@@ -31,18 +29,15 @@ public class InsuranceService {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro j· existe!"));
             }
 
-            // String valorFormatado = NumberFormat.getCurrencyInstance().format(12005.11);
-            // System.out.println(valorFormatado);
+            String removeComma = data.getPreco().replace(",", "");
+            String removePoint = removeComma.replace(".", "");
 
-            String remove_1 = data.getPreco().replace(",", "");
-            String remove_2 = remove_1.replace(".", "");
-
-            StringBuilder stringBuilder = new StringBuilder(remove_2);
-            stringBuilder.insert(remove_2.length() - 2, '.');
+            StringBuilder addPoint = new StringBuilder(removePoint);
+            addPoint.insert(removePoint.length() - 2, '.');
 
             Insurance insurance = new Insurance();
 
-            insurance.setPreco(stringBuilder.toString());
+            insurance.setPreco(addPoint.toString());
 
             insurance.setTipo(data.getTipo().toUpperCase());
 
@@ -83,7 +78,13 @@ public class InsuranceService {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro j√° existe!"));
             }
 
-            insurance.setPreco(data.getPreco());
+            String removeComma = data.getPreco().replace(",", "");
+            String removePoint = removeComma.replace(".", "");
+
+            StringBuilder addPoint = new StringBuilder(removePoint);
+            addPoint.insert(removePoint.length() - 2, '.');
+
+            insurance.setPreco(addPoint.toString());
             insurance.setTipo(data.getTipo().toUpperCase());
 
             insuranceRepository.save(insurance);

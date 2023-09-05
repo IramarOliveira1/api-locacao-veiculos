@@ -1,7 +1,5 @@
 package br.fvc.api.Controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +25,7 @@ public class InsuranceController {
     private InsuranceService insuranceService;
 
     @GetMapping("/all")
-    public List<Insurance> all() {
+    public ResponseEntity<Object> all() {
         return insuranceService.findAll();
     }
 
