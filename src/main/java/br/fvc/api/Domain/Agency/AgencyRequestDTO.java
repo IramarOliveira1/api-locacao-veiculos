@@ -6,6 +6,6 @@ public class AgencyRequestDTO {
     
     public String nome;
     public String telefone;
-    public String quantidade_total;
+    public int quantidade_total;
     public AddressDTO address;
 }

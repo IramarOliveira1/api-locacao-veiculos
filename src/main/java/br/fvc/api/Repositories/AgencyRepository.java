@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import br.fvc.api.Domain.Agency.AgencyRequestDTO;
-import br.fvc.api.Domain.Agency.AgencyResponseDTO;
 import br.fvc.api.Models.Agency;
 
-public interface AgencyRepository  extends JpaRepository<Agency, Long>{
+public interface AgencyRepository extends JpaRepository<Agency, Long> {
+
+    @Query("SELECT DISTINCT a FROM agencia a ORDER BY a.id DESC")
+    List<Agency> findAllAgencyOrderByIdDesc();
 
     boolean existsByNome(String nome);
 
@@ -17,5 +18,5 @@ public interface AgencyRepository  extends JpaRepository<Agency, Long>{
 
     @Query("SELECT a FROM agencia a WHERE a.nome LIKE %:nome%")
     List<Agency> findByNome(String nome);
-    
+
 }

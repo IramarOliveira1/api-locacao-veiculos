@@ -1,7 +1,5 @@
 package br.fvc.api.Controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.fvc.api.Domain.Agency.AgencyRequestDTO;
-import br.fvc.api.Models.Agency;
 import br.fvc.api.Services.AgencyService;
 
 @CrossOrigin
@@ -28,7 +25,7 @@ public class AgencyController {
     private AgencyService agencyService;
 
     @GetMapping("/all")
-    public List<Agency> findAll() {
+    public  ResponseEntity<Object> findAll() {
         return agencyService.findAll();
     }
 
@@ -43,12 +40,17 @@ public class AgencyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody Agency data) {
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody AgencyRequestDTO data) {
         return agencyService.update(id, data);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
+        return agencyService.index(id);
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         return agencyService.delete(id);
     }
 
