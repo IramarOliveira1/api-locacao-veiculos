@@ -1,7 +1,5 @@
 package br.fvc.api.Controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,15 +18,20 @@ import br.fvc.api.Services.InsuranceService;
 @CrossOrigin
 @RestController
 
-@RequestMapping("/insurancies")
+@RequestMapping("/insurance")
 public class InsuranceController {
 
     @Autowired
     private InsuranceService insuranceService;
 
     @GetMapping("/all")
-    public List<Insurance> all() {
+    public ResponseEntity<Object> all() {
         return insuranceService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
+        return insuranceService.index(id);
     }
 
     @DeleteMapping("/{id}")
