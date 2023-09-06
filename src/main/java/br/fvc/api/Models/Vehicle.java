@@ -61,7 +61,7 @@ public class Vehicle {
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;
 
-    public Vehicle(VehicleRequestDTO data) {
+    public Vehicle(VehicleRequestDTO data, String formatMoney, String url) {
         this.marca = data.marca;
         this.ano = data.ano;
         this.placa = data.placa;
@@ -70,8 +70,8 @@ public class Vehicle {
         this.categoria = data.categoria;
         this.quantidade = data.quantidade;
         this.modelo = data.modelo;
-        this.valor_diaria = data.valor_diaria;
-        this.url_imagem = data.url_imagem;
+        this.valor_diaria = formatMoney;
+        this.url_imagem = url;
         this.agencia = data.agencia;
     }
 }

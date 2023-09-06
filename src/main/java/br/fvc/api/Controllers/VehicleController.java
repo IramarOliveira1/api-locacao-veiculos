@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.fvc.api.Domain.Vehicle.GenericRequestDTO;
-import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Services.VehicleService;
 
 @CrossOrigin
@@ -44,8 +43,9 @@ public class VehicleController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody VehicleRequestDTO data) {
-        return vehicleService.update(id, data);
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestPart("vehicle") String data,
+            @RequestPart("image") MultipartFile image) {
+        return vehicleService.update(id, data, image);
     }
 
     @DeleteMapping("/{id}")
