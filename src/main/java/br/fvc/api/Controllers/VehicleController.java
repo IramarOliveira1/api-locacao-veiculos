@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.fvc.api.Domain.Vehicle.GenericRequestDTO;
+import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Services.VehicleService;
 
 @CrossOrigin
@@ -29,6 +29,11 @@ public class VehicleController {
     @GetMapping("/all")
     public ResponseEntity<Object> all() {
         return vehicleService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
+        return vehicleService.index(id);
     }
 
     @PostMapping("/register")

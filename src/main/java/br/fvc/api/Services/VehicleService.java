@@ -13,8 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.Vehicle.GenericRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleResponseDTO;
 import br.fvc.api.Models.Vehicle;
@@ -27,7 +27,13 @@ public class VehicleService {
     private VehicleRepository vehicleRepository;
 
     public ResponseEntity<Object> findAll() {
-        List<VehicleResponseDTO> vehicles = vehicleRepository.findAll().stream()
+        List<VehicleResponseDTO> vehicles = vehicleRepository.findAllVehicleOrderByIdDesc().stream()
+                .map(VehicleResponseDTO::new).toList();
+        return ResponseEntity.status(200).body(vehicles);
+    }
+
+    public ResponseEntity<Object> index(Long id) {
+        List<VehicleResponseDTO> vehicles = vehicleRepository.findById(id).stream()
                 .map(VehicleResponseDTO::new).toList();
         return ResponseEntity.status(200).body(vehicles);
     }
