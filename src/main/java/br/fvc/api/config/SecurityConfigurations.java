@@ -27,6 +27,10 @@ public class SecurityConfigurations {
     @Autowired
     SecurityFilter securityFilter;
 
+    String[] staticResources = {
+            "/public/**",
+    };
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -34,6 +38,7 @@ public class SecurityConfigurations {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(staticResources).permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/verify-code").permitAll()
@@ -42,6 +47,10 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/user/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/payment-types/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/payment-types/register").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/payment-types/filter").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/vehicle/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/vehicle/register").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/vehicle/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/payment-types/filter").hasRole("ADMIN")                        
                         .requestMatchers(HttpMethod.GET, "/agency/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/agency/register").hasRole("ADMIN")                                                                    
