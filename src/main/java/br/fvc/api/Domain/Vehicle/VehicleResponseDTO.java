@@ -25,6 +25,7 @@ public class VehicleResponseDTO {
         this.capacidade = vehicle.getCapacidade();
         this.cor = vehicle.getCor();
         this.categoria = vehicle.getCategoria();
+        this.valor_diaria = vehicle.getValor_diaria();
         this.modelo = vehicle.getModelo();
         this.quantidade = vehicle.getQuantidade();
         this.url_imagem = "http://localhost:8080/" + vehicle.getUrl_imagem();

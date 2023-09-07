@@ -53,5 +53,4 @@ public class InsuranceController {
     public ResponseEntity<Object> filter(@RequestBody() Insurance data) {
         return insuranceService.filter(data);
     }
-
 }

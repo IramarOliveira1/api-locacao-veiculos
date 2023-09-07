@@ -9,6 +9,9 @@ import br.fvc.api.Models.Vehicle;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
+    @Query("SELECT DISTINCT v FROM veiculo v JOIN FETCH v.agencia ORDER BY v.id DESC")
+    List<Vehicle> findAllVehicleOrderByIdDesc();
+
     boolean existsByPlaca(String placa);
 
     @Query("SELECT v FROM veiculo v WHERE v.modelo LIKE %:modeloOrMarca% or v.marca LIKE %:modeloOrMarca%")
