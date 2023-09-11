@@ -106,11 +106,11 @@ public class VehicleService {
 
             vehicle.setAno(vehicleDTO.ano);
             vehicle.setCapacidade(vehicleDTO.capacidade);
-            vehicle.setCategoria(vehicleDTO.categoria);
-            vehicle.setCor(vehicleDTO.cor);
-            vehicle.setMarca(vehicleDTO.marca);
-            vehicle.setModelo(vehicleDTO.modelo);
-            vehicle.setPlaca(vehicleDTO.placa);
+            vehicle.setCategoria(vehicleDTO.categoria.toUpperCase());
+            vehicle.setCor(vehicleDTO.cor.toUpperCase());
+            vehicle.setMarca(vehicleDTO.marca.toUpperCase());
+            vehicle.setModelo(vehicleDTO.modelo.toUpperCase());
+            vehicle.setPlaca(vehicleDTO.placa.toUpperCase());
             vehicle.setValor_diaria(addPoint.toString());
             vehicle.setUrl_imagem(url);
             vehicle.setAgencia(vehicleDTO.agencia);
@@ -170,7 +170,6 @@ public class VehicleService {
             String path = currentPath.getAbsolutePath();
 
             if (Files.exists(Paths.get(path + "\\src\\main\\resources\\static\\" + vehicle.getUrl_imagem()))) {
-
                 Files.delete(Paths.get(path + "\\src\\main\\resources\\static\\" + vehicle.getUrl_imagem()));
             }
 

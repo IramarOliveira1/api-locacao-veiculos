@@ -62,14 +62,14 @@ public class Vehicle {
     private Agency agencia;
 
     public Vehicle(VehicleRequestDTO data, String formatMoney, String url) {
-        this.marca = data.marca;
+        this.marca = data.marca.toUpperCase();
         this.ano = data.ano;
-        this.placa = data.placa;
+        this.placa = data.placa.toUpperCase();
         this.capacidade = data.capacidade;
-        this.cor = data.cor;
-        this.categoria = data.categoria;
+        this.cor = data.cor.toUpperCase();
+        this.categoria = data.categoria.toUpperCase();
         this.quantidade = data.quantidade;
-        this.modelo = data.modelo;
+        this.modelo = data.modelo.toUpperCase();
         this.valor_diaria = formatMoney;
         this.url_imagem = url;
         this.agencia = data.agencia;
