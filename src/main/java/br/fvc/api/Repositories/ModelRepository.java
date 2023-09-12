@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import br.fvc.api.Models.Model;
 
 public interface ModelRepository extends JpaRepository<Model, Long> {
+    boolean existsByNome(String name);
 
     @Query("SELECT DISTINCT m FROM modelo m ORDER BY m.id DESC")
     List<Model> findAllModelOrderByIdDesc();

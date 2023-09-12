@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
 import br.fvc.api.Domain.Model.ModelResponseDTO;
 import br.fvc.api.Models.Model;
@@ -29,20 +31,29 @@ public class ModelService {
 
     }
 
-    public ResponseEntity<Object> store(String name, MultipartFile image) {
+    public ResponseEntity<Object> store(String data, MultipartFile image) {
         try {
 
-            // String removeComma = name.valor_diaria.replace(",", "");
-            // String removePoint = removeComma.replace(".", "");
-
-            // StringBuilder addPoint = new StringBuilder(removePoint);
-            // addPoint.insert(removePoint.length() - 2, '.');
-
-            String url = this.uploadImage(image);
+            ObjectMapper mapper = new ObjectMapper();
 
             Model model = new Model();
 
-            model.setNome(name);
+            model = mapper.readValue(data, model.getClass());
+
+            if (modelRepository.existsByNome(model.getNome())) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Nome já cadastrado!"));
+            }
+
+            String removeComma = model.getValor_diaria().replace(",", "");
+            String removePoint = removeComma.replace(".", "");
+
+            StringBuilder addPoint = new StringBuilder(removePoint);
+            addPoint.insert(removePoint.length() - 2, '.');
+
+            String url = this.uploadImage(image);
+
+            model.setNome(model.getNome().toUpperCase());
+            model.setValor_diaria(addPoint.toString());
             model.setUrl_imagem(url);
 
             modelRepository.save(model);
@@ -75,16 +86,33 @@ public class ModelService {
         return ResponseEntity.status(200).body(models);
     }
 
-    public ResponseEntity<Object> update(Long id, String name, MultipartFile image) {
+    public ResponseEntity<Object> update(Long id, String data, MultipartFile image) {
         try {
 
             Model model = modelRepository.findById(id).get();
+
+            Model models = new Model();
+
+            ObjectMapper mapper = new ObjectMapper();
+
+            models = mapper.readValue(data, models.getClass());
+
+            if (!models.getNome().equals(model.getNome()) && modelRepository.existsByNome(models.getNome())) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Nome já cadastrado!"));
+            }
+            
+            String removeComma = models.getValor_diaria().replace(",", "");
+            String removePoint = removeComma.replace(".", "");
+
+            StringBuilder addPoint = new StringBuilder(removePoint);
+            addPoint.insert(removePoint.length() - 2, '.');
 
             this.deleteImage(id);
 
             String url = this.uploadImage(image);
 
-            model.setNome(name);
+            model.setNome(models.getNome());
+            model.setValor_diaria(addPoint.toString());
             model.setUrl_imagem(url);
 
             modelRepository.save(model);

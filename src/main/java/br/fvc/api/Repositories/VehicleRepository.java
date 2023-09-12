@@ -14,6 +14,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     boolean existsByPlaca(String placa);
 
-    @Query("SELECT v FROM veiculo v WHERE v.modelo LIKE %:modeloOrMarca% or v.marca LIKE %:modeloOrMarca%")
+    @Query("SELECT v FROM veiculo v JOIN FETCH v.modelo AS m WHERE m.nome LIKE %:modeloOrMarca% or v.marca LIKE %:modeloOrMarca%")
     List<Vehicle> findByModeloOrMarca(String modeloOrMarca);
 }

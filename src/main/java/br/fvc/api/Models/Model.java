@@ -25,7 +25,7 @@ public class Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "Varchar(50)")
+    @Column(nullable = false, unique = true, columnDefinition = "Varchar(50)")
     private String nome;
 
     @Column(nullable = false)

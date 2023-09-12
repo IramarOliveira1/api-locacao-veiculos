@@ -37,16 +37,16 @@ public class ModelController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestPart("name") String name,
+    public ResponseEntity<Object> register(@RequestPart("model") String data,
             @RequestPart("image") MultipartFile image) {
-        return modelService.store(name, image);
+        return modelService.store(data, image);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Object> update(@PathVariable("id") Long id,
-            @RequestPart("name") String name,
+            @RequestPart("model") String data,
             @RequestPart("image") MultipartFile image) {
-        return modelService.update(id, name, image);
+        return modelService.update(id, data, image);
     }
 
     @DeleteMapping("/{id}")
