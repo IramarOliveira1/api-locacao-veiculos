@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import br.fvc.api.Domain.Generic.GenericRequestDTO;
+import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Services.VehicleService;
 
 @CrossOrigin
@@ -37,9 +36,8 @@ public class VehicleController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestPart("vehicle") String data,
-            @RequestPart("image") MultipartFile image) {
-        return vehicleService.store(data, image);
+    public ResponseEntity<Object> register(@RequestBody VehicleRequestDTO data) {
+        return vehicleService.store(data);
     }
 
     @PostMapping("/filter")
@@ -48,9 +46,8 @@ public class VehicleController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestPart("vehicle") String data,
-            @RequestPart("image") MultipartFile image) {
-        return vehicleService.update(id, data, image);
+    public ResponseEntity<Object> update(@PathVariable("id") Long id, @RequestBody VehicleRequestDTO data) {
+        return vehicleService.update(id, data);
     }
 
     @DeleteMapping("/{id}")

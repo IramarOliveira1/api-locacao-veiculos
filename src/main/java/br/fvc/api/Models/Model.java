@@ -31,6 +31,9 @@ public class Model {
     @Column(nullable = false)
     private String url_imagem;
 
+    @Column(nullable = false, columnDefinition = "Decimal(10,2)")
+    private String valor_diaria;
+
     @Column(nullable = true)
     private int quantidade;
 }

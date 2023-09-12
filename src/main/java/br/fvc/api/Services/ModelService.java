@@ -32,6 +32,12 @@ public class ModelService {
     public ResponseEntity<Object> store(String name, MultipartFile image) {
         try {
 
+            // String removeComma = name.valor_diaria.replace(",", "");
+            // String removePoint = removeComma.replace(".", "");
+
+            // StringBuilder addPoint = new StringBuilder(removePoint);
+            // addPoint.insert(removePoint.length() - 2, '.');
+
             String url = this.uploadImage(image);
 
             Model model = new Model();

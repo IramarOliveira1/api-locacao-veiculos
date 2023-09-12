@@ -1,17 +1,10 @@
 package br.fvc.api.Services;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
@@ -38,27 +31,14 @@ public class VehicleService {
         return ResponseEntity.status(200).body(vehicles);
     }
 
-    public ResponseEntity<Object> store(String data, MultipartFile image) {
+    public ResponseEntity<Object> store(VehicleRequestDTO vehicleDTO) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-
-            VehicleRequestDTO vehicleDTO = null;
-
-            vehicleDTO = mapper.readValue(data, VehicleRequestDTO.class);
 
             if (vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa j� cadastrada"));
             }
 
-            String removeComma = vehicleDTO.valor_diaria.replace(",", "");
-            String removePoint = removeComma.replace(".", "");
-
-            StringBuilder addPoint = new StringBuilder(removePoint);
-            addPoint.insert(removePoint.length() - 2, '.');
-
-            String url = this.uploadImage(image);
-
-            Vehicle vehicle = new Vehicle(vehicleDTO, addPoint.toString(), url);
+            Vehicle vehicle = new Vehicle(vehicleDTO);
 
             vehicleRepository.save(vehicle);
 
@@ -80,39 +60,21 @@ public class VehicleService {
         return ResponseEntity.status(200).body(vehicle);
     }
 
-    public ResponseEntity<Object> update(Long id, String data, MultipartFile image) {
+    public ResponseEntity<Object> update(Long id, VehicleRequestDTO vehicleDTO) {
         try {
             Vehicle vehicle = vehicleRepository.findById(id).get();
-
-            ObjectMapper mapper = new ObjectMapper();
-
-            VehicleRequestDTO vehicleDTO = null;
-
-            vehicleDTO = mapper.readValue(data, VehicleRequestDTO.class);
 
             if (!vehicleDTO.placa.equals(vehicle.getPlaca()) && vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa já existe"));
             }
 
-            String removeComma = vehicleDTO.valor_diaria.replace(",", "");
-            String removePoint = removeComma.replace(".", "");
-
-            StringBuilder addPoint = new StringBuilder(removePoint);
-            addPoint.insert(removePoint.length() - 2, '.');
-
-            this.deleteImage(id);
-
-            String url = this.uploadImage(image);
-
             vehicle.setAno(vehicleDTO.ano);
             vehicle.setCapacidade(vehicleDTO.capacidade);
-            vehicle.setCategoria(vehicleDTO.categoria);
-            vehicle.setCor(vehicleDTO.cor);
-            vehicle.setMarca(vehicleDTO.marca);
-            // vehicle.setModelo(vehicleDTO.modelo);
-            vehicle.setPlaca(vehicleDTO.placa);
-            vehicle.setValor_diaria(addPoint.toString());
-            vehicle.setUrl_imagem(url);
+            vehicle.setCategoria(vehicleDTO.categoria.toUpperCase());
+            vehicle.setCor(vehicleDTO.cor.toUpperCase());
+            vehicle.setMarca(vehicleDTO.marca.toUpperCase());
+            vehicle.setModelo(vehicleDTO.modelo);
+            vehicle.setPlaca(vehicleDTO.placa.toUpperCase());
             vehicle.setAgencia(vehicleDTO.agencia);
 
             vehicleRepository.save(vehicle);
@@ -126,58 +88,10 @@ public class VehicleService {
     public ResponseEntity<Object> delete(Long id) {
         try {
 
-            this.deleteImage(id);
-
             vehicleRepository.deleteById(id);
             return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Veiculo excluido com sucesso"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
     }
-
-    public String uploadImage(MultipartFile image) {
-        try {
-            File currentPath = new File("");
-            String path = currentPath.getAbsolutePath();
-
-            if (!Files.exists(Paths.get(path +
-                    "\\src\\main\\resources\\static\\public\\image"))) {
-                Files.createDirectories(Paths.get(path +
-                        "\\src\\main\\resources\\static\\public\\image"));
-            }
-
-            Timestamp name_file = new Timestamp(System.currentTimeMillis());
-
-            String extension = com.google.common.io.Files.getFileExtension(image.getOriginalFilename());
-
-            Files.write(
-                    Paths.get(path + "\\src\\main\\resources\\static\\public\\image\\" +
-                            name_file.getTime() + "."
-                            + extension),
-                    image.getBytes());
-
-            return "public/image/" + name_file.getTime() + "." + extension;
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
-    public void deleteImage(Long id) {
-        try {
-            Vehicle vehicle = vehicleRepository.findById(id).get();
-
-            File currentPath = new File("");
-            String path = currentPath.getAbsolutePath();
-
-            if (Files.exists(Paths.get(path + "\\src\\main\\resources\\static\\" + vehicle.getUrl_imagem()))) {
-
-                Files.delete(Paths.get(path + "\\src\\main\\resources\\static\\" + vehicle.getUrl_imagem()));
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-    }
-
 }
