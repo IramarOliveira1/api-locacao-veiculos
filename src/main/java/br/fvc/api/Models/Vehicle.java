@@ -48,9 +48,6 @@ public class Vehicle {
     @Column(nullable = false)
     private String categoria;
 
-    @Column(nullable = false)
-    private String modelo;
-
     @Column(nullable = false, columnDefinition = "Decimal(10,2)")
     private String valor_diaria;
 
@@ -61,6 +58,10 @@ public class Vehicle {
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;
 
+    @ManyToOne
+    @JoinColumn(name = "id_modelo", nullable = false)
+    private Model modelo;
+
     public Vehicle(VehicleRequestDTO data, String formatMoney, String url) {
         this.marca = data.marca;
         this.ano = data.ano;
@@ -69,7 +70,7 @@ public class Vehicle {
         this.cor = data.cor;
         this.categoria = data.categoria;
         this.quantidade = data.quantidade;
-        this.modelo = data.modelo;
+        // this.modelo = data.modelo;
         this.valor_diaria = formatMoney;
         this.url_imagem = url;
         this.agencia = data.agencia;

@@ -47,7 +47,7 @@ public class VehicleService {
             vehicleDTO = mapper.readValue(data, VehicleRequestDTO.class);
 
             if (vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa jÃ cadastrada"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa jï¿½ cadastrada"));
             }
 
             String removeComma = vehicleDTO.valor_diaria.replace(",", "");
@@ -109,7 +109,7 @@ public class VehicleService {
             vehicle.setCategoria(vehicleDTO.categoria);
             vehicle.setCor(vehicleDTO.cor);
             vehicle.setMarca(vehicleDTO.marca);
-            vehicle.setModelo(vehicleDTO.modelo);
+            // vehicle.setModelo(vehicleDTO.modelo);
             vehicle.setPlaca(vehicleDTO.placa);
             vehicle.setValor_diaria(addPoint.toString());
             vehicle.setUrl_imagem(url);
