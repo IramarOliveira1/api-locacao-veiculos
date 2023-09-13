@@ -40,38 +40,27 @@ public class Vehicle {
     private int capacidade;
 
     @Column(nullable = false)
-    private int quantidade;
-
-    @Column(nullable = false)
     private String cor;
 
     @Column(nullable = false)
     private String categoria;
 
-    @Column(nullable = false)
-    private String modelo;
-
-    @Column(nullable = false, columnDefinition = "Decimal(10,2)")
-    private String valor_diaria;
-
-    @Column(nullable = false)
-    private String url_imagem;
-
     @ManyToOne
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;
 
-    public Vehicle(VehicleRequestDTO data, String formatMoney, String url) {
+    @ManyToOne
+    @JoinColumn(name = "id_modelo", nullable = false)
+    private Model modelo;
+
+    public Vehicle(VehicleRequestDTO data) {
         this.marca = data.marca.toUpperCase();
         this.ano = data.ano;
         this.placa = data.placa.toUpperCase();
         this.capacidade = data.capacidade;
         this.cor = data.cor.toUpperCase();
         this.categoria = data.categoria.toUpperCase();
-        this.quantidade = data.quantidade;
-        this.modelo = data.modelo.toUpperCase();
-        this.valor_diaria = formatMoney;
-        this.url_imagem = url;
         this.agencia = data.agencia;
+        this.modelo = data.modelo;
     }
 }
