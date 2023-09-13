@@ -1,23 +1,21 @@
 package br.fvc.api.Services;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleResponseDTO;
+import br.fvc.api.Models.Agency;
+import br.fvc.api.Models.Model;
 import br.fvc.api.Models.Vehicle;
+import br.fvc.api.Repositories.AgencyRepository;
+import br.fvc.api.Repositories.ModelRepository;
 import br.fvc.api.Repositories.VehicleRepository;
 
 @Service
@@ -26,10 +24,27 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
+    @Autowired
+    private ModelRepository modelRepository;
+
+    @Autowired
+    private AgencyRepository agencyRepository;
+
     public ResponseEntity<Object> findAll() {
+        HashMap<String, Object> objects = new HashMap<String, Object>();
+
+        List<Model> models = modelRepository.findAllModelOrderByIdDesc();
+
+        List<Agency> agencies = agencyRepository.findAllAgencyOrderByIdDesc();
+
         List<VehicleResponseDTO> vehicles = vehicleRepository.findAllVehicleOrderByIdDesc().stream()
                 .map(VehicleResponseDTO::new).toList();
-        return ResponseEntity.status(200).body(vehicles);
+
+        objects.put("veiculo", vehicles);
+        objects.put("modelo", models);
+        objects.put("agencia", agencies);
+
+        return ResponseEntity.status(200).body(objects);
     }
 
     public ResponseEntity<Object> index(Long id) {
@@ -38,29 +53,18 @@ public class VehicleService {
         return ResponseEntity.status(200).body(vehicles);
     }
 
-    public ResponseEntity<Object> store(String data, MultipartFile image) {
+    public ResponseEntity<Object> store(VehicleRequestDTO vehicleDTO) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-
-            VehicleRequestDTO vehicleDTO = null;
-
-            vehicleDTO = mapper.readValue(data, VehicleRequestDTO.class);
 
             if (vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa j√ cadastrada"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa jÔøΩ cadastrada"));
             }
 
-            String removeComma = vehicleDTO.valor_diaria.replace(",", "");
-            String removePoint = removeComma.replace(".", "");
-
-            StringBuilder addPoint = new StringBuilder(removePoint);
-            addPoint.insert(removePoint.length() - 2, '.');
-
-            String url = this.uploadImage(image);
-
-            Vehicle vehicle = new Vehicle(vehicleDTO, addPoint.toString(), url);
+            Vehicle vehicle = new Vehicle(vehicleDTO);
 
             vehicleRepository.save(vehicle);
+
+            this.changeAmount(vehicle.getModelo().getId(), "insert");
 
             return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Veiculo cadastrado com sucesso!"));
 
@@ -80,39 +84,28 @@ public class VehicleService {
         return ResponseEntity.status(200).body(vehicle);
     }
 
-    public ResponseEntity<Object> update(Long id, String data, MultipartFile image) {
+    public ResponseEntity<Object> update(Long id, VehicleRequestDTO vehicleDTO) {
         try {
+
             Vehicle vehicle = vehicleRepository.findById(id).get();
 
-            ObjectMapper mapper = new ObjectMapper();
-
-            VehicleRequestDTO vehicleDTO = null;
-
-            vehicleDTO = mapper.readValue(data, VehicleRequestDTO.class);
-
-            if (!vehicleDTO.placa.equals(vehicle.getPlaca()) && vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa j√° existe"));
+            if (!vehicleDTO.placa.equals(vehicle.getPlaca()) &&
+                    vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa j√ existe"));
             }
 
-            String removeComma = vehicleDTO.valor_diaria.replace(",", "");
-            String removePoint = removeComma.replace(".", "");
-
-            StringBuilder addPoint = new StringBuilder(removePoint);
-            addPoint.insert(removePoint.length() - 2, '.');
-
-            this.deleteImage(id);
-
-            String url = this.uploadImage(image);
+            if (vehicleDTO.modelo.getId() != vehicle.getModelo().getId()) {
+                this.changeAmount(vehicle.getModelo().getId(), "delete");
+                this.changeAmount(vehicleDTO.modelo.getId(), "insert");
+            }
 
             vehicle.setAno(vehicleDTO.ano);
             vehicle.setCapacidade(vehicleDTO.capacidade);
-            vehicle.setCategoria(vehicleDTO.categoria);
-            vehicle.setCor(vehicleDTO.cor);
-            vehicle.setMarca(vehicleDTO.marca);
+            vehicle.setCategoria(vehicleDTO.categoria.toUpperCase());
+            vehicle.setCor(vehicleDTO.cor.toUpperCase());
+            vehicle.setMarca(vehicleDTO.marca.toUpperCase());
             vehicle.setModelo(vehicleDTO.modelo);
-            vehicle.setPlaca(vehicleDTO.placa);
-            vehicle.setValor_diaria(addPoint.toString());
-            vehicle.setUrl_imagem(url);
+            vehicle.setPlaca(vehicleDTO.placa.toUpperCase());
             vehicle.setAgencia(vehicleDTO.agencia);
 
             vehicleRepository.save(vehicle);
@@ -126,7 +119,9 @@ public class VehicleService {
     public ResponseEntity<Object> delete(Long id) {
         try {
 
-            this.deleteImage(id);
+            Vehicle vehicle = vehicleRepository.findById(id).get();
+
+            this.changeAmount(vehicle.getModelo().getId(), "delete");
 
             vehicleRepository.deleteById(id);
             return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Veiculo excluido com sucesso"));
@@ -135,49 +130,12 @@ public class VehicleService {
         }
     }
 
-    public String uploadImage(MultipartFile image) {
-        try {
-            File currentPath = new File("");
-            String path = currentPath.getAbsolutePath();
+    public void changeAmount(Long id, String insert) {
+        Model model = modelRepository.findById(id).get();
 
-            if (!Files.exists(Paths.get(path +
-                    "\\src\\main\\resources\\static\\public\\image"))) {
-                Files.createDirectories(Paths.get(path +
-                        "\\src\\main\\resources\\static\\public\\image"));
-            }
+        model.setQuantidade(insert.equals("insert") ? model.getQuantidade() + 1 : model.getQuantidade() - 1);
 
-            Timestamp name_file = new Timestamp(System.currentTimeMillis());
-
-            String extension = com.google.common.io.Files.getFileExtension(image.getOriginalFilename());
-
-            Files.write(
-                    Paths.get(path + "\\src\\main\\resources\\static\\public\\image\\" +
-                            name_file.getTime() + "."
-                            + extension),
-                    image.getBytes());
-
-            return "public/image/" + name_file.getTime() + "." + extension;
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-    }
-
-    public void deleteImage(Long id) {
-        try {
-            Vehicle vehicle = vehicleRepository.findById(id).get();
-
-            File currentPath = new File("");
-            String path = currentPath.getAbsolutePath();
-
-            if (Files.exists(Paths.get(path + "\\src\\main\\resources\\static\\" + vehicle.getUrl_imagem()))) {
-
-                Files.delete(Paths.get(path + "\\src\\main\\resources\\static\\" + vehicle.getUrl_imagem()));
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
+        modelRepository.save(model);
     }
 
 }

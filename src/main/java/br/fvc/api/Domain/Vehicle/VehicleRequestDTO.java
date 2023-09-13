@@ -1,6 +1,7 @@
 package br.fvc.api.Domain.Vehicle;
 
 import br.fvc.api.Models.Agency;
+import br.fvc.api.Models.Model;
 
 public class VehicleRequestDTO {
     public String marca;
@@ -9,9 +10,6 @@ public class VehicleRequestDTO {
     public int capacidade;
     public String cor;
     public String categoria;
-    public String modelo;
-    public int quantidade;
-    public String valor_diaria;
-    public String url_imagem;
     public Agency agencia;
+    public Model modelo;
 }

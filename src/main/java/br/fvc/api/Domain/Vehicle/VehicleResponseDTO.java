@@ -1,6 +1,7 @@
 package br.fvc.api.Domain.Vehicle;
 
 import br.fvc.api.Models.Agency;
+import br.fvc.api.Models.Model;
 import br.fvc.api.Models.Vehicle;
 
 public class VehicleResponseDTO {
@@ -11,11 +12,8 @@ public class VehicleResponseDTO {
     public int capacidade;
     public String cor;
     public String categoria;
-    public String modelo;
-    public String valor_diaria;
-    public String url_imagem;
-    public int quantidade;
     public Agency agencia;
+    public Model modelo;
 
     public VehicleResponseDTO(Vehicle vehicle) {
         this.id = vehicle.getId();
@@ -25,11 +23,7 @@ public class VehicleResponseDTO {
         this.capacidade = vehicle.getCapacidade();
         this.cor = vehicle.getCor();
         this.categoria = vehicle.getCategoria();
-        this.valor_diaria = vehicle.getValor_diaria();
-        this.modelo = vehicle.getModelo();
-        this.quantidade = vehicle.getQuantidade();
-        this.url_imagem = "http://localhost:8080/" + vehicle.getUrl_imagem();
         this.agencia = vehicle.getAgencia();
+        this.modelo = vehicle.getModelo();
     }
-
 }
