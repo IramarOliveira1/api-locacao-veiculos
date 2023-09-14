@@ -1,5 +1,7 @@
 package br.fvc.api.Services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -136,6 +138,25 @@ public class VehicleService {
         model.setQuantidade(insert.equals("insert") ? model.getQuantidade() + 1 : model.getQuantidade() - 1);
 
         modelRepository.save(model);
+    }
+
+    public ResponseEntity<Object> listVehicle(VehicleRequestDTO data) {
+        try {
+
+            // String sDate1 = "2023-09-15";
+
+            // Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
+
+            // Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-15");
+
+            List<Vehicle[]> vehicles = this.vehicleRepository.findByListVehicles(date1);
+
+            return ResponseEntity.status(200).body(vehicles);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
 }

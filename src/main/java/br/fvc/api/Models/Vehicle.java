@@ -1,5 +1,7 @@
 package br.fvc.api.Models;
 
+import java.util.List;
+
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,6 +55,9 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "id_modelo", nullable = false)
     private Model modelo;
+
+    @OneToMany(mappedBy = "veiculo")
+    private List<Reserve> reserve;
 
     public Vehicle(VehicleRequestDTO data) {
         this.marca = data.marca.toUpperCase();
