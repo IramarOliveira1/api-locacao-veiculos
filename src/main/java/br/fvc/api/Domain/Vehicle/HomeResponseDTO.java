@@ -7,9 +7,7 @@ public class HomeResponseDTO {
     public Long id;
     public String brand;
     public int year;
-    public String place;
     public int capacity;
-    public String category;
     public Long vehicle_available;
     public Model model;
 
@@ -18,9 +16,7 @@ public class HomeResponseDTO {
         this.id = vehicle.getId();
         this.brand = vehicle.getMarca();
         this.year = vehicle.getAno();
-        this.place = vehicle.getPlaca();
         this.capacity = vehicle.getCapacidade();
-        this.category = vehicle.getCategoria();
         this.vehicle_available = vehicle_available;
         this.model = vehicle.getModelo();
     }

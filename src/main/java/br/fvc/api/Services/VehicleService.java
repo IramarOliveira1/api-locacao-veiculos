@@ -104,7 +104,6 @@ public class VehicleService {
 
             vehicle.setAno(vehicleDTO.ano);
             vehicle.setCapacidade(vehicleDTO.capacidade);
-            vehicle.setCategoria(vehicleDTO.categoria.toUpperCase());
             vehicle.setCor(vehicleDTO.cor.toUpperCase());
             vehicle.setMarca(vehicleDTO.marca.toUpperCase());
             vehicle.setModelo(vehicleDTO.modelo);
@@ -141,7 +140,7 @@ public class VehicleService {
         modelRepository.save(model);
     }
 
-    public ResponseEntity<Object> listVehicle(VehicleRequestDTO data) {
+    public ResponseEntity<Object> home(VehicleRequestDTO data) {
         try {
 
             Date start = new SimpleDateFormat("yyyy-MM-dd").parse(data.startDate);

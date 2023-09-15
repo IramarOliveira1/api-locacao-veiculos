@@ -28,12 +28,15 @@ public class Model {
     @Column(nullable = false, unique = true, columnDefinition = "Varchar(50)")
     private String nome;
 
-    @Column(nullable = false)
-    private String url_imagem;
-
     @Column(nullable = false, columnDefinition = "Decimal(10,2)")
     private String valor_diaria;
 
     @Column(nullable = true)
     private int quantidade;
+
+    @Column(nullable = false, columnDefinition = "Varchar(50)")
+    private String categoria;
+
+    @Column(nullable = false)
+    private String url_imagem;
 }

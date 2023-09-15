@@ -32,6 +32,9 @@ public class Reserve {
     @Column(nullable = false)
     private Date data_entrega;
 
+    @Column(nullable = false)
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
     private User usuario;

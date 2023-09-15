@@ -56,7 +56,7 @@ public class VehicleController {
     }
 
     @PostMapping("/home")
-    public ResponseEntity<Object> listVehicle(@RequestBody VehicleRequestDTO data) {
-        return vehicleService.listVehicle(data);
+    public ResponseEntity<Object> home(@RequestBody VehicleRequestDTO data) {
+        return vehicleService.home(data);
     }
 }

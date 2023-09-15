@@ -45,9 +45,6 @@ public class Vehicle {
     @Column(nullable = false)
     private String cor;
 
-    @Column(nullable = false)
-    private String categoria;
-
     @ManyToOne
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;
@@ -61,12 +58,11 @@ public class Vehicle {
 
     public Vehicle(VehicleRequestDTO data) {
         this.marca = data.marca.toUpperCase();
-        // this.ano = data.ano;
-        // this.placa = data.placa.toUpperCase();
-        // this.capacidade = data.capacidade;
-        // this.cor = data.cor.toUpperCase();
-        // this.categoria = data.categoria.toUpperCase();
-        // this.agencia = data.agencia;
-        // this.modelo = data.modelo;
+        this.ano = data.ano;
+        this.placa = data.placa.toUpperCase();
+        this.capacidade = data.capacidade;
+        this.cor = data.cor.toUpperCase();
+        this.agencia = data.agencia;
+        this.modelo = data.modelo;
     }
 }
