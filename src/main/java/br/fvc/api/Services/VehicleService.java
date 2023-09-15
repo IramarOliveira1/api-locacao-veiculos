@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
+import br.fvc.api.Domain.Vehicle.HomeResponseDTO;
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleResponseDTO;
 import br.fvc.api.Models.Agency;
@@ -93,7 +94,7 @@ public class VehicleService {
 
             if (!vehicleDTO.placa.equals(vehicle.getPlaca()) &&
                     vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa jÃ existe"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa jï¿½ existe"));
             }
 
             if (vehicleDTO.modelo.getId() != vehicle.getModelo().getId()) {
@@ -143,15 +144,11 @@ public class VehicleService {
     public ResponseEntity<Object> listVehicle(VehicleRequestDTO data) {
         try {
 
-            // String sDate1 = "2023-09-15";
+            Date start = new SimpleDateFormat("yyyy-MM-dd").parse(data.startDate);
+            Date end = new SimpleDateFormat("yyyy-MM-dd").parse(data.endDate);
 
-            // Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(sDate1);
-
-            // Date date1=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse("2023-09-15");
-
-            List<Vehicle[]> vehicles = this.vehicleRepository.findByListVehicles(date1);
+            List<HomeResponseDTO> vehicles = this.vehicleRepository.findByListVehicles(start, end,
+                    data.agencia.getId());
 
             return ResponseEntity.status(200).body(vehicles);
         } catch (Exception e) {

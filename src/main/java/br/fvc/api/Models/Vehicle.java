@@ -1,6 +1,6 @@
 package br.fvc.api.Models;
 
-import java.util.List;
+import java.util.Set;
 
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import jakarta.persistence.Column;
@@ -57,16 +57,16 @@ public class Vehicle {
     private Model modelo;
 
     @OneToMany(mappedBy = "veiculo")
-    private List<Reserve> reserve;
+    private Set<Reserve> reserve;
 
     public Vehicle(VehicleRequestDTO data) {
         this.marca = data.marca.toUpperCase();
-        this.ano = data.ano;
-        this.placa = data.placa.toUpperCase();
-        this.capacidade = data.capacidade;
-        this.cor = data.cor.toUpperCase();
-        this.categoria = data.categoria.toUpperCase();
-        this.agencia = data.agencia;
-        this.modelo = data.modelo;
+        // this.ano = data.ano;
+        // this.placa = data.placa.toUpperCase();
+        // this.capacidade = data.capacidade;
+        // this.cor = data.cor.toUpperCase();
+        // this.categoria = data.categoria.toUpperCase();
+        // this.agencia = data.agencia;
+        // this.modelo = data.modelo;
     }
 }
