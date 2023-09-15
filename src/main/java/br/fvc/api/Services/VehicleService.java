@@ -149,6 +149,11 @@ public class VehicleService {
             List<HomeResponseDTO> vehicles = this.vehicleRepository.findByListVehicles(start, end,
                     data.agencia.getId());
 
+            if (vehicles.isEmpty()) {
+                return ResponseEntity.status(400)
+                        .body(new GenericResponseDTO(true, "Nenhum veiculo disponível nessa agência!"));
+            }
+
             return ResponseEntity.status(200).body(vehicles);
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
