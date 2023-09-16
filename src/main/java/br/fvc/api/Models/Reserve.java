@@ -1,6 +1,5 @@
 package br.fvc.api.Models;
 
-
 import java.sql.Date;
 
 import jakarta.persistence.Column;
@@ -33,13 +32,16 @@ public class Reserve {
     @Column(nullable = false)
     private Date data_entrega;
 
+    @Column(nullable = false)
+    private String status;
+
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false) 
+    @JoinColumn(name = "id_usuario", nullable = false)
     private User usuario;
 
     @ManyToOne
-    @JoinColumn(name = "id_veiculo", nullable = false) 
-    private Vehicle veiculo;    
+    @JoinColumn(name = "id_veiculo", nullable = false)
+    private Vehicle veiculo;
 
     @ManyToOne
     @JoinColumn(name = "id_seguro", nullable = false)

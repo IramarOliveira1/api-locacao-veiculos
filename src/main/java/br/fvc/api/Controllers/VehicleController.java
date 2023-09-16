@@ -54,4 +54,9 @@ public class VehicleController {
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
         return vehicleService.delete(id);
     }
+
+    @PostMapping("/home")
+    public ResponseEntity<Object> home(@RequestBody VehicleRequestDTO data) {
+        return vehicleService.home(data);
+    }
 }
