@@ -9,7 +9,8 @@ public class VehicleRequestDTO {
     public String placa;
     public int capacidade;
     public String cor;
-    public String categoria;
     public Agency agencia;
     public Model modelo;
+    public String startDate;
+    public String endDate;
 }

@@ -1,5 +1,7 @@
 package br.fvc.api.Services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
+import br.fvc.api.Domain.Vehicle.HomeResponseDTO;
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import br.fvc.api.Domain.Vehicle.VehicleResponseDTO;
 import br.fvc.api.Models.Agency;
@@ -91,7 +94,7 @@ public class VehicleService {
 
             if (!vehicleDTO.placa.equals(vehicle.getPlaca()) &&
                     vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa jÃ existe"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa jï¿½ existe"));
             }
 
             if (vehicleDTO.modelo.getId() != vehicle.getModelo().getId()) {
@@ -101,7 +104,6 @@ public class VehicleService {
 
             vehicle.setAno(vehicleDTO.ano);
             vehicle.setCapacidade(vehicleDTO.capacidade);
-            vehicle.setCategoria(vehicleDTO.categoria.toUpperCase());
             vehicle.setCor(vehicleDTO.cor.toUpperCase());
             vehicle.setMarca(vehicleDTO.marca.toUpperCase());
             vehicle.setModelo(vehicleDTO.modelo);
@@ -136,6 +138,26 @@ public class VehicleService {
         model.setQuantidade(insert.equals("insert") ? model.getQuantidade() + 1 : model.getQuantidade() - 1);
 
         modelRepository.save(model);
+    }
+
+    public ResponseEntity<Object> home(VehicleRequestDTO data) {
+        try {
+
+            Date start = new SimpleDateFormat("yyyy-MM-dd").parse(data.startDate);
+            Date end = new SimpleDateFormat("yyyy-MM-dd").parse(data.endDate);
+
+            List<HomeResponseDTO> vehicles = this.vehicleRepository.findByListVehicles(start, end,
+                    data.agencia.getId());
+
+            if (vehicles.isEmpty()) {
+                return ResponseEntity.status(400)
+                        .body(new GenericResponseDTO(true, "Nenhum veiculo disponível nessa agência!"));
+            }
+
+            return ResponseEntity.status(200).body(vehicles);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
 }

@@ -53,6 +53,7 @@ public class ModelService {
             String url = this.uploadImage(image);
 
             model.setNome(model.getNome().toUpperCase());
+            model.setCategoria(model.getCategoria().toUpperCase());
             model.setValor_diaria(addPoint.toString());
             model.setUrl_imagem(url);
 
@@ -100,7 +101,7 @@ public class ModelService {
             if (!models.getNome().equals(model.getNome()) && modelRepository.existsByNome(models.getNome())) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Nome já cadastrado!"));
             }
-            
+
             String removeComma = models.getValor_diaria().replace(",", "");
             String removePoint = removeComma.replace(".", "");
 
@@ -112,6 +113,7 @@ public class ModelService {
             String url = this.uploadImage(image);
 
             model.setNome(models.getNome());
+            model.setCategoria(models.getCategoria().toUpperCase());
             model.setValor_diaria(addPoint.toString());
             model.setUrl_imagem(url);
 
