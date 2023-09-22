@@ -1,7 +1,7 @@
 package br.fvc.api.Models;
 
-import java.math.BigDecimal;
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,23 +10,31 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Data
-@Entity
+@Entity(name = "pagamento")
 @Table(name = "pagamento")
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition="Decimal(10,2)")
-    private BigDecimal preco;
+    @Column(nullable = false, columnDefinition = "Decimal(10,2)")
+    private String preco;
 
     @Column(nullable = false)
-    private Date data_pagamento;
+    private LocalDate data_pagamento;
 
     @Column(nullable = false)
     private String status;
@@ -34,15 +42,10 @@ public class Payment {
     @Column(nullable = false)
     private String url_pdf;
 
-    @OneToOne
-    @JoinColumn(name = "id_reserva", nullable = false)
-    private Reserve reserve;
-
     @ManyToOne
     @JoinColumn(name = "id_tipo_pagamento", nullable = false)
-    PaymentType paymentType;
+    private PaymentType tipo_pagamento;
 
-    public Payment orElseThrow(Object object) {
-        return null;
-    }
+    @OneToMany(mappedBy = "pagamento")
+    private Set<Reserve> reserve;
 }

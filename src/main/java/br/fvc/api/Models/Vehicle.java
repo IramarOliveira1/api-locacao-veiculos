@@ -45,6 +45,9 @@ public class Vehicle {
     @Column(nullable = false)
     private String cor;
 
+    @Column(nullable = false)
+    private Boolean disponivel;
+
     @ManyToOne
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;

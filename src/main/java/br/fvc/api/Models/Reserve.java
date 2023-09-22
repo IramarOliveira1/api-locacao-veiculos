@@ -1,6 +1,7 @@
 package br.fvc.api.Models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,10 +11,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @Data
-@Entity
+@Entity(name = "reserva")
 @Table(name = "reserva")
 public class Reserve {
     @Id
@@ -21,16 +30,13 @@ public class Reserve {
     private Long id;
 
     @Column(nullable = false)
-    private Date data_reserva;
+    private LocalDate data_reserva;
 
     @Column(nullable = false)
     private Date data_inicio_aluguel;
 
     @Column(nullable = false)
     private Date data_fim_aluguel;
-
-    @Column(nullable = false)
-    private Date data_entrega;
 
     @Column(nullable = false)
     private String status;
@@ -45,5 +51,9 @@ public class Reserve {
 
     @ManyToOne
     @JoinColumn(name = "id_seguro", nullable = false)
-    private Insurance insurance;
+    private Insurance seguro;
+
+    @ManyToOne
+    @JoinColumn(name = "id_pagamento", nullable = false)
+    private Payment pagamento;
 }
