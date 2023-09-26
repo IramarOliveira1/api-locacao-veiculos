@@ -154,7 +154,7 @@ public class VehicleService {
                         .body(new GenericResponseDTO(true, "Nenhum veiculo disponível nessa agência!"));
             }
 
-            return ResponseEntity.status(200).body(vehicles);
+            return ResponseEntity.status(200).body("vehicles");
         } catch (Exception e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }

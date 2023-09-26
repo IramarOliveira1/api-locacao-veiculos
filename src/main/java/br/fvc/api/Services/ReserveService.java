@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import br.fvc.api.Domain.Generic.GenericResponseDTO;
 import br.fvc.api.Domain.Reserve.ReserveRequestDTO;
 import br.fvc.api.Domain.Reserve.ReserveResponseDTO;
+import br.fvc.api.Domain.Vehicle.HomeResponseDTO;
 import br.fvc.api.Models.Payment;
 import br.fvc.api.Models.Reserve;
 import br.fvc.api.Models.Vehicle;
@@ -30,11 +31,14 @@ public class ReserveService {
     private VehicleRepository vehicleRepository;
 
     public ResponseEntity<Object> index(Long id) {
+        try {
 
-        List<ReserveResponseDTO> reserves = reserveRepository.findByIdReserve(id).stream()
-                .map(ReserveResponseDTO::new).toList();
+            List<ReserveResponseDTO> reserves = reserveRepository.findByIdReserve(id);
 
-        return ResponseEntity.status(200).body(reserves);
+            return ResponseEntity.status(200).body(reserves);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     public ResponseEntity<Object> reserve(ReserveRequestDTO reserveRequestDTO) {

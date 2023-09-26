@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +46,9 @@ public class Address {
 
     @Column(nullable = false)
     private int numero;
+
+    @OneToOne(mappedBy = "address")
+    private Agency agencia;
 
     public Address(AddressDTO data) {
         this.cep = data.zipcode;

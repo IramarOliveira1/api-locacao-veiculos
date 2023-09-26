@@ -13,25 +13,28 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class ReserveResponseDTO {
-    public Date startDateRent;
-    public Date endDateRent;
-    public LocalDate dateRent;
-    public Insurance insurance;
-    public Payment payment;
-    public User user;
-    public Vehicle vehicle;
+    private Date startDateRent;
+    private Date endDateRent;
+    private LocalDate dateRent;
+    private Insurance insurance;
+    private Payment payment;
+    private String nome;
+    private String cpf;
+    private Vehicle vehicle;
 
-    public ReserveResponseDTO(Reserve reserve) {
-        this.startDateRent = reserve.getData_inicio_aluguel();
-        this.endDateRent = reserve.getData_fim_aluguel();
-        this.dateRent = reserve.getData_reserva();
-        // this.insurance = reserve.getSeguro();
+    public ReserveResponseDTO(Reserve reserve, User user) {
+        // System.out.println(reserve.getData_inicio_aluguel());
+        // this.startDateRent = reserve.getData_inicio_aluguel();
+        // this.endDateRent = reserve.getData_fim_aluguel();
+        // this.dateRent = reserve.getData_reserva();
+        // System.out.println(user.getNome());
+        this.nome = user.getNome();
+        this.cpf = user.getCpf();
         // this.payment = reserve.getPagamento();
         // this.user = reserve.getUsuario();
         // this.vehicle = reserve.getVeiculo();
