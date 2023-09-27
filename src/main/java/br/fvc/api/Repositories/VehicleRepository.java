@@ -19,6 +19,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     @Query("SELECT v FROM veiculo v JOIN FETCH v.modelo AS m WHERE m.nome LIKE %:modeloOrMarca% or v.marca LIKE %:modeloOrMarca%")
     List<Vehicle> findByModeloOrMarca(String modeloOrMarca);
 
-    @Query("SELECT NEW br.fvc.api.Domain.Vehicle.HomeResponseDTO(v, COUNT(v.placa) AS quantidade_total) FROM veiculo v INNER JOIN v.modelo AS m INNER JOIN v.agencia AS a LEFT JOIN v.reserve AS r ON r.data_inicio_aluguel <= :start AND r.data_fim_aluguel >= :end WHERE r.id IS NULL AND a.id = :id_agency GROUP BY m.nome ")
+    @Query("SELECT NEW br.fvc.api.Domain.Vehicle.HomeResponseDTO(v, COUNT(v.placa) AS quantidade_total) FROM veiculo v INNER JOIN v.modelo AS m INNER JOIN v.agencia AS a LEFT JOIN reserva AS r ON r.data_inicio_aluguel <= :start AND r.data_fim_aluguel >= :end WHERE r.id IS NULL AND a.id = :id_agency AND v.disponivel > FALSE GROUP BY m.nome")
     List<HomeResponseDTO> findByListVehicles(Date start, Date end, Long id_agency);
 }

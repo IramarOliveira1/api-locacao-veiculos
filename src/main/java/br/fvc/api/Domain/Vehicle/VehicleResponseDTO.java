@@ -11,8 +11,8 @@ public class VehicleResponseDTO {
     public String placa;
     public int capacidade;
     public String cor;
-    // public Agency agencia;
-    // public Model modelo;
+    public Agency agencia;
+    public Model modelo;
 
     public VehicleResponseDTO(Vehicle vehicle) {
         this.id = vehicle.getId();
@@ -21,7 +21,7 @@ public class VehicleResponseDTO {
         this.placa = vehicle.getPlaca();
         this.capacidade = vehicle.getCapacidade();
         this.cor = vehicle.getCor();
-        // this.agencia = vehicle.getAgencia();
-        // this.modelo = vehicle.getModelo();
+        this.agencia = vehicle.getAgencia();
+        this.modelo = vehicle.getModelo();
     }
 }

@@ -38,8 +38,11 @@ public class Reserve {
     @Column(nullable = false)
     private Date data_fim_aluguel;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "Varchar(80)")
     private String status;
+
+    @Column(nullable = false)
+    private Long codigo_reserva;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -56,4 +59,12 @@ public class Reserve {
     @ManyToOne
     @JoinColumn(name = "id_pagamento", nullable = false)
     private Payment pagamento;
+
+    @ManyToOne
+    @JoinColumn(name = "id_agencia_retirada", nullable = false)
+    private Agency agenciaRetirada;
+
+    @ManyToOne
+    @JoinColumn(name = "id_agencia_devolucao", nullable = false)
+    private Agency agenciaDevolucao;
 }

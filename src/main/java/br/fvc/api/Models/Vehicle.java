@@ -48,11 +48,14 @@ public class Vehicle {
     @Column(nullable = false)
     private Boolean disponivel;
 
-    @ManyToOne
+    @Column(nullable = false, columnDefinition = "Varchar(80)")
+    private String status;
+
+    @ManyToOne()
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "id_modelo", nullable = false)
     private Model modelo;
 
@@ -65,6 +68,7 @@ public class Vehicle {
         this.placa = data.placa.toUpperCase();
         this.capacidade = data.capacidade;
         this.cor = data.cor.toUpperCase();
+        this.status = "DISPONÍVEL";
         this.agencia = data.agencia;
         this.modelo = data.modelo;
     }
