@@ -98,13 +98,6 @@ public class ReserveService {
 
             reserveRepository.save(reserve);
 
-            Vehicle vehicle = vehicleRepository.findById(reserveRequestDTO.vehicle.getId()).get();
-
-            vehicle.setDisponivel(false);
-            vehicle.setStatus("ALUGADO");
-
-            vehicleRepository.save(vehicle);
-
             String startAgency = null;
             String endAgency = null;
 
@@ -121,7 +114,7 @@ public class ReserveService {
                 }
             }
 
-            String text = "Olá " + user.getNome() + "\n código para consultar sua reserva - "
+            String message = "Olá " + user.getNome() + "\n código para consultar sua reserva - "
                     + code + "\n"
                     + " veículo vai estar disponivel na data ( "
                     + convertDatePTBR.format(convertStartDateSql) + " )\n"
@@ -129,12 +122,42 @@ public class ReserveService {
                     + convertDatePTBR.format(convertEndDateSql) + " )\n"
                     + " local para retirada do veículo [" + startAgency + "]\n"
                     + " local para devoluçãoo do veiculo [" + endAgency + "]\n";
-            System.out.println(text);
 
-            sendMailService.sendMail(user.getEmail(), "Reserva concluida com sucesso!",
-                    text);
+            sendMailService.sendMail(user.getEmail(), "Reserva concluida!",
+                    message);
 
-            return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Reserva feita com sucesso!"));
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Reserva feita com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> cancellation(Long id) {
+        try {
+            Reserve reserve = reserveRepository.findByCodeReserve(id);
+
+            reserve.setStatus("CANCELADO");
+
+            reserveRepository.save(reserve);
+
+            String message = "Ol� " + reserve.getUsuario().getNome() + "\n"
+                    + "Passando para avisar que sua reserva do codigo:  " + reserve.getCodigo_reserva() + "\n"
+                    + "foi cancelada com sucesso! ";
+
+            sendMailService.sendMail(reserve.getUsuario().getEmail(), "Reserva cancelada!",
+                    message);
+
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Reserva cancelada com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+     public ResponseEntity<Object> startRent(Long id) {
+        try {
+           
+
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Reserva cancelada com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
