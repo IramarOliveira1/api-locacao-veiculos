@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -60,90 +59,80 @@ public class ReserveService {
     public ResponseEntity<Object> reserve(ReserveRequestDTO reserveRequestDTO) {
         try {
 
-            // System.out.println(date);
-            // String start = new
-            // SimpleDateFormat("dd-MM-yyyy").format(reserveRequestDTO.endDateRent);
-            // Date end = new
-            // SimpleDateFormat("dd-MM-yyyy").parse(reserveRequestDTO.endDateRent.toString());
+            SimpleDateFormat convertDate = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDateConvert = convertDate.parse(reserveRequestDTO.startDateRent);
+            Date endDateConvert = convertDate.parse(reserveRequestDTO.endDateRent);
+            java.sql.Date convertStartDateSql = new java.sql.Date(startDateConvert.getTime());
+            java.sql.Date convertEndDateSql = new java.sql.Date(endDateConvert.getTime());
 
-            // System.out.println(start);
-            // System.out.println(reserveRequestDTO.endDateRent);
-            // System.out.println(end);
+            SimpleDateFormat convertDatePTBR = new SimpleDateFormat("dd-MM-yyyy");
 
-            // User user = userRepository.findUserId(reserveRequestDTO.user.getId());
+            User user = userRepository.findUserId(reserveRequestDTO.user.getId());
 
-            // List<Agency> agency =
-            // agencyRepository.whereIn(reserveRequestDTO.startAgency.getId(),
-            // reserveRequestDTO.endAgency.getId());
+            List<Agency> agency = agencyRepository.whereIn(reserveRequestDTO.startAgency.getId(),
+                    reserveRequestDTO.endAgency.getId());
 
-            // Payment payment = new Payment();
+            Payment payment = new Payment();
 
-            // payment.setData_pagamento(LocalDate.now());
-            // payment.setPreco(reserveRequestDTO.payment.getPreco());
-            // payment.setUrl_pdf("testando.pdf");
-            // payment.setTipo_pagamento(reserveRequestDTO.payment.getTipo_pagamento());
-            // paymentRepository.save(payment);
+            payment.setData_pagamento(LocalDate.now());
+            payment.setPreco(reserveRequestDTO.payment.getPreco());
+            payment.setUrl_pdf("testando.pdf");
+            payment.setTipo_pagamento(reserveRequestDTO.payment.getTipo_pagamento());
+            paymentRepository.save(payment);
 
-            // Reserve reserve = new Reserve();
+            Reserve reserve = new Reserve();
 
-            // Long code = new Date().getTime();
+            Long code = new Date().getTime();
 
-            // reserve.setData_inicio_aluguel(reserveRequestDTO.startDateRent);
-            // reserve.setData_fim_aluguel(reserveRequestDTO.endDateRent);
-            // reserve.setData_reserva(LocalDate.now());
-            // reserve.setStatus("RESERVADO");
-            // reserve.setCodigo_reserva(code);
-            // reserve.setAgenciaRetirada(reserveRequestDTO.startAgency);
-            // reserve.setAgenciaDevolucao(reserveRequestDTO.endAgency);
-            // reserve.setSeguro(reserveRequestDTO.insurance);
-            // reserve.setPagamento(payment);
-            // reserve.setUsuario(reserveRequestDTO.user);
-            // reserve.setVeiculo(reserveRequestDTO.vehicle);
+            reserve.setData_inicio_aluguel(convertStartDateSql);
+            reserve.setData_fim_aluguel(convertEndDateSql);
+            reserve.setData_reserva(LocalDate.now());
+            reserve.setStatus("RESERVADO");
+            reserve.setCodigo_reserva(code);
+            reserve.setAgenciaRetirada(reserveRequestDTO.startAgency);
+            reserve.setAgenciaDevolucao(reserveRequestDTO.endAgency);
+            reserve.setSeguro(reserveRequestDTO.insurance);
+            reserve.setPagamento(payment);
+            reserve.setUsuario(reserveRequestDTO.user);
+            reserve.setVeiculo(reserveRequestDTO.vehicle);
 
-            // reserveRepository.save(reserve);
+            reserveRepository.save(reserve);
 
-            // Vehicle vehicle =
-            // vehicleRepository.findById(reserveRequestDTO.vehicle.getId()).get();
+            Vehicle vehicle = vehicleRepository.findById(reserveRequestDTO.vehicle.getId()).get();
 
-            // vehicle.setDisponivel(false);
-            // vehicle.setStatus("ALUGADO");
+            vehicle.setDisponivel(false);
+            vehicle.setStatus("ALUGADO");
 
-            // vehicleRepository.save(vehicle);
+            vehicleRepository.save(vehicle);
 
-            // String startAgency = null;
-            // String endAgency = null;
+            String startAgency = null;
+            String endAgency = null;
 
-            // for (int i = 0; i < agency.size(); i++) {
+            for (int i = 0; i < agency.size(); i++) {
 
-            // if (i > 0) {
-            // endAgency = agency.get(i).getAddress().getLogradouro() + " - "
-            // + agency.get(i).getAddress().getBairro();
-            // } else {
-            // startAgency = agency.get(i).getAddress().getLogradouro() + " - "
-            // + agency.get(i).getAddress().getBairro();
-            // endAgency = agency.get(i).getAddress().getLogradouro() + " - "
-            // + agency.get(i).getAddress().getBairro();
-            // }
-            // }
+                if (i > 0) {
+                    endAgency = agency.get(i).getAddress().getLogradouro() + " - "
+                            + agency.get(i).getAddress().getBairro();
+                } else {
+                    startAgency = agency.get(i).getAddress().getLogradouro() + " - "
+                            + agency.get(i).getAddress().getBairro();
+                    endAgency = agency.get(i).getAddress().getLogradouro() + " - "
+                            + agency.get(i).getAddress().getBairro();
+                }
+            }
 
-            // Date start = new
-            // SimpleDateFormat("dd-MM-yyyy").parse(reserveRequestDTO.startDateRent.toString());
-            // Date end = new
-            // SimpleDateFormat("dd-MM-yyyy").parse(reserveRequestDTO.endDateRent.toString());
+            String text = "OlÃ¡ " + user.getNome() + "\n cÃ³digo para consultar sua reserva - "
+                    + code + "\n"
+                    + " veÃ­culo vai estar disponivel na data ( "
+                    + convertDatePTBR.format(convertStartDateSql) + " )\n"
+                    + " data da devoluÃ§Ã£o do veiculo ( "
+                    + convertDatePTBR.format(convertEndDateSql) + " )\n"
+                    + " local para retirada do veÃ­culo [" + startAgency + "]\n"
+                    + " local para devoluÃ§Ã£oo do veiculo [" + endAgency + "]\n";
+            System.out.println(text);
 
-            // String text = "Olá " + user.getNome() + "\n código para consultar sua reserva
-            // "
-            // + code + "\n"
-            // + " veículo vai estar disponivel na data "
-            // + start + "\n"
-            // + " data da devolução do veiculo "
-            // + end + "\n"
-            // + " local para retirada do veículo " + startAgency + "\n"
-            // + " local para devolução do veículo " + endAgency + "\n";
-            // System.out.println(text);
-
-            // sendMailService.sendMail(user.getEmail(), "Reserva concluida com sucesso!",
-            // text);
+            sendMailService.sendMail(user.getEmail(), "Reserva concluida com sucesso!",
+                    text);
 
             return ResponseEntity.status(201).body(new GenericResponseDTO(false, "Reserva feita com sucesso!"));
         } catch (Exception e) {

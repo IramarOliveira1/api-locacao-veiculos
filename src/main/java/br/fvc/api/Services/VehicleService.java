@@ -143,15 +143,19 @@ public class VehicleService {
     public ResponseEntity<Object> home(VehicleRequestDTO data) {
         try {
 
-            Date start = new SimpleDateFormat("yyyy-MM-dd").parse(data.startDate);
-            Date end = new SimpleDateFormat("yyyy-MM-dd").parse(data.endDate);
+            SimpleDateFormat convertDate = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDateConvert = convertDate.parse(data.startDate);
+            Date endDateConvert = convertDate.parse(data.endDate);
+            java.sql.Date convertStartDateSql = new java.sql.Date(startDateConvert.getTime());
+            java.sql.Date convertEndDateSql = new java.sql.Date(endDateConvert.getTime());
 
-            List<HomeResponseDTO> vehicles = this.vehicleRepository.findByListVehicles(start, end,
+            List<HomeResponseDTO> vehicles = this.vehicleRepository.findByListVehicles(convertStartDateSql,
+                    convertEndDateSql,
                     data.agencia.getId());
 
             if (vehicles.isEmpty()) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Nenhum veiculo disponível nessa agência!"));
+                        .body(new GenericResponseDTO(true, "Nenhum veiculo disponÃ­vel nessa agÃªncia!"));
             }
 
             return ResponseEntity.status(200).body(vehicles);

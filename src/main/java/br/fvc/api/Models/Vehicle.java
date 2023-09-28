@@ -68,7 +68,7 @@ public class Vehicle {
         this.placa = data.placa.toUpperCase();
         this.capacidade = data.capacidade;
         this.cor = data.cor.toUpperCase();
-        this.status = "DISPONÍVEL";
+        this.status = "DISPONï¿½VEL";
         this.agencia = data.agencia;
         this.modelo = data.modelo;
     }
