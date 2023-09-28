@@ -59,9 +59,6 @@ public class Vehicle {
     @JoinColumn(name = "id_modelo", nullable = false)
     private Model modelo;
 
-    @OneToMany(mappedBy = "veiculo")
-    private Set<Reserve> reserve;
-
     public Vehicle(VehicleRequestDTO data) {
         this.marca = data.marca.toUpperCase();
         this.ano = data.ano;
