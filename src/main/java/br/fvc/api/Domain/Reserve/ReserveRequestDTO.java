@@ -15,4 +15,5 @@ public class ReserveRequestDTO {
     public Payment payment;
     public User user;
     public Vehicle vehicle;
+    public Long code;
 }

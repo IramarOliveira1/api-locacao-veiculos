@@ -41,4 +41,9 @@ public class ReserveController {
     public ResponseEntity<Object> startRent(@PathVariable("id") Long id) {
         return reserveService.startRent(id);
     }
+
+    @PostMapping("/endRent/{id}")
+    public ResponseEntity<Object> endRent(@PathVariable("id") Long id) {
+        return reserveService.endRent(id);
+    }
 }

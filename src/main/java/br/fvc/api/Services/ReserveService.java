@@ -16,12 +16,10 @@ import br.fvc.api.Models.Agency;
 import br.fvc.api.Models.Payment;
 import br.fvc.api.Models.Reserve;
 import br.fvc.api.Models.User;
-import br.fvc.api.Models.Vehicle;
 import br.fvc.api.Repositories.AgencyRepository;
 import br.fvc.api.Repositories.PaymentRepository;
 import br.fvc.api.Repositories.ReserveRepository;
 import br.fvc.api.Repositories.UserRepository;
-import br.fvc.api.Repositories.VehicleRepository;
 
 @Service
 public class ReserveService {
@@ -31,9 +29,6 @@ public class ReserveService {
 
     @Autowired
     private PaymentRepository paymentRepository;
-
-    @Autowired
-    private VehicleRepository vehicleRepository;
 
     @Autowired
     private SendMailService sendMailService;
@@ -153,11 +148,39 @@ public class ReserveService {
         }
     }
 
-     public ResponseEntity<Object> startRent(Long id) {
+    public ResponseEntity<Object> startRent(Long id) {
         try {
-           
 
-            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Reserva cancelada com sucesso!"));
+            Reserve reserve = reserveRepository.findByCodeReserve(id);
+
+            reserve.setStatus("EM ANDAMENTO");
+
+            reserve.getVeiculo().setStatus("ALUGADO");
+
+            reserve.getVeiculo().setDisponivel(false);
+
+            reserveRepository.save(reserve);
+
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Aluguel iniciado com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> endRent(Long id) {
+        try {
+
+            Reserve reserve = reserveRepository.findByCodeReserve(id);
+
+            reserve.setStatus("FINALIZADO");
+
+            reserve.getVeiculo().setStatus("DISPONÍVEL");
+
+            reserve.getVeiculo().setDisponivel(true);
+
+            reserveRepository.save(reserve);
+
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Aluguel finalizado com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
