@@ -65,6 +65,12 @@ public class VehicleService {
 
             Vehicle vehicle = new Vehicle(vehicleDTO);
 
+            Agency agency = agencyRepository.findById(vehicleDTO.agencia.getId()).get();
+
+            agency.setQuantidade_total(agency.getQuantidade_total() + 1);
+
+            agencyRepository.save(agency);
+
             vehicleRepository.save(vehicle);
 
             this.changeAmount(vehicle.getModelo().getId(), "insert");
