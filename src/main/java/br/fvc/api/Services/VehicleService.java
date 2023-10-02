@@ -77,7 +77,8 @@ public class VehicleService {
     }
 
     public ResponseEntity<Object> filter(GenericRequestDTO data) {
-        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModeloOrMarca(data.modelOrMarca).stream()
+        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModeloOrMarcaOrPlaca(data.modelOrMarcaOrPlaca)
+                .stream()
                 .map(VehicleResponseDTO::new).toList();
 
         if (vehicle.isEmpty()) {
@@ -151,7 +152,7 @@ public class VehicleService {
 
             if (vehicles.isEmpty()) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Nenhum veiculo disponível nessa agência!"));
+                        .body(new GenericResponseDTO(true, "Nenhum veiculo disponï¿½vel nessa agï¿½ncia!"));
             }
 
             return ResponseEntity.status(200).body(vehicles);
