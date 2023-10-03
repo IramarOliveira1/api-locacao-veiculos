@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM usuario u JOIN FETCH u.address WHERE (u.nome LIKE %:nameOrCpf% OR u.cpf LIKE %:nameOrCpf%) AND u.role = :role ")
     List<User> findNameOrCpf(String nameOrCpf, String role);
+
+    @Query("SELECT u FROM usuario u WHERE u.id = :id")
+    User findUserId(Long id);
 }

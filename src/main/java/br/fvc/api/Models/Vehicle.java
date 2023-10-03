@@ -1,7 +1,5 @@
 package br.fvc.api.Models;
 
-import java.util.Set;
-
 import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,16 +42,19 @@ public class Vehicle {
     @Column(nullable = false)
     private String cor;
 
-    @ManyToOne
+    @Column(nullable = false)
+    private Boolean disponivel;
+
+    @Column(nullable = false, columnDefinition = "Varchar(80)")
+    private String status;
+
+    @ManyToOne()
     @JoinColumn(name = "id_agencia", nullable = false)
     private Agency agencia;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "id_modelo", nullable = false)
     private Model modelo;
-
-    @OneToMany(mappedBy = "veiculo")
-    private Set<Reserve> reserve;
 
     public Vehicle(VehicleRequestDTO data) {
         this.marca = data.marca.toUpperCase();
@@ -62,6 +62,8 @@ public class Vehicle {
         this.placa = data.placa.toUpperCase();
         this.capacidade = data.capacidade;
         this.cor = data.cor.toUpperCase();
+        this.status = "DISPON�VEL";
+        this.disponivel = true;
         this.agencia = data.agencia;
         this.modelo = data.modelo;
     }
