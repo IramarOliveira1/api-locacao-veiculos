@@ -60,7 +60,7 @@ public class VehicleService {
         try {
 
             if (vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa j� cadastrada"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa já cadastrada"));
             }
 
             Vehicle vehicle = new Vehicle(vehicleDTO);
@@ -98,14 +98,23 @@ public class VehicleService {
 
             Vehicle vehicle = vehicleRepository.findById(id).get();
 
+            Agency agency = agencyRepository.findById(vehicleDTO.agencia.getId()).get();
+
             if (!vehicleDTO.placa.equals(vehicle.getPlaca()) &&
                     vehicleRepository.existsByPlaca(vehicleDTO.placa)) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa j� existe"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Placa já existe!"));
             }
 
             if (vehicleDTO.modelo.getId() != vehicle.getModelo().getId()) {
                 this.changeAmount(vehicle.getModelo().getId(), "delete");
                 this.changeAmount(vehicleDTO.modelo.getId(), "insert");
+            }
+
+            if (!vehicle.getAgencia().getId().equals(agency.getId())) {
+                vehicle.getAgencia().setQuantidade_total(vehicle.getAgencia().getQuantidade_total() - 1);
+                agency.setQuantidade_total(agency.getQuantidade_total() + 1);
+
+                agencyRepository.save(agency);
             }
 
             vehicle.setAno(vehicleDTO.ano);
@@ -161,7 +170,7 @@ public class VehicleService {
 
             if (vehicles.isEmpty()) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Nenhum veiculo disponível nessa agência!"));
+                        .body(new GenericResponseDTO(true, "Nenhum veículo disponível nessa agência!"));
             }
 
             return ResponseEntity.status(200).body(vehicles);
