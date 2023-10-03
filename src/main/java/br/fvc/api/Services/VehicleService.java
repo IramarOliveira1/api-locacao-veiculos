@@ -83,7 +83,8 @@ public class VehicleService {
     }
 
     public ResponseEntity<Object> filter(GenericRequestDTO data) {
-        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModeloOrMarca(data.modelOrMarca).stream()
+        List<VehicleResponseDTO> vehicle = this.vehicleRepository.findByModeloOrMarcaOrPlaca(data.modelOrMarcaOrPlaca)
+                .stream()
                 .map(VehicleResponseDTO::new).toList();
 
         if (vehicle.isEmpty()) {
