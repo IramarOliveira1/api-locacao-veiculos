@@ -19,4 +19,6 @@ public interface AgencyRepository extends JpaRepository<Agency, Long> {
     @Query("SELECT a FROM agencia a WHERE a.nome LIKE %:nome%")
     List<Agency> findByNome(String nome);
 
+    @Query("SELECT a FROM agencia a WHERE a.id IN (:idStartAgency, :idEndAgency)")
+    List<Agency> whereIn(Long idStartAgency, Long idEndAgency);
 }

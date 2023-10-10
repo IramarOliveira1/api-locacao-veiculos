@@ -16,7 +16,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,7 +42,7 @@ public class Agency {
     @JoinColumn(name = "id_endereco", nullable = false, referencedColumnName = "id")
     public Address address;
 
-    public Agency(AgencyRequestDTO data){
+    public Agency(AgencyRequestDTO data) {
         this.nome = data.nome;
         this.telefone = data.telefone;
         this.quantidade_total = data.quantidade_total;
