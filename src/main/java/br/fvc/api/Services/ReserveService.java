@@ -194,13 +194,4 @@ public class ReserveService {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
     }
-
-    public void changeAmount(Long id, String insert) {
-        Agency agency = agencyRepository.findById(id).get();
-
-        // model.setQuantidade(insert.equals("insert") ? model.getQuantidade() + 1 :
-        // model.getQuantidade() - 1);
-
-        agencyRepository.save(agency);
-    }
 }
