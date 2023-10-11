@@ -45,7 +45,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/user/send-mail").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/user/filter").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/payment-types/all").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/payment-types/all").permitAll()
                         .requestMatchers(HttpMethod.POST, "/payment-types/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/payment-types/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/vehicle/all").hasRole("ADMIN")
