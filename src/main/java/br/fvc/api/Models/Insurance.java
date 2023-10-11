@@ -25,7 +25,7 @@ public class Insurance {
     private Long id;
 
     @Column(nullable = false, unique = true, columnDefinition = "Varchar(50)")
-    private String tipo;
+    private String nome;
 
     @Column(nullable = false, columnDefinition = "Decimal(10,2)")
     private String preco;
