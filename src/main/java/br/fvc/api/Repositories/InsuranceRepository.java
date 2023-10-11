@@ -8,11 +8,11 @@ import br.fvc.api.Models.Insurance;
 
 public interface InsuranceRepository extends JpaRepository<Insurance, Long> {
 
-    boolean existsByTipo(String tipo);
+    boolean existsByNome(String nome);
 
     @Query("SELECT DISTINCT i FROM seguro i ORDER BY i.id DESC")
     List<Insurance> findAllInsuranceOrderByIdDesc();
 
-    @Query("SELECT u FROM seguro u WHERE u.tipo LIKE %:tipo%")
-    List<Insurance> findTipoCobertura(String tipo);
+    @Query("SELECT u FROM seguro u WHERE u.nome LIKE %:nome%")
+    List<Insurance> findTipoCobertura(String nome);
 }

@@ -25,7 +25,7 @@ public class InsuranceService {
     public ResponseEntity<Object> store(Insurance data) {
         try {
 
-            if (insuranceRepository.existsByTipo(data.getTipo())) {
+            if (insuranceRepository.existsByNome(data.getNome())) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro j� existe!"));
             }
 
@@ -39,7 +39,7 @@ public class InsuranceService {
 
             insurance.setPreco(addPoint.toString());
 
-            insurance.setTipo(data.getTipo().toUpperCase());
+            insurance.setNome(data.getNome().toUpperCase());
 
             insuranceRepository.save(insurance);
 
@@ -58,7 +58,7 @@ public class InsuranceService {
     }
 
     public ResponseEntity<Object> filter(Insurance data) {
-        List<Insurance> insurances = insuranceRepository.findTipoCobertura(data.getTipo());
+        List<Insurance> insurances = insuranceRepository.findTipoCobertura(data.getNome());
 
         if (insurances.isEmpty()) {
             return ResponseEntity.status(404).body(new GenericResponseDTO(true,
@@ -73,8 +73,8 @@ public class InsuranceService {
 
             Insurance insurance = insuranceRepository.findById(id).get();
 
-            if (!data.getTipo().equals(insurance.getTipo().toUpperCase())
-                    && insuranceRepository.existsByTipo(data.getTipo().toUpperCase())) {
+            if (!data.getNome().equals(insurance.getNome().toUpperCase())
+                    && insuranceRepository.existsByNome(data.getNome().toUpperCase())) {
                 return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro já existe!"));
             }
 
@@ -85,7 +85,7 @@ public class InsuranceService {
             addPoint.insert(removePoint.length() - 2, '.');
 
             insurance.setPreco(addPoint.toString());
-            insurance.setTipo(data.getTipo().toUpperCase());
+            insurance.setNome(data.getNome().toUpperCase());
 
             insuranceRepository.save(insurance);
             return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Seguro atualizado com sucesso!"));
