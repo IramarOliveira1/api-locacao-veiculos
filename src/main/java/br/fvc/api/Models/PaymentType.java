@@ -27,5 +27,5 @@ public class PaymentType {
     private Long id;
 
     @Column(nullable = false, unique = true, columnDefinition = "Varchar(80)")
-    private String tipo;
+    private String nome;
 }

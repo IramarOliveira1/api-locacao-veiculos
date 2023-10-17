@@ -32,7 +32,7 @@ public class PaymentTypeController {
 
     @PostMapping("/register")
     public ResponseEntity<Object> createPaymentType(@RequestBody PaymentType paymentType) {
-        return _paymentTypeService.createPaymentType(paymentType.getTipo());
+        return _paymentTypeService.createPaymentType(paymentType.getNome());
     }
 
     @PostMapping("/filter")

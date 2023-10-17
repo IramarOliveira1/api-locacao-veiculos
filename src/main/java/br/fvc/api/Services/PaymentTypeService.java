@@ -23,14 +23,14 @@ public class PaymentTypeService {
     public ResponseEntity<Object> createPaymentType(String tipo) {
         try {
 
-            if (paymentTypeRepository.existsByTipo(tipo)) {
+            if (paymentTypeRepository.existsByNome(tipo)) {
                 return ResponseEntity.status(400)
                         .body(new GenericResponseDTO(true, "Tipo de pagamento j� existe!"));
             }
 
             PaymentType newPaymentType = new PaymentType();
 
-            newPaymentType.setTipo(tipo.toUpperCase());
+            newPaymentType.setNome(tipo.toUpperCase());
 
             paymentTypeRepository.save(newPaymentType);
 
@@ -43,7 +43,7 @@ public class PaymentTypeService {
     }
 
     public ResponseEntity<Object> getPaymentTypeById(PaymentType request) {
-        List<PaymentType> paymentType = paymentTypeRepository.findTypePayment(request.getTipo());
+        List<PaymentType> paymentType = paymentTypeRepository.findTypePayment(request.getNome());
 
         if (paymentType.isEmpty()) {
             return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Tipo de pagamento não encontrado!"));
@@ -56,12 +56,12 @@ public class PaymentTypeService {
         try {
             PaymentType paymentType = paymentTypeRepository.findById(id).get();
 
-            if (!data.getTipo().equals(paymentType.getTipo()) && paymentTypeRepository.existsByTipo(data.getTipo())) {
+            if (!data.getNome().equals(paymentType.getNome()) && paymentTypeRepository.existsByNome(data.getNome())) {
                 return ResponseEntity.status(400)
                         .body(new GenericResponseDTO(true, "Tipo de pagamento j� existe!"));
             }
 
-            paymentType.setTipo(data.getTipo().toUpperCase());
+            paymentType.setNome(data.getNome().toUpperCase());
 
             paymentTypeRepository.save(paymentType);
 
