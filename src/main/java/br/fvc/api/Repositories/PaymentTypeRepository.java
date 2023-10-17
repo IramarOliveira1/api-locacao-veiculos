@@ -9,8 +9,8 @@ import br.fvc.api.Models.PaymentType;
 
 public interface PaymentTypeRepository extends JpaRepository<PaymentType, Long> {
 
-    Boolean existsByTipo(String tipo);
+    Boolean existsByNome(String nome);
 
-    @Query("SELECT tp FROM tipo_pagamento tp WHERE tp.tipo LIKE %:type% ")
-    List<PaymentType> findTypePayment(String type);
+    @Query("SELECT tp FROM tipo_pagamento tp WHERE tp.nome LIKE %:nome% ")
+    List<PaymentType> findTypePayment(String nome);
 }
