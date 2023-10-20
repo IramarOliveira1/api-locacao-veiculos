@@ -21,9 +21,11 @@ public class UserResponseDTO {
 
     @JsonInclude(Include.NON_NULL)
     public Address address;
-    
+
     @JsonInclude(Include.NON_NULL)
     public String token;
+
+    public Boolean isAuthenticated;
 
     public UserResponseDTO(User user) {
         this.id = user.getId();
@@ -33,12 +35,5 @@ public class UserResponseDTO {
         this.role = user.getRole();
         this.phone = user.getTelefone();
         this.address = user.getAddress();
-    }
-
-    public UserResponseDTO(User user, String token) {
-        this.id = user.getId();
-        this.name = user.getNome();
-        this.email = user.getEmail();
-        this.role = user.getRole();
     }
 }

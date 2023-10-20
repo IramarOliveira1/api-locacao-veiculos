@@ -93,10 +93,9 @@ public class UserService {
 
         String email = tokenService.validateToken(token);
 
-        List<UserResponseDTO> user = this.userRepository.findByMeEmail(email).stream()
-                .map(UserResponseDTO::new).toList();
+        User user = this.userRepository.findSendMail(email);
 
-        return ResponseEntity.status(200).body(user);
+        return ResponseEntity.status(200).body(new LoginResponseDTO(user, token));
     }
 
     public ResponseEntity<Object> filter(GenericRequestDTO data) {
