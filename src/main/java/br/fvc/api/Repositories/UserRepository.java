@@ -28,4 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM usuario u WHERE u.id = :id")
     User findUserId(Long id);
+
+    @Query("SELECT u FROM usuario u WHERE u.email = :email")
+    List<User> findByMeEmail(String email);
 }

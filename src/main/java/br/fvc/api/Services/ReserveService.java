@@ -135,7 +135,7 @@ public class ReserveService {
 
             reserveRepository.save(reserve);
 
-            String message = "Olá " + reserve.getUsuario().getNome() + "\n"
+            String message = "Olï¿½ " + reserve.getUsuario().getNome() + "\n"
                     + "Passando para avisar que sua reserva do codigo:  " + reserve.getCodigo_reserva() + "\n"
                     + "foi cancelada com sucesso! ";
 
@@ -183,7 +183,7 @@ public class ReserveService {
 
             reserve.setStatus("FINALIZADO");
 
-            reserve.getVeiculo().setStatus("DISPONÍVEL");
+            reserve.getVeiculo().setStatus("DISPONï¿½VEL");
 
             reserve.getVeiculo().setDisponivel(true);
 

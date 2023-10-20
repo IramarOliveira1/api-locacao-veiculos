@@ -15,6 +15,8 @@ import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.User.UserRequestDTO;
 import br.fvc.api.Services.ForgotPasswordService;
 import br.fvc.api.Services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
@@ -42,9 +44,9 @@ public class UserController {
         return userService.store(data);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
-        return userService.index(id);
+    @GetMapping("/me")
+    public ResponseEntity<Object> index(HttpServletRequest request) {
+        return userService.index(request);
     }
 
     @PostMapping("/filter")
