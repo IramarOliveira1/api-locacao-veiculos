@@ -86,7 +86,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> index(HttpServletRequest request) {
+    public ResponseEntity<Object> me(HttpServletRequest request) {
         var getHeader = request.getHeader("Authorization");
 
         var token = getHeader.replace("Bearer ", "");
@@ -96,6 +96,11 @@ public class UserService {
         User user = this.userRepository.findSendMail(email);
 
         return ResponseEntity.status(200).body(new LoginResponseDTO(user, token));
+    }
+
+    public ResponseEntity<Object> index(Long id) { 
+        List<UserResponseDTO> user = this.userRepository.findById(id).stream().map(UserResponseDTO::new).toList();
+        return ResponseEntity.status(200).body(user);
     }
 
     public ResponseEntity<Object> filter(GenericRequestDTO data) {

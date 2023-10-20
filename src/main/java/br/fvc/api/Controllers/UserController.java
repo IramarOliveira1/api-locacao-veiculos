@@ -45,8 +45,13 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Object> index(HttpServletRequest request) {
-        return userService.index(request);
+    public ResponseEntity<Object> me(HttpServletRequest request) {
+        return userService.me(request);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
+        return userService.index(id);
     }
 
     @PostMapping("/filter")
