@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Reserve.ReserveRequestDTO;
 import br.fvc.api.Services.ReserveService;
 
@@ -28,8 +30,9 @@ public class ReserveController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
-        return reserveService.index(id);
+    public ResponseEntity<Object> index(@RequestParam("page") int page, @RequestParam("size") int size,
+            @PathVariable("id") Long id) {
+        return reserveService.index(page, size, id);
     }
 
     @PostMapping("/cancellation/{id}")
@@ -46,4 +49,15 @@ public class ReserveController {
     public ResponseEntity<Object> endRent(@PathVariable("id") Long id) {
         return reserveService.endRent(id);
     }
+
+    @PostMapping("/filter/{id}")
+    public ResponseEntity<Object> filter(@RequestBody GenericRequestDTO data, @PathVariable("id") Long id) {
+        return reserveService.filter(data, id);
+    }
+
+    @PostMapping("/filterCode/{id}")
+    public ResponseEntity<Object> filterCode(@RequestBody ReserveRequestDTO data, @PathVariable("id") Long id) {
+        return reserveService.filterCode(data, id);
+    }
+
 }

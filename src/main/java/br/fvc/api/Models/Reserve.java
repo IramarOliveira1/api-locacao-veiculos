@@ -38,6 +38,9 @@ public class Reserve {
     @Column(nullable = false)
     private Date data_fim_aluguel;
 
+    @Column(nullable = true)
+    private Date data_entrega;
+
     @Column(nullable = false, columnDefinition = "Varchar(80)")
     private String status;
 
