@@ -24,6 +24,11 @@ public class ReserveController {
     @Autowired
     private ReserveService reserveService;
 
+    @GetMapping("/all")
+    public ResponseEntity<Object> all(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return reserveService.all(page, size);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<Object> reserve(@RequestBody ReserveRequestDTO data) {
         return reserveService.reserve(data);
@@ -51,13 +56,26 @@ public class ReserveController {
     }
 
     @PostMapping("/filter/{id}")
-    public ResponseEntity<Object> filter(@RequestBody GenericRequestDTO data, @PathVariable("id") Long id) {
-        return reserveService.filter(data, id);
+    public ResponseEntity<Object> filter(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody GenericRequestDTO data, @PathVariable("id") Long id) {
+        return reserveService.filter(page, size, data, id);
     }
 
     @PostMapping("/filterCode/{id}")
-    public ResponseEntity<Object> filterCode(@RequestBody ReserveRequestDTO data, @PathVariable("id") Long id) {
-        return reserveService.filterCode(data, id);
+    public ResponseEntity<Object> filterCode(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody ReserveRequestDTO data, @PathVariable("id") Long id) {
+        return reserveService.filterCode(page, size, data, id);
     }
 
+    @PostMapping("/filterStatusAll")
+    public ResponseEntity<Object> filterStatusAll(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody GenericRequestDTO data) {
+        return reserveService.filterStatusAll(page, size, data);
+    }
+
+    @PostMapping("/filterCodeAll")
+    public ResponseEntity<Object> filterCodeAll(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody ReserveRequestDTO data) {
+        return reserveService.filterCodeAll(page, size, data);
+    }
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +42,21 @@ public class ReserveService {
 
     @Autowired
     private AgencyRepository agencyRepository;
+
+    public ResponseEntity<Object> all(int page, int size) {
+        try {
+            Pageable paginate = PageRequest.of(page, size);
+
+            Page<Reserve> pageReserve = this.reserveRepository.findAllReserve(paginate);
+
+            List<ReserveResponseDTO> reserves = pageReserve.stream()
+                    .map(e -> new ReserveResponseDTO(e, pageReserve)).toList();
+
+            return ResponseEntity.status(200).body(reserves);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
+    }
 
     public ResponseEntity<Object> index(int page, int size, Long id) {
         try {
@@ -214,10 +228,15 @@ public class ReserveService {
         }
     }
 
-    public ResponseEntity<Object> filter(GenericRequestDTO data, Long id) {
+    public ResponseEntity<Object> filter(int page, int size, GenericRequestDTO data, Long id) {
         try {
-            List<ReserveResponseDTO> reserves = this.reserveRepository.findByStatus(data.status, id).stream()
-                    .map(ReserveResponseDTO::new).toList();
+
+            Pageable paginate = PageRequest.of(page, size);
+
+            Page<Reserve> pageReserve = this.reserveRepository.findByStatus(paginate, data.status, id);
+
+            List<ReserveResponseDTO> reserves = pageReserve.stream()
+                    .map(e -> new ReserveResponseDTO(e, pageReserve)).toList();
 
             return ResponseEntity.status(200).body(reserves);
         } catch (Exception e) {
@@ -225,11 +244,47 @@ public class ReserveService {
         }
     }
 
-    public ResponseEntity<Object> filterCode(ReserveRequestDTO data, Long id) {
+    public ResponseEntity<Object> filterCode(int page, int size, ReserveRequestDTO data, Long id) {
         try {
 
-            List<ReserveResponseDTO> reserves = this.reserveRepository.findByCodeReserve(data.code, id).stream()
-                    .map(ReserveResponseDTO::new).toList();
+            Pageable paginate = PageRequest.of(page, size);
+
+            Page<Reserve> pageReserve = this.reserveRepository.findByCodeReserve(paginate, data.code, id);
+
+            List<ReserveResponseDTO> reserves = pageReserve.stream()
+                    .map(e -> new ReserveResponseDTO(e, pageReserve)).toList();
+
+            return ResponseEntity.status(200).body(reserves);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> filterStatusAll(int page, int size, GenericRequestDTO data) {
+        try {
+
+            Pageable paginate = PageRequest.of(page, size);
+
+            Page<Reserve> pageReserve = this.reserveRepository.findByAllStatus(paginate, data.status);
+
+            List<ReserveResponseDTO> reserves = pageReserve.stream()
+                    .map(e -> new ReserveResponseDTO(e, pageReserve)).toList();
+
+            return ResponseEntity.status(200).body(reserves);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> filterCodeAll(int page, int size, ReserveRequestDTO data) {
+        try {
+
+            Pageable paginate = PageRequest.of(page, size);
+
+            Page<Reserve> pageReserve = this.reserveRepository.findByAllCodeReserve(paginate, data.code);
+
+            List<ReserveResponseDTO> reserves = pageReserve.stream()
+                    .map(e -> new ReserveResponseDTO(e, pageReserve)).toList();
 
             return ResponseEntity.status(200).body(reserves);
         } catch (Exception e) {
