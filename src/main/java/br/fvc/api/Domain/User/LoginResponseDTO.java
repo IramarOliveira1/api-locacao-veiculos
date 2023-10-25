@@ -9,7 +9,6 @@ public class LoginResponseDTO {
     public String email;
     public String role;
     public String token;
-    public Boolean isAuthenticated;
 
     public LoginResponseDTO(User user, String token) {
         this.id = user.getId();
@@ -17,7 +16,6 @@ public class LoginResponseDTO {
         this.name = user.getNome();
         this.role = user.getRole();
         this.token = token;
-        this.isAuthenticated = true;
     }
 
 }

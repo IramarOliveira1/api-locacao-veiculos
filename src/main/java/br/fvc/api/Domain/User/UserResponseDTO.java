@@ -25,8 +25,6 @@ public class UserResponseDTO {
     @JsonInclude(Include.NON_NULL)
     public String token;
 
-    public Boolean isAuthenticated;
-
     public UserResponseDTO(User user) {
         this.id = user.getId();
         this.name = user.getNome();
