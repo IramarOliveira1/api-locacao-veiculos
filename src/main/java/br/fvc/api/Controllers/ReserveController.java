@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.fvc.api.Domain.Generic.GenericRequestDTO;
 import br.fvc.api.Domain.Reserve.ReserveRequestDTO;
 import br.fvc.api.Services.ReserveService;
 
@@ -22,14 +24,20 @@ public class ReserveController {
     @Autowired
     private ReserveService reserveService;
 
+    @GetMapping("/all")
+    public ResponseEntity<Object> all(@RequestParam("page") int page, @RequestParam("size") int size) {
+        return reserveService.all(page, size);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<Object> reserve(@RequestBody ReserveRequestDTO data) {
         return reserveService.reserve(data);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> index(@PathVariable("id") Long id) {
-        return reserveService.index(id);
+    public ResponseEntity<Object> index(@RequestParam("page") int page, @RequestParam("size") int size,
+            @PathVariable("id") Long id) {
+        return reserveService.index(page, size, id);
     }
 
     @PostMapping("/cancellation/{id}")
@@ -45,5 +53,29 @@ public class ReserveController {
     @PostMapping("/endRent/{id}")
     public ResponseEntity<Object> endRent(@PathVariable("id") Long id) {
         return reserveService.endRent(id);
+    }
+
+    @PostMapping("/filter/{id}")
+    public ResponseEntity<Object> filter(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody GenericRequestDTO data, @PathVariable("id") Long id) {
+        return reserveService.filter(page, size, data, id);
+    }
+
+    @PostMapping("/filterCode/{id}")
+    public ResponseEntity<Object> filterCode(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody ReserveRequestDTO data, @PathVariable("id") Long id) {
+        return reserveService.filterCode(page, size, data, id);
+    }
+
+    @PostMapping("/filterStatusAll")
+    public ResponseEntity<Object> filterStatusAll(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody GenericRequestDTO data) {
+        return reserveService.filterStatusAll(page, size, data);
+    }
+
+    @PostMapping("/filterCodeAll")
+    public ResponseEntity<Object> filterCodeAll(@RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestBody ReserveRequestDTO data) {
+        return reserveService.filterCodeAll(page, size, data);
     }
 }

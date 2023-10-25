@@ -3,6 +3,9 @@ package br.fvc.api.Domain.Reserve;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import org.springframework.data.domain.Page;
+
+import br.fvc.api.Models.Agency;
 import br.fvc.api.Models.Insurance;
 import br.fvc.api.Models.Payment;
 import br.fvc.api.Models.Reserve;
@@ -21,8 +24,12 @@ public class ReserveResponseDTO {
     public Insurance insurance;
     public Payment payment;
     public Vehicle vehicle;
+    public Agency agencyRentInit;
+    public Agency agencyRendEnd;
+    public Date dateDevolution;
+    public Long totalElements;
 
-    public ReserveResponseDTO(Reserve reserve) {
+    public ReserveResponseDTO(Reserve reserve, Page<Reserve> page) {
         this.id = reserve.getId();
         this.name = reserve.getUsuario().getNome();
         this.cpf = reserve.getUsuario().getCpf();
@@ -35,5 +42,9 @@ public class ReserveResponseDTO {
         this.insurance = reserve.getSeguro();
         this.payment = reserve.getPagamento();
         this.vehicle = reserve.getVeiculo();
+        this.agencyRentInit = reserve.getAgenciaRetirada();
+        this.agencyRendEnd = reserve.getAgenciaDevolucao();
+        this.dateDevolution = reserve.getData_entrega();
+        this.totalElements = page.getTotalElements();
     }
 }

@@ -6,4 +6,5 @@ public class GenericRequestDTO {
     public String modelOrMarcaOrPlaca;
     public String start;
     public String end;
+    public String status;
 }

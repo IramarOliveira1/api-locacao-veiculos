@@ -18,6 +18,7 @@ import br.fvc.api.Models.Address;
 import br.fvc.api.Models.User;
 import br.fvc.api.Repositories.AddressRepository;
 import br.fvc.api.Repositories.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserService {
@@ -85,7 +86,19 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> index(Long id) {
+    public ResponseEntity<Object> me(HttpServletRequest request) {
+        var getHeader = request.getHeader("Authorization");
+
+        var token = getHeader.replace("Bearer ", "");
+
+        String email = tokenService.validateToken(token);
+
+        User user = this.userRepository.findSendMail(email);
+
+        return ResponseEntity.status(200).body(new LoginResponseDTO(user, token));
+    }
+
+    public ResponseEntity<Object> index(Long id) { 
         List<UserResponseDTO> user = this.userRepository.findById(id).stream().map(UserResponseDTO::new).toList();
         return ResponseEntity.status(200).body(user);
     }
@@ -106,7 +119,7 @@ public class UserService {
                 .map(UserResponseDTO::new).toList();
 
         if (user.isEmpty()) {
-            return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Nenhum Funcionário encontrado!"));
+            return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Nenhum Funcionï¿½rio encontrado!"));
         }
 
         return ResponseEntity.status(200).body(user);
