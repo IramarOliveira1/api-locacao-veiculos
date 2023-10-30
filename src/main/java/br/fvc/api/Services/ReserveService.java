@@ -2,6 +2,7 @@ package br.fvc.api.Services;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import br.fvc.api.Models.Agency;
 import br.fvc.api.Models.Payment;
 import br.fvc.api.Models.Reserve;
 import br.fvc.api.Models.User;
+import br.fvc.api.Models.Vehicle;
 import br.fvc.api.Repositories.AgencyRepository;
 import br.fvc.api.Repositories.PaymentRepository;
 import br.fvc.api.Repositories.ReserveRepository;
@@ -84,6 +86,33 @@ public class ReserveService {
 
             SimpleDateFormat convertDatePTBR = new SimpleDateFormat("dd-MM-yyyy");
 
+            List<Reserve> reserveExists = this.reserveRepository.findByVehicleDate(convertStartDateSql,
+                    convertEndDateSql,
+                    reserveRequestDTO.vehicle.getModelo().getId());
+
+            Reserve reserve = new Reserve();
+
+            reserve.setVeiculo(reserveRequestDTO.vehicle);
+
+            if (reserveExists.size() > 0) {
+                ArrayList<Long> values = new ArrayList<>();
+
+                for (int i = 0; i < reserveExists.size(); i++) {
+                    values.add(reserveExists.get(i).getVeiculo().getId());
+                }
+
+                List<Vehicle> vehicleExists = this.reserveRepository.findByModel(
+                        reserveExists.get(0).getVeiculo().getModelo().getId(), values);
+
+                if (vehicleExists.size() > 0) {
+                    reserve.setVeiculo(vehicleExists.get(0));
+                } else {
+                    return ResponseEntity.status(400).body(
+                            new GenericResponseDTO(false,
+                                    "Desculpe, mas o item selecionado já está alugado. Por favor, escolha outra opção! "));
+                }
+            }
+
             User user = userRepository.findUserId(reserveRequestDTO.user.getId());
 
             List<Agency> agency = agencyRepository.whereIn(reserveRequestDTO.startAgency.getId(),
@@ -97,8 +126,6 @@ public class ReserveService {
             payment.setTipo_pagamento(reserveRequestDTO.payment.getTipo_pagamento());
             paymentRepository.save(payment);
 
-            Reserve reserve = new Reserve();
-
             Long code = new Date().getTime();
 
             reserve.setData_inicio_aluguel(convertStartDateSql);
@@ -111,7 +138,6 @@ public class ReserveService {
             reserve.setSeguro(reserveRequestDTO.insurance);
             reserve.setPagamento(payment);
             reserve.setUsuario(reserveRequestDTO.user);
-            reserve.setVeiculo(reserveRequestDTO.vehicle);
 
             reserveRepository.save(reserve);
 
