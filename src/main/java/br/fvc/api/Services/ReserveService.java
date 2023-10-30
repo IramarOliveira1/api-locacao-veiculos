@@ -210,11 +210,13 @@ public class ReserveService {
 
             if (reserve.getData_fim_aluguel().toString().equals(currentDate.toString())) {
                 reserve.setStatus("FINALIZADO");
+            } else if (reserve.getData_fim_aluguel().getTime() > now) {
+                reserve.setStatus("ENTREGUE ANTES DO PRAZO");
             } else {
                 reserve.setStatus("ENTREGUE FORA DO PRAZO");
             }
 
-            reserve.getVeiculo().setStatus("DISPON�VEL");
+            reserve.getVeiculo().setStatus("DISPONÍVEL");
 
             reserve.setData_entrega(currentDate);
 
