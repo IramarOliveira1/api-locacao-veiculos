@@ -171,7 +171,7 @@ public class VehicleService {
 
             if (vehicles.isEmpty()) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Nenhum veículo disponível nessa agência!"));
+                        .body(new GenericResponseDTO(true, "Nenhum veículo disponível nessa data para essa agência!"));
             }
 
             return ResponseEntity.status(200).body(vehicles);

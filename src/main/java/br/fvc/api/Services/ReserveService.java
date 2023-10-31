@@ -88,7 +88,7 @@ public class ReserveService {
 
             List<Reserve> reserveExists = this.reserveRepository.findByVehicleDate(convertStartDateSql,
                     convertEndDateSql,
-                    reserveRequestDTO.vehicle.getModelo().getId());
+                    reserveRequestDTO.vehicle.getModelo().getId(), reserveRequestDTO.startAgency.getId());
 
             Reserve reserve = new Reserve();
 
@@ -102,7 +102,8 @@ public class ReserveService {
                 }
 
                 List<Vehicle> vehicleExists = this.reserveRepository.findByModel(
-                        reserveExists.get(0).getVeiculo().getModelo().getId(), values);
+                    reserveExists.get(0).getVeiculo().getModelo().getId(), values,
+                    reserveRequestDTO.startAgency.getId());
 
                 if (vehicleExists.size() > 0) {
                     reserve.setVeiculo(vehicleExists.get(0));
@@ -115,8 +116,9 @@ public class ReserveService {
 
             User user = userRepository.findUserId(reserveRequestDTO.user.getId());
 
-            List<Agency> agency = agencyRepository.whereIn(reserveRequestDTO.startAgency.getId(),
-                    reserveRequestDTO.endAgency.getId());
+            List<Agency> agency =
+            agencyRepository.whereIn(reserveRequestDTO.startAgency.getId(),
+            reserveRequestDTO.endAgency.getId());
 
             Payment payment = new Payment();
 
@@ -146,15 +148,15 @@ public class ReserveService {
 
             for (int i = 0; i < agency.size(); i++) {
 
-                if (i > 0) {
-                    endAgency = agency.get(i).getAddress().getLogradouro() + " - "
-                            + agency.get(i).getAddress().getBairro();
-                } else {
-                    startAgency = agency.get(i).getAddress().getLogradouro() + " - "
-                            + agency.get(i).getAddress().getBairro();
-                    endAgency = agency.get(i).getAddress().getLogradouro() + " - "
-                            + agency.get(i).getAddress().getBairro();
-                }
+            if (i > 0) {
+            endAgency = agency.get(i).getAddress().getLogradouro() + " - "
+            + agency.get(i).getAddress().getBairro();
+            } else {
+            startAgency = agency.get(i).getAddress().getLogradouro() + " - "
+            + agency.get(i).getAddress().getBairro();
+            endAgency = agency.get(i).getAddress().getLogradouro() + " - "
+            + agency.get(i).getAddress().getBairro();
+            }
             }
 
             String message = "Olá " + user.getNome() + "\n código para consultar sua reserva - "
@@ -167,7 +169,7 @@ public class ReserveService {
                     + " local para devoluçãoo do veiculo [" + endAgency + "]\n";
 
             sendMailService.sendMail(user.getEmail(), "Reserva concluida!",
-                    message);
+            message);
 
             return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Reserva feita com sucesso!"));
         } catch (Exception e) {

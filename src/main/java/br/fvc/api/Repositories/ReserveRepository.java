@@ -34,9 +34,9 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     @Query("SELECT reserve FROM reserva AS reserve INNER JOIN reserve.usuario AS user INNER JOIN reserve.veiculo AS vehicle INNER JOIN vehicle.modelo AS model INNER JOIN reserve.seguro AS insurance INNER JOIN reserve.pagamento AS payment INNER JOIN payment.tipo_pagamento AS typePayment WHERE reserve.codigo_reserva = :code ORDER BY reserve.id DESC")
     Page<Reserve> findByAllCodeReserve(Pageable page, Long code);
 
-    @Query("SELECT DISTINCT reserve FROM reserva AS reserve INNER JOIN reserve.veiculo AS vehicle INNER JOIN vehicle.modelo AS model WHERE model.id = :id_modelo AND reserve.data_inicio_aluguel BETWEEN :start AND :end AND reserve.data_fim_aluguel BETWEEN :start AND :end")
-    List<Reserve> findByVehicleDate(Date start, Date end, Long id_modelo);
+    @Query("SELECT DISTINCT reserve FROM reserva AS reserve INNER JOIN reserve.veiculo AS vehicle INNER JOIN vehicle.modelo AS model INNER JOIN vehicle.agencia AS agency WHERE model.id = :id_modelo AND agency.id = :id_agencia AND reserve.data_inicio_aluguel BETWEEN :start AND :end AND reserve.data_fim_aluguel BETWEEN :start AND :end")
+    List<Reserve> findByVehicleDate(Date start, Date end, Long id_modelo, Long id_agencia);
 
-    @Query("SELECT vehicle FROM veiculo AS vehicle INNER JOIN vehicle.modelo AS model WHERE vehicle.id NOT IN (:id_veiculo) AND model.id = :id_modelo")
-    List<Vehicle> findByModel(Long id_modelo, ArrayList<Long> id_veiculo);
+    @Query("SELECT vehicle FROM veiculo AS vehicle INNER JOIN vehicle.modelo AS model INNER JOIN vehicle.agencia AS agency WHERE vehicle.id NOT IN (:id_veiculo) AND model.id = :id_modelo AND agency.id = :id_agencia")
+    List<Vehicle> findByModel(Long id_modelo, ArrayList<Long> id_veiculo, Long id_agencia);
 }
