@@ -16,7 +16,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
                         "GROUP BY YEAR(p.data_pagamento), MONTH(p.data_pagamento)")
         List<DashboardResponseDTO> getSumTotalValuesMonth();
 
-        @Query("SELECT NEW br.fvc.api.Domain.Dashboard.DashboardResponseDTO(COUNT(v.id) AS quantidade_veiculo_alugado, MONTHNAME(r.data_reserva) AS mes, YEAR(r.data_reserva) AS ano) FROM reserva AS r INNER JOIN r.veiculo AS v INNER JOIN v.modelo AS m INNER JOIN r.usuario AS u WHERE  r.status IN  ('FINALIZADO', 'ENTREGUE ANTES DO PRAZO', 'ENTREGUE FORA DO PRAZO') AND u.id = :id AND YEAR(r.data_reserva) = YEAR(CURDATE()) GROUP BY YEAR(r.data_reserva), MONTH(r.data_reserva)")
+        @Query("SELECT NEW br.fvc.api.Domain.Dashboard.DashboardResponseDTO(COUNT(v.id) AS quantidade_veiculo_alugado, MONTHNAME(r.data_reserva) AS mes, YEAR(r.data_reserva) AS ano) FROM reserva AS r INNER JOIN r.veiculo AS v INNER JOIN v.modelo AS m INNER JOIN r.usuario AS u WHERE r.status IN ('FINALIZADO', 'ENTREGUE ANTES DO PRAZO', 'ENTREGUE FORA DO PRAZO') AND u.id = :id AND YEAR(r.data_reserva) = YEAR(CURDATE()) GROUP BY YEAR(r.data_reserva), MONTH(r.data_reserva)")
         List<DashboardResponseDTO> reserveValueTotalMonth(Long id);
 
         @Query("SELECT  NEW br.fvc.api.Domain.Dashboard.DashboardResponseDTO(SUM(payment.preco), MONTHNAME(payment.data_pagamento) AS month, YEAR(payment.data_pagamento) AS year) FROM pagamento AS payment\r\n"
