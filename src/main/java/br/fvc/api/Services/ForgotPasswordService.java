@@ -43,7 +43,7 @@ public class ForgotPasswordService {
             this.deleteLastCode(user);
 
             String text = "Utilize o cÃ³digo para redefinir sua senha " + code
-                    + ". Código tem validade de 24 horas, clique no link a seguir: http://localhost:8080/user/login";
+                    + ". Código tem validade de 24 horas, clique no link a seguir: http://localhost:5173/esqueceu-senha";
 
             var responseSendMail = sendMailService.sendMail(data.email, "Recuperar senha", text);
 
