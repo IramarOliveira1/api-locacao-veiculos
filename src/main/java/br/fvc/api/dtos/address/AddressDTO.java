@@ -1,4 +1,4 @@
-package br.fvc.api.Domain.Address;
+package br.fvc.api.dtos.address;
 
 public class AddressDTO {
     public String neighborhood;

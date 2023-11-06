@@ -1,11 +1,11 @@
-package br.fvc.api.Repositories;
+package br.fvc.api.repositories;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import br.fvc.api.Models.Model;
+import br.fvc.api.models.Model;
 
 public interface ModelRepository extends JpaRepository<Model, Long> {
     boolean existsByNome(String name);

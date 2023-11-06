@@ -1,6 +1,6 @@
-package br.fvc.api.Models;
+package br.fvc.api.models;
 
-import br.fvc.api.Domain.Address.AddressDTO;
+import br.fvc.api.dtos.address.AddressDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

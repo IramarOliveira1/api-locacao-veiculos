@@ -1,6 +1,6 @@
-package br.fvc.api.Domain.User;
+package br.fvc.api.dtos.user;
 
-import br.fvc.api.Domain.Address.AddressDTO;
+import br.fvc.api.dtos.address.AddressDTO;
 
 public class UserRequestDTO {
     public String name;

@@ -1,6 +1,6 @@
-package br.fvc.api.Domain.Agency;
+package br.fvc.api.dtos.agency;
 
-import br.fvc.api.Domain.Address.AddressDTO;
+import br.fvc.api.dtos.address.AddressDTO;
 
 public class AgencyRequestDTO {
     

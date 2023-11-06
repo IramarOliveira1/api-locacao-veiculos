@@ -1,7 +1,7 @@
-package br.fvc.api.Domain.Vehicle;
+package br.fvc.api.dtos.vehicle;
 
-import br.fvc.api.Models.Agency;
-import br.fvc.api.Models.Model;
+import br.fvc.api.models.Agency;
+import br.fvc.api.models.Model;
 
 public class VehicleRequestDTO {
     public String marca;

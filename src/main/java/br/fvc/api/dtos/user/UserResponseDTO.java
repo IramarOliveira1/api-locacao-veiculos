@@ -1,10 +1,10 @@
-package br.fvc.api.Domain.User;
+package br.fvc.api.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import br.fvc.api.Models.Address;
-import br.fvc.api.Models.User;
+import br.fvc.api.models.Address;
+import br.fvc.api.models.User;
 
 public class UserResponseDTO {
 

@@ -1,6 +1,6 @@
-package br.fvc.api.Domain.Model;
+package br.fvc.api.dtos.model;
 
-import br.fvc.api.Models.Model;
+import br.fvc.api.models.Model;
 
 public class ModelResponseDTO {
     public Long id;

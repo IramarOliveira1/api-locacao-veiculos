@@ -1,8 +1,8 @@
-package br.fvc.api.Domain.Vehicle;
+package br.fvc.api.dtos.vehicle;
 
-import br.fvc.api.Models.Agency;
-import br.fvc.api.Models.Model;
-import br.fvc.api.Models.Vehicle;
+import br.fvc.api.models.Agency;
+import br.fvc.api.models.Model;
+import br.fvc.api.models.Vehicle;
 
 public class VehicleResponseDTO {
     public Long id;

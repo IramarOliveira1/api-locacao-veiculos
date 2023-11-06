@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Repositories.UserRepository;
+import br.fvc.api.repositories.UserRepository;
 
 @Service
 public class AuthorizationService implements UserDetailsService {

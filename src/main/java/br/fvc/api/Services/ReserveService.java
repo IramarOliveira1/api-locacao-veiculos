@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -13,19 +13,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Domain.Generic.GenericRequestDTO;
-import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.Reserve.ReserveRequestDTO;
-import br.fvc.api.Domain.Reserve.ReserveResponseDTO;
-import br.fvc.api.Models.Agency;
-import br.fvc.api.Models.Payment;
-import br.fvc.api.Models.Reserve;
-import br.fvc.api.Models.User;
-import br.fvc.api.Models.Vehicle;
-import br.fvc.api.Repositories.AgencyRepository;
-import br.fvc.api.Repositories.PaymentRepository;
-import br.fvc.api.Repositories.ReserveRepository;
-import br.fvc.api.Repositories.UserRepository;
+import br.fvc.api.dtos.generic.GenericRequestDTO;
+import br.fvc.api.dtos.generic.GenericResponseDTO;
+import br.fvc.api.dtos.reserve.ReserveRequestDTO;
+import br.fvc.api.dtos.reserve.ReserveResponseDTO;
+import br.fvc.api.models.Agency;
+import br.fvc.api.models.Payment;
+import br.fvc.api.models.Reserve;
+import br.fvc.api.models.User;
+import br.fvc.api.models.Vehicle;
+import br.fvc.api.repositories.AgencyRepository;
+import br.fvc.api.repositories.PaymentRepository;
+import br.fvc.api.repositories.ReserveRepository;
+import br.fvc.api.repositories.UserRepository;
 
 @Service
 public class ReserveService {

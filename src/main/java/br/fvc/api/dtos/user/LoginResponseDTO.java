@@ -1,6 +1,6 @@
-package br.fvc.api.Domain.User;
+package br.fvc.api.dtos.user;
 
-import br.fvc.api.Models.User;
+import br.fvc.api.models.User;
 
 public class LoginResponseDTO {
 

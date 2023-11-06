@@ -1,10 +1,10 @@
-package br.fvc.api.Domain.Reserve;
+package br.fvc.api.dtos.reserve;
 
-import br.fvc.api.Models.Agency;
-import br.fvc.api.Models.Insurance;
-import br.fvc.api.Models.Payment;
-import br.fvc.api.Models.User;
-import br.fvc.api.Models.Vehicle;
+import br.fvc.api.models.Agency;
+import br.fvc.api.models.Insurance;
+import br.fvc.api.models.Payment;
+import br.fvc.api.models.User;
+import br.fvc.api.models.Vehicle;
 
 public class ReserveRequestDTO {
     public String startDateRent;

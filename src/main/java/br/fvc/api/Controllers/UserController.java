@@ -1,4 +1,4 @@
-package br.fvc.api.Controllers;
+package br.fvc.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.fvc.api.Domain.Generic.GenericRequestDTO;
-import br.fvc.api.Domain.User.UserRequestDTO;
-import br.fvc.api.Services.ForgotPasswordService;
-import br.fvc.api.Services.UserService;
+import br.fvc.api.dtos.generic.GenericRequestDTO;
+import br.fvc.api.dtos.user.UserRequestDTO;
+import br.fvc.api.services.ForgotPasswordService;
+import br.fvc.api.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.PutMapping;

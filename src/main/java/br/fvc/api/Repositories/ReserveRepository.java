@@ -1,4 +1,4 @@
-package br.fvc.api.Repositories;
+package br.fvc.api.repositories;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import br.fvc.api.Models.Reserve;
-import br.fvc.api.Models.Vehicle;
+import br.fvc.api.models.Reserve;
+import br.fvc.api.models.Vehicle;
 
 public interface ReserveRepository extends JpaRepository<Reserve, Long> {
     @Query("SELECT reserve FROM reserva AS reserve INNER JOIN reserve.usuario AS user INNER JOIN reserve.veiculo AS vehicle INNER JOIN vehicle.modelo AS model INNER JOIN reserve.seguro AS insurance INNER JOIN reserve.pagamento AS payment INNER JOIN payment.tipo_pagamento AS typePayment WHERE user.id = :id ORDER BY reserve.id DESC")

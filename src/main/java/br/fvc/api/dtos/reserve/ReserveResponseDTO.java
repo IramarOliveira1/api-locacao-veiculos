@@ -1,15 +1,15 @@
-package br.fvc.api.Domain.Reserve;
+package br.fvc.api.dtos.reserve;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
 
-import br.fvc.api.Models.Agency;
-import br.fvc.api.Models.Insurance;
-import br.fvc.api.Models.Payment;
-import br.fvc.api.Models.Reserve;
-import br.fvc.api.Models.Vehicle;
+import br.fvc.api.models.Agency;
+import br.fvc.api.models.Insurance;
+import br.fvc.api.models.Payment;
+import br.fvc.api.models.Reserve;
+import br.fvc.api.models.Vehicle;
 
 public class ReserveResponseDTO {
     public Long id;

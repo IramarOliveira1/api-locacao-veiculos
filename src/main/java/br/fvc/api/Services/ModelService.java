@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -13,10 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.Model.ModelResponseDTO;
-import br.fvc.api.Models.Model;
-import br.fvc.api.Repositories.ModelRepository;
+import br.fvc.api.dtos.generic.GenericResponseDTO;
+import br.fvc.api.dtos.model.ModelResponseDTO;
+import br.fvc.api.models.Model;
+import br.fvc.api.repositories.ModelRepository;
 
 @Service
 public class ModelService {

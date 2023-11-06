@@ -1,4 +1,4 @@
-package br.fvc.api.Models;
+package br.fvc.api.models;
 
 import java.time.LocalDateTime;
 

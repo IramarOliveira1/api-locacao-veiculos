@@ -1,6 +1,6 @@
-package br.fvc.api.Models;
+package br.fvc.api.models;
 
-import br.fvc.api.Domain.Agency.AgencyRequestDTO;
+import br.fvc.api.dtos.agency.AgencyRequestDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,4 +1,4 @@
-package br.fvc.api.Controllers;
+package br.fvc.api.controllers;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.fvc.api.Models.PaymentType;
-import br.fvc.api.Services.PaymentTypeService;
+import br.fvc.api.models.PaymentType;
+import br.fvc.api.services.PaymentTypeService;
 
 @CrossOrigin
 @RestController

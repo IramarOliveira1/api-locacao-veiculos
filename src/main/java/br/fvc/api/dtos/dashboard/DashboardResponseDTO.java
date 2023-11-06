@@ -1,4 +1,4 @@
-package br.fvc.api.Domain.Dashboard;
+package br.fvc.api.dtos.dashboard;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package br.fvc.api.Domain.Generic;
+package br.fvc.api.dtos.generic;
 
 public class GenericRequestDTO {
     public String nameOrCpf;
