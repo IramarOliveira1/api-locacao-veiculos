@@ -77,7 +77,7 @@ public class AgencyService {
                         .body(new GenericResponseDTO(true, "Telefone já cadastrado!"));
             }
 
-            agency.setNome(data.nome);
+            agency.setNome(data.nome.toUpperCase());
             agency.setTelefone(data.telefone);
             agency.setQuantidade_total(data.quantidade_total);
             agency.getAddress().setBairro(data.address.neighborhood);

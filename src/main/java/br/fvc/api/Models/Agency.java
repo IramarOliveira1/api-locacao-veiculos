@@ -43,7 +43,7 @@ public class Agency {
     public Address address;
 
     public Agency(AgencyRequestDTO data) {
-        this.nome = data.nome;
+        this.nome = data.nome.toUpperCase();
         this.telefone = data.telefone;
         this.quantidade_total = data.quantidade_total;
     }
