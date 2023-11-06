@@ -110,7 +110,7 @@ public class ReserveService {
                 } else {
                     return ResponseEntity.status(400).body(
                             new GenericResponseDTO(false,
-                                    "Desculpe, mas o item selecionado j� est� alugado. Por favor, escolha outra op��o! "));
+                                    "Desculpe, mas o item selecionado já estar alugado. Por favor, escolha outra opção! "));
                 }
             }
 
@@ -161,7 +161,7 @@ public class ReserveService {
 
             String message = "Olá " + user.getNome() + "\n código para consultar sua reserva - "
                     + code + "\n"
-                    + " veículo vai estar disponivel na data ( "
+                    + " veículo vai estar disponível na data ( "
                     + convertDatePTBR.format(convertStartDateSql) + " )\n"
                     + " data da devolução do veiculo ( "
                     + convertDatePTBR.format(convertEndDateSql) + " )\n"
@@ -185,7 +185,7 @@ public class ReserveService {
 
             reserveRepository.save(reserve);
 
-            String message = "Ol� " + reserve.getUsuario().getNome() + "\n"
+            String message = "Olá " + reserve.getUsuario().getNome() + "\n"
                     + "Passando para avisar que sua reserva do codigo:  " + reserve.getCodigo_reserva() + "\n"
                     + "foi cancelada com sucesso! ";
 

@@ -26,7 +26,7 @@ public class InsuranceService {
         try {
 
             if (insuranceRepository.existsByNome(data.getNome())) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro j� existe!"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Seguro já existe!"));
             }
 
             String removeComma = data.getPreco().replace(",", "");
