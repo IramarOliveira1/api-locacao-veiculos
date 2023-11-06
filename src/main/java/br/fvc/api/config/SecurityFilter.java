@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.fvc.api.Repositories.UserRepository;
-import br.fvc.api.Services.TokenService;
+import br.fvc.api.repositories.UserRepository;
+import br.fvc.api.services.TokenService;
 
 import java.io.IOException;
 

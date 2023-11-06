@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -8,12 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.User.UserRequestDTO;
-import br.fvc.api.Models.ForgotPassword;
-import br.fvc.api.Models.User;
-import br.fvc.api.Repositories.ForgotPasswordRepository;
-import br.fvc.api.Repositories.UserRepository;
+import br.fvc.api.dtos.generic.GenericResponseDTO;
+import br.fvc.api.dtos.user.UserRequestDTO;
+import br.fvc.api.models.ForgotPassword;
+import br.fvc.api.models.User;
+import br.fvc.api.repositories.ForgotPasswordRepository;
+import br.fvc.api.repositories.UserRepository;
 
 @Service
 public class ForgotPasswordService {

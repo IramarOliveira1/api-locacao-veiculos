@@ -1,4 +1,4 @@
-package br.fvc.api.Repositories;
+package br.fvc.api.repositories;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.fvc.api.Models.User;
+import br.fvc.api.models.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     UserDetails findByEmail(String email);

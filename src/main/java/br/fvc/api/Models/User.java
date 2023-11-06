@@ -1,4 +1,4 @@
-package br.fvc.api.Models;
+package br.fvc.api.models;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.fvc.api.Domain.User.UserRequestDTO;
+import br.fvc.api.dtos.user.UserRequestDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

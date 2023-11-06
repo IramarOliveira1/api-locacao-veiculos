@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,17 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Domain.Generic.GenericRequestDTO;
-import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.Vehicle.HomeResponseDTO;
-import br.fvc.api.Domain.Vehicle.VehicleRequestDTO;
-import br.fvc.api.Domain.Vehicle.VehicleResponseDTO;
-import br.fvc.api.Models.Agency;
-import br.fvc.api.Models.Model;
-import br.fvc.api.Models.Vehicle;
-import br.fvc.api.Repositories.AgencyRepository;
-import br.fvc.api.Repositories.ModelRepository;
-import br.fvc.api.Repositories.VehicleRepository;
+import br.fvc.api.dtos.generic.GenericRequestDTO;
+import br.fvc.api.dtos.generic.GenericResponseDTO;
+import br.fvc.api.dtos.vehicle.HomeResponseDTO;
+import br.fvc.api.dtos.vehicle.VehicleRequestDTO;
+import br.fvc.api.dtos.vehicle.VehicleResponseDTO;
+import br.fvc.api.models.Agency;
+import br.fvc.api.models.Model;
+import br.fvc.api.models.Vehicle;
+import br.fvc.api.repositories.AgencyRepository;
+import br.fvc.api.repositories.ModelRepository;
+import br.fvc.api.repositories.VehicleRepository;
 
 @Service
 public class VehicleService {

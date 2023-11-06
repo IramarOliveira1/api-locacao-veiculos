@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.util.List;
 
@@ -9,15 +9,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Domain.Generic.GenericRequestDTO;
-import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Domain.User.LoginResponseDTO;
-import br.fvc.api.Domain.User.UserRequestDTO;
-import br.fvc.api.Domain.User.UserResponseDTO;
-import br.fvc.api.Models.Address;
-import br.fvc.api.Models.User;
-import br.fvc.api.Repositories.AddressRepository;
-import br.fvc.api.Repositories.UserRepository;
+import br.fvc.api.dtos.generic.GenericRequestDTO;
+import br.fvc.api.dtos.generic.GenericResponseDTO;
+import br.fvc.api.dtos.user.LoginResponseDTO;
+import br.fvc.api.dtos.user.UserRequestDTO;
+import br.fvc.api.dtos.user.UserResponseDTO;
+import br.fvc.api.models.Address;
+import br.fvc.api.models.User;
+import br.fvc.api.repositories.AddressRepository;
+import br.fvc.api.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service

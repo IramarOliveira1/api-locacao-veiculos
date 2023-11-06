@@ -1,4 +1,4 @@
-package br.fvc.api.Controllers;
+package br.fvc.api.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.fvc.api.Domain.Agency.AgencyRequestDTO;
-import br.fvc.api.Services.AgencyService;
+import br.fvc.api.dtos.agency.AgencyRequestDTO;
+import br.fvc.api.services.AgencyService;
 
 @CrossOrigin
 @RestController

@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Domain.Agency.AgencyRequestDTO;
-import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Models.Address;
-import br.fvc.api.Models.Agency;
-import br.fvc.api.Repositories.AddressRepository;
-import br.fvc.api.Repositories.AgencyRepository;
+import br.fvc.api.dtos.agency.AgencyRequestDTO;
+import br.fvc.api.dtos.generic.GenericResponseDTO;
+import br.fvc.api.models.Address;
+import br.fvc.api.models.Agency;
+import br.fvc.api.repositories.AddressRepository;
+import br.fvc.api.repositories.AgencyRepository;
 
 @Service
 public class AgencyService {
@@ -77,7 +77,7 @@ public class AgencyService {
                         .body(new GenericResponseDTO(true, "Telefone já cadastrado!"));
             }
 
-            agency.setNome(data.nome);
+            agency.setNome(data.nome.toUpperCase());
             agency.setTelefone(data.telefone);
             agency.setQuantidade_total(data.quantidade_total);
             agency.getAddress().setBairro(data.address.neighborhood);

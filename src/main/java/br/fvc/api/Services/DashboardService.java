@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import br.fvc.api.Domain.Generic.GenericRequestDTO;
-import br.fvc.api.Repositories.PaymentRepository;
+import br.fvc.api.dtos.generic.GenericRequestDTO;
+import br.fvc.api.repositories.PaymentRepository;
 
 @Service
 public class DashboardService {

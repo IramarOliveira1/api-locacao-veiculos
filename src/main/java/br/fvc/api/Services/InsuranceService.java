@@ -1,4 +1,4 @@
-package br.fvc.api.Services;
+package br.fvc.api.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.stereotype.Service;
-import br.fvc.api.Domain.Generic.GenericResponseDTO;
-import br.fvc.api.Models.Insurance;
 
-import br.fvc.api.Repositories.InsuranceRepository;
+import br.fvc.api.dtos.generic.GenericResponseDTO;
+import br.fvc.api.models.Insurance;
+import br.fvc.api.repositories.InsuranceRepository;
 
 @Service
 public class InsuranceService {
