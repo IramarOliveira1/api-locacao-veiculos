@@ -25,7 +25,7 @@ public class PaymentTypeService {
 
             if (paymentTypeRepository.existsByNome(tipo)) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Tipo de pagamento j� existe!"));
+                        .body(new GenericResponseDTO(true, "Tipo de pagamento já existe!"));
             }
 
             PaymentType newPaymentType = new PaymentType();
@@ -58,7 +58,7 @@ public class PaymentTypeService {
 
             if (!data.getNome().equals(paymentType.getNome()) && paymentTypeRepository.existsByNome(data.getNome())) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "Tipo de pagamento j� existe!"));
+                        .body(new GenericResponseDTO(true, "Tipo de pagamento já existe!"));
             }
 
             paymentType.setNome(data.getNome().toUpperCase());
