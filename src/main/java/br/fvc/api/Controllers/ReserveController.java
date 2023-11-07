@@ -1,7 +1,11 @@
 package br.fvc.api.controllers;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.HtmlUtils;
 
 import br.fvc.api.dtos.reserve.ReserveRequestDTO;
 import br.fvc.api.services.ReserveService;
@@ -78,4 +83,10 @@ public class ReserveController {
             @RequestBody ReserveRequestDTO data) {
         return reserveService.filterCodeAll(page, size, data);
     }
+
+    // @MessageMapping("/chatmessage")
+    // @SendTo("/topic")
+    // public String handle(String greeting) {
+    //     return "OLÁ :" + greeting;
+    // }
 }

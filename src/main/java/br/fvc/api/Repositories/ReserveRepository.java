@@ -39,4 +39,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 
     @Query("SELECT vehicle FROM veiculo AS vehicle INNER JOIN vehicle.modelo AS model INNER JOIN vehicle.agencia AS agency WHERE vehicle.id NOT IN (:id_veiculo) AND model.id = :id_modelo AND agency.id = :id_agencia")
     List<Vehicle> findByModel(Long id_modelo, ArrayList<Long> id_veiculo, Long id_agencia);
+
+    @Query("SELECT r FROM reserva AS r WHERE status = :status")
+    List<Reserve> getDateEndRent(String status);
 }
