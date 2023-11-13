@@ -34,7 +34,7 @@ public class ForgotPasswordService {
 
             if (user == null) {
                 return ResponseEntity.status(404)
-                        .body(new GenericResponseDTO(true, "Email nÃ£o encontrado!"));
+                        .body(new GenericResponseDTO(true, "Email não encontrado!"));
             }
 
             Long code = new Date().getTime();
@@ -42,8 +42,8 @@ public class ForgotPasswordService {
 
             this.deleteLastCode(user);
 
-            String text = "Utilize o cÃ³digo para redefinir sua senha " + code
-                    + ". Código tem validade de 24 horas, clique no link a seguir: http://localhost:5173/esqueceu-senha";
+            String text = "Utilize o código para redefinir sua senha " + code
+                    + ". Código tem validade de 24 horas, clique no link a seguir: http://localhost:5173/recuperar-senha";
 
             var responseSendMail = sendMailService.sendMail(data.email, "Recuperar senha", text);
 
@@ -69,7 +69,7 @@ public class ForgotPasswordService {
 
             if (forgotPassword == null) {
                 return ResponseEntity.status(400)
-                        .body(new GenericResponseDTO(true, "CÃ³digo invÃ¡lido!"));
+                        .body(new GenericResponseDTO(true, "Código inválido!"));
             }
 
             if (LocalDateTime.now().isAfter(forgotPassword.getCreated_at())) {
