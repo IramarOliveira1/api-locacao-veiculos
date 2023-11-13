@@ -83,10 +83,4 @@ public class ReserveController {
             @RequestBody ReserveRequestDTO data) {
         return reserveService.filterCodeAll(page, size, data);
     }
-
-    // @MessageMapping("/chatmessage")
-    // @SendTo("/topic")
-    // public String handle(String greeting) {
-    //     return "OLÁ :" + greeting;
-    // }
 }
