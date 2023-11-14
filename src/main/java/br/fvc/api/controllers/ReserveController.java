@@ -83,4 +83,10 @@ public class ReserveController {
             @RequestBody ReserveRequestDTO data) {
         return reserveService.filterCodeAll(page, size, data);
     }
+
+    @MessageMapping("/hello")
+    @SendTo("/topic/greetings")
+    public void greeting(String message) throws Exception {
+        System.out.println(message);
+    }
 }

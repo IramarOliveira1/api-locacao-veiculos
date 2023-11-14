@@ -8,26 +8,32 @@ import java.sql.Date;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
+import org.apache.logging.log4j.util.MessageSupplier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketExtension;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import br.fvc.api.config.TutorialHandler;
 import br.fvc.api.models.Reserve;
 import br.fvc.api.repositories.ReserveRepository;
-import lombok.var;
 
-@Component
+@Configuration
 @EnableScheduling
+@Service
 public class SchedulingService implements WebSocketSession {
 
     private final long HORA = 1000;
@@ -36,43 +42,50 @@ public class SchedulingService implements WebSocketSession {
     @Autowired
     private ReserveRepository reserveRepository;
 
-    @Autowired
-    private SimpMessagingTemplate template;
+    // @Autowired
+    // private SimpMessagingTemplate template;
 
     @Scheduled(fixedDelay = HORA)
-    public void setStatus() throws IOException {
+    public void setStatus() throws Exception {
 
-        // List<Reserve> reserves = this.reserveRepository.getDateEndRent("EM ANDAMENTO");
+        // List<Reserve> reserves = this.reserveRepository.getDateEndRent("EM
+        // ANDAMENTO");
 
         // long currentTimeMillis = System.currentTimeMillis();
         // Date now = new Date(currentTimeMillis);
 
         // for (Reserve reserve : reserves) {
-        //     if (now.after(reserve.getData_fim_aluguel())) {
-        //         reserve.setStatus("EM ATRASO");
-        //         this.reserveRepository.save(reserve);
-        //     }
+        // if (now.after(reserve.getData_fim_aluguel())) {
+        // reserve.setStatus("EM ATRASO");
+        // this.reserveRepository.save(reserve);
+        // }
         // }
 
-        this.sendMessage(new TextMessage("OLA TUDO BEM GALERA"));
+        this.sendMessage(new TextMessage("OLa tudo bem"));
 
-        // template.convertAndSend("/topic/myWebSocket", "CAIR AQUI NO JOB");
     }
 
     @Override
     public void sendMessage(WebSocketMessage<?> message) throws IOException {
-        System.out.println(message.getPayload());
-        // throw new UnsupportedOperationException("Unimplemented method 'sendMessage'");
+        try {
+
+            String teste = (String) message.getPayload();
+            TutorialHandler handler = new TutorialHandler();
+
+            handler.handleTextMessage(this, new TextMessage(teste));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
     public String getId() {
-        throw new UnsupportedOperationException("Unimplemented method 'getId'");
+        return "id=683b4c04-d79e-ac89-4c21-feb2510cafe5";
     }
 
     @Override
     public URI getUri() {
-        throw new UnsupportedOperationException("Unimplemented method 'getUri'");
+        return URI.create("uri=ws://localhost:8080/myHandler]");
     }
 
     @Override
