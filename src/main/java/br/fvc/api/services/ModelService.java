@@ -41,7 +41,7 @@ public class ModelService {
             model = mapper.readValue(data, model.getClass());
 
             if (modelRepository.existsByNome(model.getNome())) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Nome j· cadastrado!"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Nome j√° cadastrado!"));
             }
 
             String removeComma = model.getValor_diaria().replace(",", "");
@@ -99,7 +99,7 @@ public class ModelService {
             models = mapper.readValue(data, models.getClass());
 
             if (!models.getNome().equals(model.getNome()) && modelRepository.existsByNome(models.getNome())) {
-                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Nome j· cadastrado!"));
+                return ResponseEntity.status(400).body(new GenericResponseDTO(true, "Nome j√° cadastrado!"));
             }
 
             String removeComma = models.getValor_diaria().replace(",", "");
