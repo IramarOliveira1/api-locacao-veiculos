@@ -12,7 +12,7 @@ public class HomeResponseDTO {
     public Model model;
 
     public HomeResponseDTO(Vehicle vehicle, Long vehicle_available) {
-        vehicle.getModelo().setUrl_imagem("http://localhost:8080/" + vehicle.getModelo().getUrl_imagem());
+        vehicle.getModelo().setUrl_imagem("http://ec2-18-212-187-130.compute-1.amazonaws.com:8080/" + vehicle.getModelo().getUrl_imagem());
         this.id = vehicle.getId();
         this.brand = vehicle.getMarca();
         this.year = vehicle.getAno();

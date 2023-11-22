@@ -16,6 +16,6 @@ public class ModelResponseDTO {
         this.nome = model.getNome();
         this.valor_diaria = model.getValor_diaria();
         this.categoria = model.getCategoria();
-        this.url_imagem = "http://localhost:8080/" + model.getUrl_imagem();
+        this.url_imagem = "http://ec2-18-212-187-130.compute-1.amazonaws.com:8080/" + model.getUrl_imagem();
     }
 }
