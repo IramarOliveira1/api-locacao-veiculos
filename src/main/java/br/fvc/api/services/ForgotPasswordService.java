@@ -43,7 +43,7 @@ public class ForgotPasswordService {
             this.deleteLastCode(user);
 
             String text = "Utilize o código para redefinir sua senha " + code
-                    + ". Código tem validade de 24 horas, clique no link a seguir: http://localhost:5173/recuperar-senha";
+                    + ". Código tem validade de 24 horas, clique no link a seguir: https://alugue-aqui.netlify.app/recuperar-senha";
 
             var responseSendMail = sendMailService.sendMail(data.email, "Recuperar senha", text);
 
@@ -75,7 +75,7 @@ public class ForgotPasswordService {
             if (LocalDateTime.now().isAfter(forgotPassword.getCreated_at())) {
                 return ResponseEntity.status(400)
                         .body(new GenericResponseDTO(false,
-                                "Código expirado, solicite um novo código clicando aqui: http://localhost:8080/user/login  "));
+                                "Código expirado, solicite um novo código clicando aqui: https://alugue-aqui.netlify.app/esqueceu-senha  "));
             }
 
             this.changePassword(forgotPassword.getUser(), data.password);

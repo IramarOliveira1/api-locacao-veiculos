@@ -57,6 +57,7 @@ public class SecurityConfigurations {
                         .requestMatchers(HttpMethod.POST, "/agency/register").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/agency/filter").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/insurance/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/ssl-test").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())
