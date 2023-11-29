@@ -119,7 +119,7 @@ public class UserService {
                 .map(UserResponseDTO::new).toList();
 
         if (user.isEmpty()) {
-            return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Nenhum Funcion�rio encontrado!"));
+            return ResponseEntity.status(404).body(new GenericResponseDTO(true, "Nenhum Funcionário encontrado!"));
         }
 
         return ResponseEntity.status(200).body(user);
@@ -153,7 +153,7 @@ public class UserService {
             user.getAddress().setUf(data.address.uf.toUpperCase());
 
             userRepository.save(user);
-            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Usu�rio atualizado com sucesso!"));
+            return ResponseEntity.status(200).body(new GenericResponseDTO(false, "Usuário atualizado com sucesso!"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new GenericResponseDTO(true, e.getMessage()));
         }
