@@ -75,7 +75,7 @@ public class ForgotPasswordService {
             if (LocalDateTime.now().isAfter(forgotPassword.getCreated_at())) {
                 return ResponseEntity.status(400)
                         .body(new GenericResponseDTO(false,
-                                "Código expirado, solicite um novo código clicando aqui: http://localhost:8080/user/login  "));
+                                "Código expirado, solicite um novo código clicando aqui: http://localhost:5173/login  "));
             }
 
             this.changePassword(forgotPassword.getUser(), data.password);
